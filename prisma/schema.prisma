@@ -13,29 +13,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Users {
+  id            Int             @id @default(autoincrement())
+  name          String?
+  username      String          @unique
+  email         String          @unique
+  avatarUrl     String
+  role          String
+  models        Models[]
+  favorites     Models[]        @relation("FavoriteModels")
+  followers     Users[]         @relation("UserFollows")
+  following     Users[]         @relation("UserFollows")
+  collections   Collections[]
+  courses       Courses[]
+  comments      Comments[]
+  printRequests PrintRequests[]
 }
 
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
+model Models {
+  id           Int             @id @default(autoincrement())
+  name         String
+  description  String
+  grade        Float
+  likes        Int
+  views        Int
+  uploadTime   DateTime
+  owner        Users           @relation(fields: [ownerId], references: [id])
+  ownerId      Int
+  modelItems   ModelItems[]
+  favoritedBy  Users[]         @relation("FavoriteModels")
+  collection   Collections     @relation(fields: [collectionId], references: [id])
+  collectionId Int
+  comments     Comments[]
+  printRequest PrintRequests[]
 }
 
-model User {
+model ModelItems {
+  id            Int    @id @default(autoincrement())
+  name          String
+  modelUrl      String @unique
+  modelParent   Models @relation(fields: [modelParentId], references: [id])
+  modelParentId Int
+}
+
+model Collections {
   id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  phone   Int
-  posts   Post[]
-  profile Profile?
+  owner   Users    @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  models  Models[]
+}
+
+model Courses {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  purchases   Int
+  description String
+  users       Users? @relation(fields: [usersId], references: [id])
+  usersId     Int?
+}
+
+model Comments {
+  id      Int    @id @default(autoincrement())
+  text    String
+  likes   Int
+  owner   Users  @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  model   Models @relation(fields: [modelId], references: [id])
+  modelId Int
+}
+
+enum PrintRequestStatus {
+  WAITING
+  PROCESSING
+  DONE
+}
+
+model PrintRequests {
+  id        Int                @id @default(autoincrement())
+  printDate DateTime
+  status    PrintRequestStatus
+  user      Users              @relation(fields: [userId], references: [id])
+  userId    Int
+  model     Models             @relation(fields: [modelId], references: [id])
+  modelId   Int
 }
