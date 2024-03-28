@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import logo from '../../public/volumeIcon.ico';
+import logo from '../public/volumeIcon.ico';
 import Link from 'next/link';
 import Image from 'next/image';
 

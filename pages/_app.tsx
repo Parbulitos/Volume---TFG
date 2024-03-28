@@ -1,7 +1,9 @@
 import type { AppProps } from "next/app";
 
 import "../app/globals.css";
-import { Footer, Navbar } from './layout/exports'
+import Navbar from "../layout/navbar";
+import Footer from "../layout/footer";
+
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
