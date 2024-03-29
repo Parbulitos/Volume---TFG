@@ -52,8 +52,6 @@ const Poster: React.FC<PosterProps> = ({ imageUrl, width, height, url }) => {
     position: "relative",
   };
 
-  console.log("Dummy commit")
-
   return (
     <Link href={url}>
       <div
