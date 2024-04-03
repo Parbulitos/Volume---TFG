@@ -1,9 +1,11 @@
+import 'animate.css'
+
 import Poster from "@/components/poster";
 
 export default function Page() {
   return (
     <div className="flex grid-cols-3 justify-center items-center px-4 py-16">
-      <div className="w-[600px] h-[600px] flex justify-center items-center">
+      <div className="w-[600px] h-[600px] flex justify-center items-center animate__animated animate__backInLeft">
         <Poster imageUrl="/patito.png" width={500} height={500} url="/catalog"></Poster>
       </div>
       <div className="w-1/3 text-center">
@@ -13,7 +15,7 @@ export default function Page() {
           además de poder solicitar la impresión de cualquiera de ellos
         </p>
       </div>
-      <div className="w-[600px] h-[600px] flex justify-center items-center">
+      <div className="w-[600px] h-[600px] flex justify-center items-center animate__animated animate__backInRight">
         <Poster imageUrl="/impresora.png" width={600} height={600} url="print-area"/>
       </div>
     </div>
