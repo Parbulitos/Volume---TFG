@@ -15,7 +15,7 @@ const Navbar = () => {
       <nav className="hidden md:flex md:items-center">
         <ul className="flex">
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Catálogo</a>
+            <a href="catalog" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Catálogo</a>
           </li>
           <li className="px-10">
             <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Presupuesto</a>
