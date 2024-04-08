@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import patito from "../public/patito.png";
 
-function CatalogItem({ item }: { item: any }) {
+const CatalogItem = ({ item }: { item: any }) => {
     return (
         <div>
             <div className='card card-compact w-96 bg-base-100 shadow-xl'>

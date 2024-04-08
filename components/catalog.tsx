@@ -1,12 +1,9 @@
-// Catalog.js
 import React, { useState } from "react";
-import CatalogItem from "./calogItem";
 
-function Catalog(
-    {
-        /* items */
-    }
-) {
+import CatalogItem from "./calogItem";
+import { SlArrowDown } from "react-icons/sl";
+
+const Catalog = () => {
     const [itemsPerPage, setItemsPerPage] = useState(8);
     const [currentPage, setCurrentPage] = useState(0); // Añadido para paginación
 
@@ -50,25 +47,33 @@ function Catalog(
     };
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            <div className="flex flex-wrap justify-center gap-4 mb-4"> {/* Asegura que los CatalogItem estén centrados y con un espacio entre ellos */}
-                {itemsToShow.map(item => (
-                <CatalogItem key={item.id} item={item} />
+        <div className='flex flex-col items-center justify-center'>
+            <div className='flex flex-wrap justify-center gap-4 mb-4'>
+                {itemsToShow.map((item) => (
+                    <CatalogItem key={item.id} item={item} />
                 ))}
             </div>
-            <div className="flex justify-center gap-4 mb-4"> {/* Botones de Anterior y Siguiente con espacio entre ellos */}
-                <button onClick={goToPrevPage} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 ease-in-out">Anterior</button>
-                <button onClick={goToNextPage} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 ease-in-out">Siguiente</button>
+            <div className='join my-5'>
+                <button className='join-item btn btn-primary' onClick={goToPrevPage}>«</button>
+                <button className='join-item btn btn-primary'>{currentPage + 1}</button>
+                <button className='join-item btn btn-primary' onClick={goToNextPage}>»</button>
             </div>
-            <div className="flex justify-center gap-4"> {/* Botones para cambiar la cantidad de ítems por página, también con espacio */}
-                {[8, 12, 16, 64].map(size => (
-                <button className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition duration-300 ease-in-out" key={size} onClick={() => updateItemsPerPage(size)}>
-                    {size} Items por página
-                </button>
-                ))}
+            <div className='dropdown dropdown-right mb-2'>
+                <div tabIndex={0} role="button" className="btn m-1">{itemsPerPage} <SlArrowDown/></div>
+                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow rounded-box w-13">
+                    {[8, 12, 16, 64].map((size) => (
+                        <button
+                            className='btn btn-sm btn-primary my-1'
+                            key={size}
+                            onClick={() => updateItemsPerPage(size)}
+                        >
+                            {size}
+                        </button>
+                    ))}
+                </ul>
             </div>
         </div>
     );
-}
+};
 
 export default Catalog;
