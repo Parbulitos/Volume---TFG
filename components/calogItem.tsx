@@ -1,11 +1,13 @@
 // CatalogItem.js
+import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+
 import patito from "../public/patito.png";
 
 const CatalogItem = ({ item }: { item: any }) => {
     return (
-        <div>
+        <Link href={`/catalog/${item.id}`}>
             <div className='card card-compact w-96 bg-base-100 shadow-xl'>
                 <figure>
                     <Image
@@ -19,7 +21,7 @@ const CatalogItem = ({ item }: { item: any }) => {
                     <p>If a dog chews shoes whose shoes does he choose?</p>
                 </div>
             </div>{" "}
-        </div>
+        </Link>
     );
 }
 

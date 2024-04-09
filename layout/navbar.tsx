@@ -15,16 +15,16 @@ const Navbar = () => {
       <nav className="hidden md:flex md:items-center">
         <ul className="flex">
           <li className="px-10">
-            <a href="catalog" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Catálogo</a>
+            <Link href="/catalog" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Catálogo</Link>
           </li>
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Presupuesto</a>
+            <Link href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Presupuesto</Link>
           </li>
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Tutoriales</a>
+            <Link href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Tutoriales</Link>
           </li>
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Subir Archivo</a>
+            <Link href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Subir Archivo</Link>
           </li>
         </ul>
       </nav>
