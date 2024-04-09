@@ -30,7 +30,7 @@ const Budget = () => {
     <div className="flex flex-row justify-center"> {/*Contenedor de principal*/}
       <div className={`transition-all duration-500 ${models.length ? "w-1/2" : "w-1/3"} flex flex-col p-4 justify-center items-center`}> {/*Contenedor de opciones*/}
         
-        <Dropzone fileNumber={1} onModelsDrop={handleModels}/>
+        <Dropzone multipleFiles={false} onModelsDrop={handleModels}/>
 
         <div className="flex flex-col items-center mt-6"> {/*Contenedor de materiales*/}
           <h2 className="text-2xl font-bold text-white my-4">Material</h2>

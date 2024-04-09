@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-const Dropzone = ({ fileNumber, onModelsDrop }: { fileNumber: number, onModelsDrop: Function }) => {
-  const multipleFiles: boolean = fileNumber > 1;
+const Dropzone = ({ multipleFiles, onModelsDrop }: { multipleFiles: boolean, onModelsDrop: Function }) => {
 
   const onDrop = useCallback((acceptedFiles: any, fileRejections: string | any[]) => {
     // Procesa los archivos aceptados
@@ -21,8 +20,8 @@ const Dropzone = ({ fileNumber, onModelsDrop }: { fileNumber: number, onModelsDr
     multiple: multipleFiles
   });
 
-  const dragActiveMessage: string = fileNumber === 1 ? "Suelta tu archivo aquí..." : "Suelta tus archivos aquí..."
-  const dragInactiveMessage: string = fileNumber === 1 ? "Arrastra y suelta tu archivo o haz click para importarlo..." : "Arrastra y suelta tus archivos o haz click para importarlos..."
+  const dragActiveMessage: string = !multipleFiles ? "Suelta tu archivo aquí..." : "Suelta tus archivos aquí..."
+  const dragInactiveMessage: string = !multipleFiles ? "Arrastra y suelta tu archivo o haz click para importarlo..." : "Arrastra y suelta tus archivos o haz click para importarlos..."
 
   return (
     <div
