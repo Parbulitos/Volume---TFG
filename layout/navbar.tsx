@@ -24,7 +24,7 @@ const Navbar = () => {
             <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Tutoriales</a>
           </li>
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Subir Archivo</a>
+            <a href="/upload-file" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Subir Archivo</a>
           </li>
         </ul>
       </nav>
