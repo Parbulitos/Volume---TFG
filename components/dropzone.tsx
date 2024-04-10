@@ -14,7 +14,6 @@ const Dropzone = ({
         (acceptedFiles: any, fileRejections: string | any[]) => {
             // Procesa los archivos aceptados
             onModelsDrop(acceptedFiles);
-            console.log('Archivos aceptados: ', acceptedFiles);
 
             // Muestra una alerta si hay archivos rechazados
             if (fileRejections.length > 0) {
