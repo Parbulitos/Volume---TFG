@@ -28,7 +28,7 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
-      <Link href="/login-register" className="hidden md:block px-6 py-2 bg-violet-500 rounded-full cursor-pointer transition duration-300 ease-in-out hover:bg-violet-700">Cuenta</Link>
+      <Link href="/sign" className="hidden md:block px-6 py-2 bg-violet-500 rounded-full cursor-pointer transition duration-300 ease-in-out hover:bg-violet-700">Cuenta</Link>
       <p className="md:hidden cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>Menu</p>
 
       {/* Overlay para móvil */}
