@@ -15,20 +15,20 @@ const Navbar = () => {
       <nav className="hidden md:flex md:items-center">
         <ul className="flex">
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Catálogo</a>
+            <Link href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Catálogo</Link>
           </li>
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Presupuesto</a>
+            <Link href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Presupuesto</Link>
           </li>
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Tutoriales</a>
+            <Link href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Tutoriales</Link>
           </li>
           <li className="px-10">
-            <a href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Subir Archivo</a>
+            <Link href="#" className="transition duration-300 ease-in-out hover:text-violet-400 text-2xl">Subir Archivo</Link>
           </li>
         </ul>
       </nav>
-      <a href="#" className="hidden md:block px-6 py-2 bg-violet-500 rounded-full cursor-pointer transition duration-300 ease-in-out hover:bg-violet-700">Cuenta</a>
+      <Link href="/login-register" className="hidden md:block px-6 py-2 bg-violet-500 rounded-full cursor-pointer transition duration-300 ease-in-out hover:bg-violet-700">Cuenta</Link>
       <p className="md:hidden cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>Menu</p>
 
       {/* Overlay para móvil */}
