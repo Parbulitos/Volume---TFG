@@ -7,6 +7,8 @@ import Image from 'next/image';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const username = 'testUser';
+
   return (
     <header className="flex justify-between items-center py-4 px-10 bg-gray-900 text-white">
       <Link href="/" >
@@ -28,7 +30,7 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
-      <a href="#" className="hidden md:block px-6 py-2 bg-violet-500 rounded-full cursor-pointer transition duration-300 ease-in-out hover:bg-violet-700">Cuenta</a>
+      <Link href={`/user-profile/${encodeURIComponent(username)}`} className="hidden md:block px-6 py-2 bg-violet-500 rounded-full cursor-pointer transition duration-300 ease-in-out hover:bg-violet-700">Cuenta</Link>
       <p className="md:hidden cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>Menu</p>
 
       {/* Overlay para móvil */}
