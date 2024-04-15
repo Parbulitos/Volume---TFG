@@ -54,22 +54,26 @@ const UserProfile = () => {
 
             <div className='flex flex-col items-center justify-center mt-32'>
                 {/* Dropdown solo visible en pantallas pequeñas */}
-                <div className='dropdown dropdown-bottom sm:block md:hidden'>
+                <div className='flex flex-col items-center dropdown dropdown-bottom sm:block md:hidden'>
                     <div tabIndex={0} role='button' className='btn m-1'>
-                        Stats
+                        {activeStat}
                     </div>
                     <ul
                         tabIndex={0}
                         className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'
                     >
-                        <li>
-                            <a>Item 1</a>
-                        </li>
-                        <li>
-                            <a>Item 2</a>
-                        </li>
+                        {stats.map((stat, index) => (
+                            <li
+                                key={index}
+                                onClick={() => handleStatClick(stat)}>
+                                <a>{stat}</a>
+                            </li>
+                        ))}
                     </ul>
+                    {/* //TODO: Poner aquí el número de cosas que toque según qué se pulse */}
+                    <h2>Poner datos</h2>
                 </div>
+                
                 <div className='stats shadow hidden md:block'>
                     {stats.map((stat, index) => (
                         <button
