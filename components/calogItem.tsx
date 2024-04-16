@@ -6,12 +6,11 @@ import patito from "../public/patito.png";
 const CatalogItem = ({ item }: { item: any }) => {
     return (
         <div>
-            <div className='card card-compact w-96 bg-base-100 shadow-xl'>
+            <div className='card card-compact w-80 h-80 bg-base-100 shadow-xl'>
                 <figure>
                     <Image
                         src={patito}
                         alt='Shoes'
-                        style={{ width: '100%' }}
                     />
                 </figure>
                 <div className='card-body'>
