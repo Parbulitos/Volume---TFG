@@ -52,13 +52,10 @@ const Navbar = () => {
                     </li>
                 </ul>
             </nav>
-            <Link
-                href={`/user-profile/${encodeURIComponent(username)}`}
-                className='hidden md:block px-6 py-2 bg-violet-500 rounded-full cursor-pointer transition duration-300 ease-in-out hover:bg-violet-700'
-            >
-                <div className='avatar w-16 h-16 cursor-pointer'>
-                    <div className='w-24 rounded-full'>
-                        <Image src={avatar} alt='Avatar'></Image>
+            <Link href={`/user-profile/${encodeURIComponent(username)}`} className='hidden md:block'>
+                <div className='avatar'>
+                    <div className='w-12 rounded-full bg-white'>
+                        <Image src={avatar} alt='Avatar' />
                     </div>
                 </div>
             </Link>
