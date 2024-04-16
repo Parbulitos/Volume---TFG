@@ -1,42 +1,42 @@
 import React, { useState } from 'react';
 
 const Tabs = () => {
-  const tabs = ['Descripción', 'Archivos', 'Comentarios', 'Makes', 'Remixes'];
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+    const tabs = ['Descripción', 'Archivos', 'Comentarios', 'Makes', 'Remixes'];
+    const [activeTab, setActiveTab] = useState(tabs[0]);
 
-  return (
-    <div className='mt-[50px]'>
-      <div className="flex gap-4">
-        {tabs.map((tab, index) => (
-          <label key={tab} className="btn btn-outline btn-primary w-36">
-            <input
-              type="radio"
-              name="tabs"
-              value={tab}
-              defaultChecked={index === 0}
-              className="hidden"
-              onChange={(e) => setActiveTab(e.target.value)}
-            />
-            {tab}
-          </label>
-        ))}
-      </div>
-      <div className="mt-4">
-        {/* //TODO: Crear la información de cada tab */}
-        {activeTab === 'Descripción' && <div>Contenido de Descripción</div>}
-        {activeTab === 'Archivos' && <div>Contenido de Archivos</div>}
-        {activeTab === 'Comentarios' && <div>Contenido de Comentarios</div>}
-        {activeTab === 'Makes' && <div>Contenido de Makes</div>}
-        {activeTab === 'Remixes' && <div>Contenido de Remixes</div>}
-      </div>
-    </div>
-  );
+    return (
+        <div className='mt-[45px] w-[90%] md:w-auto'>
+            <div className='flex gap-4 overflow-x-auto py-2 sm:overflow-visible sm:flex-wrap'>
+                {tabs.map((tab, index) => (
+                    <label
+                        key={tab}
+                        className='btn btn-outline btn-primary min-w-max whitespace-nowrap w-28 lg:w-36'
+                    >
+                        <input
+                            type='radio'
+                            name='tabs'
+                            value={tab}
+                            defaultChecked={index === 0}
+                            className='hidden'
+                            onChange={(e) => setActiveTab(e.target.value)}
+                        />
+                        {tab}
+                    </label>
+                ))}
+            </div>
+            <div className='mt-4'>
+                {/* //TODO: Crear la información de cada tab */}
+                {activeTab === 'Descripción' && <div>Contenido de Descripción</div>}
+                {activeTab === 'Archivos' && <div>Contenido de Archivos</div>}
+                {activeTab === 'Comentarios' && <div>Contenido de Comentarios</div>}
+                {activeTab === 'Makes' && <div>Contenido de Makes</div>}
+                {activeTab === 'Remixes' && <div>Contenido de Remixes</div>}
+            </div>
+        </div>
+    );
 };
 
 export default Tabs;
-
-
-
 
 // import React from "react";
 
