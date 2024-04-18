@@ -38,52 +38,6 @@ const ModelView = () => {
     }
 
     return (
-        // <div className='flex flex-col items-center justify-center my-5'>
-        //     <div className='flex flex-row w-3/5 items-end justify-between'>
-        //         <div className='flex gap-3 items-center'>
-        //             <IoHeartOutline className='w-[40px] h-[40px]' />
-        //             123
-        //             <IoEyeOutline className='w-[40px] h-[40px]' />
-        //             123
-        //         </div>
-        //         <h1 className='text-6xl font-bold'>{model.name}</h1>
-        //         <div className='flex gap-3'>
-        //             <BsPrinter className='w-[40px] h-[40px]' />
-        //             <AiOutlineDownload className='w-[40px] h-[40px]' />
-        //         </div>
-        //     </div>
-        //     <div className='w-3/5 h-[500px] mx-auto mt-3 p-5 border rounded-lg shadow-lg'>
-        //         <StlView fileUrl='https://storage.googleapis.com/ucloud-v3/ccab50f18fb14c91ccca300a.stl' />
-        //     </div>
-
-        //     <div className='grid grid-cols-4 items-center w-3/5 mt-2'>
-        //         <div className='flex items-center col-span-2 gap-4'>
-        //             <Image
-        //                 src={patito}
-        //                 alt='User'
-        //                 className='w-[50px] h-[50px] rounded-full bg-slate-600'
-        //             ></Image>
-        //             <p>Nombre del creador</p>
-        //         </div>
-        //         <div className='flex items-center justify-end gap-2'>
-        //             <div className='badge badge-primary badge-outline'>tag 1</div>
-        //             <div className='badge badge-primary badge-outline'>tag 2</div>
-        //             <div className='badge badge-primary badge-outline'>tag 3</div>
-        //         </div>
-        //         <div className='flex items-center justify-end gap-4'>
-        //             <button>
-        //                 <IoHeartOutline className='w-[30px] h-[30px]' />
-        //             </button>
-        //             <button>
-        //                 <IoShareSocialOutline className='w-[30px] h-[30px]' />
-        //             </button>
-        //             <button>
-        //                 <IoBookmarkOutline className='w-[30px] h-[30px]' />
-        //             </button>
-        //         </div>
-        //     </div>
-        //     <Tabs />
-        // </div>
         <div className='flex flex-col items-center justify-center my-5'>
             <div className='flex md:flex-row w-full md:w-4/5 lg:w-3/5 items-end justify-between'>
                 <h1 className='text-4xl ml-5 md:text-5xl lg:text-6xl font-bold text-center md:text-left'>

@@ -83,24 +83,28 @@ const Navbar = () => {
                         <Link
                             href='/catalog'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
+                            onClick={() => setIsMenuOpen(false)}
                         >
                             Catálogo
                         </Link>
                         <Link
                             href='/budget'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
+                            onClick={() => setIsMenuOpen(false)}
                         >
                             Presupuesto
                         </Link>
                         <Link
                             href='#'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
+                            onClick={() => setIsMenuOpen(false)}
                         >
                             Tutoriales
                         </Link>
                         <Link
                             href='/upload-file'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
+                            onClick={() => setIsMenuOpen(false)}
                         >
                             Subir Archivo
                         </Link>
