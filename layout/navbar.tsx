@@ -43,12 +43,12 @@ const Navbar = () => {
                         </a>
                     </li>
                     <li className='px-5 lg:px-10'>
-                        <a
-                            href='#'
+                        <Link
+                            href='/upload-file'
                             className='transition duration-300 ease-in-out hover:text-violet-400 lg:text-2xl'
                         >
                             Subir Archivo
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </nav>
@@ -80,30 +80,30 @@ const Navbar = () => {
                         >
                             Cuenta
                         </Link>
-                        <a
-                            href='#'
+                        <Link
+                            href='/catalog'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
                         >
                             Catálogo
-                        </a>
-                        <a
-                            href='#'
+                        </Link>
+                        <Link
+                            href='/budget'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
                         >
                             Presupuesto
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href='#'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
                         >
                             Tutoriales
-                        </a>
-                        <a
-                            href='#'
+                        </Link>
+                        <Link
+                            href='/upload-file'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
                         >
                             Subir Archivo
-                        </a>
+                        </Link>
                     </div>
                 </div>
             )}
