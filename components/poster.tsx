@@ -7,7 +7,7 @@ interface PosterProps {
     url: string;
 }
 
-const Poster: React.FC<PosterProps> = ({ imageUrl, url }) => {
+const Poster = ({ imageUrl, url }: PosterProps) => {
     const [style, setStyle] = useState<React.CSSProperties>({
         willChange: 'transform',
     });

@@ -5,7 +5,14 @@ import React from "react";
 
 import patito from "../public/patito.png";
 
-const CatalogItem = ({ item }: { item: any }) => {
+interface CatalogItemProps {
+    item: {
+        id: number;
+        name: string;
+    };
+}
+
+const CatalogItem = ({ item }: CatalogItemProps) => {
     return (
         <Link href={`/catalog/${item.id}`}>
             <div className='card card-compact w-80 h-80 bg-base-100 shadow-xl'>

@@ -10,7 +10,7 @@ type StlViewProps = {
   scale?: number;
 };
 
-const StlView: React.FC<StlViewProps> = ({ fileUrl, rotationX=0, rotationY=0, rotationZ=0, scale=1 }) => {
+const StlView = ({ fileUrl, rotationX=0, rotationY=0, rotationZ=0, scale=1 }: StlViewProps) => {
   return (
       <StlViewer
         className="w-full h-full"

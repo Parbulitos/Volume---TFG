@@ -1,13 +1,12 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-const Dropzone = ({
-    multipleFiles,
-    onModelsDrop,
-}: {
+interface DropzoneProps {
     multipleFiles: boolean;
     onModelsDrop: Function;
-}) => {
+}
+
+const Dropzone = ({multipleFiles, onModelsDrop,}: DropzoneProps) => {
     const onDrop = useCallback(
         (acceptedFiles: any, fileRejections: string | any[]) => {
             onModelsDrop(acceptedFiles);
