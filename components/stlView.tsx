@@ -2,15 +2,7 @@ import React from "react";
 
 import { StlViewer } from "react-stl-viewer";
 
-interface StlViewProps {
-    fileUrl: string;
-    rotationX?: number;
-    rotationY?: number;
-    rotationZ?: number;
-    scale?: number;
-  }
-
-const StlView = ({ fileUrl, rotationX=0, rotationY=0, rotationZ=0, scale=1.5 }: StlViewProps) => {
+const StlView = ({ fileUrl, rotationX=0, rotationY=0, rotationZ=0, scale=1 }: { fileUrl: string, rotationX: number, rotationY: number, rotationZ: number, scale: number }) => {
   return (
       <StlViewer
         className="w-full h-full"
