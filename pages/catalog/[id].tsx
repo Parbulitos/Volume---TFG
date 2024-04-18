@@ -55,7 +55,7 @@ const ModelView = () => {
                     <IoEyeOutline className='w-[20px] h-[20px] md:w-[40px] md:h-[40px]' />
                     123
                 </div>
-                <StlView fileUrl='https://storage.googleapis.com/ucloud-v3/ccab50f18fb14c91ccca300a.stl' />
+                <StlView fileUrl='https://storage.googleapis.com/ucloud-v3/ccab50f18fb14c91ccca300a.stl' scale={1.5}/>
             </div>
 
             <div className='flex flex-col lg:grid lg:grid-cols-4 items-center w-full md:w-4/5 lg:w-3/5 mt-4'>
