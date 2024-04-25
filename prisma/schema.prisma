@@ -4,19 +4,13 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["public", "auth"]
 }
 
 model Users {
-  id            String          @id @default(uuid())
+  id            String          @id @default(uuid()) @db.Uuid
   name          String?
   username      String          @unique
   email         String          @unique
@@ -30,28 +24,24 @@ model Users {
   courses       Courses[]
   comments      Comments[]
   printRequests PrintRequests[]
-
-  @@schema("public")
 }
 
 model Models {
   id           String          @id @default(uuid())
   name         String
-  description  String
-  grade        Float
-  likes        Int
-  views        Int
-  uploadTime   DateTime
-  owner        Users           @relation(fields: [ownerId], references: [id])
-  ownerId      String
+  description  String?
+  grade        Float?
+  likes        Int?
+  views        Int?
+  uploadTime   DateTime?
+  owner        Users?          @relation(fields: [ownerId], references: [id])
+  ownerId      String?         @db.Uuid
   modelItems   ModelItems[]
   favoritedBy  Users[]         @relation("FavoriteModels")
-  collection   Collections     @relation(fields: [collectionId], references: [id])
-  collectionId String
+  collection   Collections?    @relation(fields: [collectionId], references: [id])
+  collectionId String?
   comments     Comments[]
   printRequest PrintRequests[]
-
-  @@schema("public")
 }
 
 model ModelItems {
@@ -60,17 +50,13 @@ model ModelItems {
   modelUrl      String @unique
   modelParent   Models @relation(fields: [modelParentId], references: [id])
   modelParentId String
-
-  @@schema("public")
 }
 
 model Collections {
   id      String   @id @default(uuid())
   owner   Users    @relation(fields: [ownerId], references: [id])
-  ownerId String
+  ownerId String   @db.Uuid
   models  Models[]
-
-  @@schema("public")
 }
 
 model Courses {
@@ -79,29 +65,23 @@ model Courses {
   purchases   Int
   description String
   users       Users?  @relation(fields: [usersId], references: [id])
-  usersId     String?
-
-  @@schema("public")
+  usersId     String? @db.Uuid
 }
 
 model Comments {
-  id      String @id @default(uuid())
-  text    String
-  likes   Int
-  owner   Users  @relation(fields: [ownerId], references: [id])
-  ownerId String
-  model   Models @relation(fields: [modelId], references: [id])
-  modelId String
-
-  @@schema("public")
+  id      String  @id @default(uuid())
+  text    String?
+  likes   Int?
+  owner   Users?  @relation(fields: [ownerId], references: [id])
+  ownerId String? @db.Uuid
+  model   Models? @relation(fields: [modelId], references: [id])
+  modelId String?
 }
 
 enum PrintRequestStatus {
   WAITING
   PROCESSING
   DONE
-
-  @@schema("public")
 }
 
 model PrintRequests {
@@ -109,9 +89,7 @@ model PrintRequests {
   printDate DateTime
   status    PrintRequestStatus
   user      Users              @relation(fields: [userId], references: [id])
-  userId    String
+  userId    String             @db.Uuid
   model     Models             @relation(fields: [modelId], references: [id])
   modelId   String
-
-  @@schema("public")
 }

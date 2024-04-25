@@ -1,16 +1,17 @@
 import {Users} from "@prisma/client";
 
 export const useUsers = () => {
+
     const getUserById = async (uid: number): Promise<Users> => {
-        return (await fetch(`/api/users/get/getuserbyid?id=${uid}`)).json().then((res) => res.user)
+        return (await fetch(`/api/users/getuserbyid?id=${uid}`)).json().then((res) => res.user)
     }
 
     const getAllUsers = async(): Promise<Users[]> =>{
-        return (await fetch(`/api/users/get/getallusers`)).json().then()
+        return (await fetch(`/api/users/getallusers`)).json().then()
     }
 
-    const postUser = async (user: Users) => {
-        return (await fetch(`/api/users/post/adduser`, {
+    const addUser = async (user: Users) => {
+        return (await fetch(`/api/users/adduser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,6 +23,6 @@ export const useUsers = () => {
     return {
         getUserById,
         getAllUsers,
-        postUser,
+        addUser,
     }
 }
