@@ -10,13 +10,13 @@ export const useComments = ()=>{
         return (await fetch(`/api/comments/getallcomments`)).json()
     }
 
-    const addComment = async (model: Comments) => {
+    const addComment = async (comment: Comments) => {
         return (await fetch(`/api/comments/addcomment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(model)
+            body: JSON.stringify(comment)
         }))
     }
 

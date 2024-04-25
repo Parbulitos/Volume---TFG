@@ -1,4 +1,4 @@
-import {Collections, Comments, PrismaClient} from "@prisma/client";
+import {Collections, PrismaClient} from "@prisma/client";
 
 const prisma = new PrismaClient()
 export const getCollectionById = async (id: string)=>{
