@@ -43,13 +43,13 @@ const Budget = () => {
     };
 
     return (
-        <div className='flex flex-col items-center lg:flex-row justify-center gap-4'>
+        <div className='flex flex-col items-center lg:flex-row justify-center mt-[-50px]'>
             {' '}
             {/*Contenedor de principal*/}
             <div
                 className={`transition-all duration-500 ${
-                    models.length ? 'lg:w-1/3' : 'lg:w-2/3'
-                } flex flex-col items-center`}
+                    models.length ? 'lg:w-1/2' : 'lg:w-2/3'
+                } flex flex-col items-center mt-[90px]`}
             >
                 {' '}
                 {/*Contenedor de opciones*/}
@@ -77,11 +77,11 @@ const Budget = () => {
                 </form>
             </div>
             {models.length !== 0 && (
-                <div className='flex flex-col basis-1/2 items-center'>
+                <div className='flex flex-col basis-1/3 items-center'>
                     {' '}
                     {/*Contenedor de presupuesto y ajustes*/}
-                    <div className='my-4'>
-                        <div className='w-full h-[400px] md:w-[600px] md:h-[500px] bg-red-500'>
+                    <div className=''>
+                        <div className='w-full md:w-[600px] border'>
                             <StlView
                                 fileUrl={modelUrl}
                                 rotationX={rotation[0]}
@@ -119,14 +119,14 @@ const Budget = () => {
                         </div>
                     </div>
                     {/* Contenedor de Escala */}
-                    <div className='mx-auto my-auto flex flex-col items-center'>
+                    <div className='m-auto flex flex-col items-center'>
                         <input
                             type='range'
                             min={0.1}
                             max={10.0}
                             value={scale}
                             step={0.1}
-                            className='range range-primary range-xs w-[450px]'
+                            className='range range-primary range-xs w-[350px] md:w-[450px]'
                             onChange={(e) => setScale(Number(e.target.value))}
                         />
                         <p>Escala {scale}</p>

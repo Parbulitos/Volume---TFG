@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import Swal from 'sweetalert2'
 
 interface DropzoneProps {
     multipleFiles: boolean;
@@ -11,7 +12,11 @@ const Dropzone = ({multipleFiles, onModelsDrop,}: DropzoneProps) => {
         (acceptedFiles: any, fileRejections: string | any[]) => {
             onModelsDrop(acceptedFiles);
             if (fileRejections.length > 0) {
-                alert('Solo se pueden subir archivos en formato .stl');
+                Swal.fire({
+                    icon: "warning",
+                    title: "Ups...",
+                    text: "Solo puedes subir archivos en formato STL",
+                  });
             }
         },
         [onModelsDrop]

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 
 import CatalogItem from "./calogItem";
-import { SlArrowDown } from "react-icons/sl";
 
 const Catalog = () => {
-    const [itemsPerPage, setItemsPerPage] = useState(8);
+    const [itemsPerPage, setItemsPerPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(0); // Añadido para paginación
 
     const items = [
@@ -55,22 +54,8 @@ const Catalog = () => {
             </div>
             <div className='join my-5'>
                 <button className='join-item btn btn-primary' onClick={goToPrevPage}>«</button>
-                <button className='join-item btn btn-primary'>{currentPage + 1}</button>
+                <button className='join-item btn btn-primary no-animation hover:bg-primary hover:border-transparent cursor-default'>{currentPage + 1}</button>
                 <button className='join-item btn btn-primary' onClick={goToNextPage}>»</button>
-            </div>
-            <div className='dropdown dropdown-right mb-2'>
-                <div tabIndex={0} role="button" className="btn m-1">{itemsPerPage} <SlArrowDown/></div>
-                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow rounded-box w-13">
-                    {[8, 12, 16, 64].map((size) => (
-                        <button
-                            className='btn btn-sm btn-primary my-1'
-                            key={size}
-                            onClick={() => updateItemsPerPage(size)}
-                        >
-                            {size}
-                        </button>
-                    ))}
-                </ul>
             </div>
         </div>
     );

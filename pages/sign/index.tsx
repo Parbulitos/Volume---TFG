@@ -23,17 +23,17 @@ const Forms = () => {
                     >
                         <p className='md:text-xl lg:text-2xl font-bold text-center'>
                             {isPanelRight ? (
-                                <>
+                                <div className='mb-[200px]'>
                                     ¡Hey!
                                     <br />
                                     Registrate para acceder a todo el contenido
-                                </>
+                                </div>
                             ) : (
-                                '¿Ya tienes cuenta?'
+                                <p className='mb-[125px]'>¿Ya tienes cuenta?</p>
                             )}
                         </p>
                         <button
-                            className='btn btn-lg btn-secondary border-white shadow-2xl mt-8'
+                            className='btn btn-lg btn-secondary border-white shadow-2xl fixed'
                             onClick={togglePanel}
                         >
                             {isPanelRight ? 'Regístrate' : 'Inicia Sesión'}

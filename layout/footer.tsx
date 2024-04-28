@@ -72,16 +72,16 @@ const Footer = () => {
                     Terms · Privacy Policy
                 </span>
                 <div className='flex flex-row space-x-4 justify-center items-center mb-2 sm:mb-2 md:mb-0 lg:mb-0'>
-                    <button className='btn btn-md bg-violet-400 border-0'>
+                    <button className='btn btn-md bg-violet-400 border-0 hover:bg-secondary'>
                         <FaInstagram color='white' className='w-[25px] h-[25px] ' />
                     </button>
-                    <button className='btn btn-md bg-violet-400 border-0'>
+                    <button className='btn btn-md bg-violet-400 border-0 hover:bg-secondary'>
                         <FaGithub color='white' className='w-[25px] h-[25px]' />
                     </button>
-                    <button className='btn btn-md bg-violet-400 border-0'>
+                    <button className='btn btn-md bg-violet-400 border-0 hover:bg-secondary'>
                         <FaSquareXTwitter color='white' className='w-[25px] h-[25px]' />
                     </button>
-                    <button className='btn btn-md bg-violet-400 border-0'>
+                    <button className='btn btn-md bg-violet-400 border-0 hover:bg-secondary'>
                         <GrLinkedin color='white' className='w-[25px] h-[25px]' />
                     </button>
                 </div>

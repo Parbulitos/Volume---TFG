@@ -35,12 +35,12 @@ const Navbar = () => {
                         </Link>
                     </li>
                     <li className='px-5 lg:px-10'>
-                        <a
-                            href='#'
+                        <Link
+                            href='/tutorials'
                             className='transition duration-300 ease-in-out hover:text-violet-400 lg:text-2xl'
                         >
                             Tutoriales
-                        </a>
+                        </Link>
                     </li>
                     <li className='px-5 lg:px-10'>
                         <Link
@@ -95,7 +95,7 @@ const Navbar = () => {
                             Presupuesto
                         </Link>
                         <Link
-                            href='#'
+                            href='/tutorials'
                             className='text-xl transition duration-300 ease-in-out hover:text-violet-400'
                             onClick={() => setIsMenuOpen(false)}
                         >
