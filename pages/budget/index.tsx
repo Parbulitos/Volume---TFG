@@ -43,7 +43,7 @@ const Budget = () => {
     };
 
     return (
-        <div className='flex flex-col items-center lg:flex-row justify-center mt-[-50px]'>
+        <div className="flex flex-col items-center lg:flex-row justify-center mt-[-50px]">
             {' '}
             {/*Contenedor de principal*/}
             <div
@@ -58,30 +58,30 @@ const Budget = () => {
                     onModelsDrop={handleModels}
                     // size={{ width: 1000, height: 200 }}
                 />
-                <form onSubmit={handleSubmit} className='flex flex-col items-center'>
+                <form onSubmit={handleSubmit} className="flex flex-col items-center">
                     {/* Contenedor de materiales */}
-                    <h1 className='font-bold text-3xl mt-5 text-center'>Material</h1>
+                    <h1 className="font-bold text-3xl mt-5 text-center">Material</h1>
                     <PrintOptions options={MATERIALES} onChange={setMaterial} />
                     {/* Contenedor de Calidad */}
-                    <h1 className='font-bold text-3xl mt-5 text-center'>Calidad</h1>
+                    <h1 className="font-bold text-3xl mt-5 text-center">Calidad</h1>
                     <PrintOptions options={CALIDAD} onChange={setCalidad} />
                     {/* Contenedor de postprocesado */}
-                    <h1 className='font-bold text-3xl mt-5 text-center'>Postprocesado</h1>
+                    <h1 className="font-bold text-3xl mt-5 text-center">Postprocesado</h1>
                     <PrintOptions options={POSTPROCESADO} onChange={setPostprocesado} />
                     <button
-                        type='submit'
-                        className='btn btn-primary btn-wide text-white font-bold text-2xl h-14 my-8'
+                        type="submit"
+                        className="btn btn-primary btn-wide text-white font-bold text-2xl h-14 my-8"
                     >
                         Enviar
                     </button>
                 </form>
             </div>
             {models.length !== 0 && (
-                <div className='flex flex-col basis-1/3 items-center'>
+                <div className="flex flex-col basis-1/3 items-center">
                     {' '}
                     {/*Contenedor de presupuesto y ajustes*/}
-                    <div className=''>
-                        <div className='w-full md:w-[600px] border'>
+                    <div className="">
+                        <div className="w-full md:w-[600px] border">
                             <StlView
                                 fileUrl={modelUrl}
                                 rotationX={rotation[0]}
@@ -92,46 +92,46 @@ const Budget = () => {
                         </div>
                     </div>
                     {/* Contenedor de Rotación */}
-                    <div className='p-4 max-w-md mx-auto my-auto bg-gray-100 rounded-lg shadow-md'>
-                        <p className='mb-4 text-lg font-semibold text-gray-700'>Rotar modelo</p>
-                        <div className='flex space-x-2'>
+                    <div className="p-4 max-w-md mx-auto my-auto bg-gray-100 rounded-lg shadow-md">
+                        <p className="mb-4 text-lg font-semibold text-gray-700">Rotar modelo</p>
+                        <div className="flex space-x-2">
                             <button
-                                className='btn btn-primary px-4 py-2 text-white font-bold'
+                                className="btn btn-primary px-4 py-2 text-white font-bold"
                                 onClick={() => handleRotation(0)}
                             >
                                 Eje X
-                                <Image src={ejeX} alt='ejeX' width={25} height={25} />
+                                <Image src={ejeX} alt="ejeX" width={25} height={25} />
                             </button>
                             <button
-                                className='btn btn-primary px-4 py-2 text-white font-bold'
+                                className="btn btn-primary px-4 py-2 text-white font-bold"
                                 onClick={() => handleRotation(1)}
                             >
                                 Eje Y
-                                <Image src={ejeY} alt='ejeX' width={25} height={25} />
+                                <Image src={ejeY} alt="ejeX" width={25} height={25} />
                             </button>
                             <button
-                                className='btn btn-primary px-4 py-2 text-white font-bold'
+                                className="btn btn-primary px-4 py-2 text-white font-bold"
                                 onClick={() => handleRotation(2)}
                             >
                                 Eje Z
-                                <Image src={ejeZ} alt='ejeX' width={25} height={25} />
+                                <Image src={ejeZ} alt="ejeX" width={25} height={25} />
                             </button>
                         </div>
                     </div>
                     {/* Contenedor de Escala */}
-                    <div className='m-auto flex flex-col items-center'>
+                    <div className="m-auto flex flex-col items-center">
                         <input
-                            type='range'
+                            type="range"
                             min={0.1}
                             max={10.0}
                             value={scale}
                             step={0.1}
-                            className='range range-primary range-xs w-[350px] md:w-[450px]'
+                            className="range range-primary range-xs w-[350px] md:w-[450px]"
                             onChange={(e) => setScale(Number(e.target.value))}
                         />
                         <p>Escala {scale}</p>
                     </div>
-                    <div className='mx-auto my-auto'>Información</div>
+                    <div className="mx-auto my-auto">Información</div>
                 </div>
             )}
         </div>

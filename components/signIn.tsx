@@ -42,7 +42,7 @@ const SignIn = ({ onFormChange }: { onFormChange?: Function }) => {
                 </a>
             </div>
     */}
-            <span className="text-center text-lg mt-4 text-black">
+            <span className="w-[200px] md:w-[300px] text-center text-lg mt-4 text-black">
                 o usa tu e-mail y contraseña para iniciar sesión
             </span>
             <form className="flex flex-col items-center mt-4 min-w-80">
