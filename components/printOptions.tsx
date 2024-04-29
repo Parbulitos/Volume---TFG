@@ -5,16 +5,24 @@ interface PrintOptionsProps {
     onChange: (value: string) => void;
 }
 
+interface MaterialDetails {
+    description: string;
+    // price: number;  // Iré añadiendo lo que necesite
+}
+
+interface MaterialInfo {
+    [key: string]: MaterialDetails | undefined;
+}
+
 const PrintOptions = ({ options, onChange }: PrintOptionsProps) => {
     const [selectedOption, setSelectedOption] = useState<string>('');
-    const [dropdownClosed, setDropdownClosed] = useState<boolean>(false);
 
     const handleClick = (option: string) => {
         setSelectedOption(option);
         onChange(option);
     };
 
-    const materialInfo = {
+    const materialInfo: MaterialInfo = {
         PLA: {
             description:
                 'PLA es ideal para impresión 3D a nivel principiante debido a su baja temperatura de fusión y facilidad de uso. Es biodegradable y comúnmente usado para modelos que no estarán expuestos a altas temperaturas.',
@@ -49,7 +57,7 @@ const PrintOptions = ({ options, onChange }: PrintOptionsProps) => {
             {/* Componente para pantallas medianas y grandes (visible en sm y tamaños mayores) */}
             <div className="hidden md:block flex-col sm:flex-row sm:space-y-0 sm:space-x-2 p-4">
                 {options.map((option, index) => (
-                    <div className="tooltip" data-tip={materialInfo} key={index}>
+                    <div className="tooltip tooltip-primary" data-tip={materialInfo[option]?.description} key={index}>
                         <button
                             className={`btn w-32 h-16 p-4 text-white text-2xl font-bold ${
                                 selectedOption === option ? 'btn-secondary' : 'btn-primary'
