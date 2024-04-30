@@ -41,14 +41,20 @@ const Catalog = () => {
                 dataLength={items.length}
                 next={fetchMoreItems}
                 hasMore={hasMoreItems}
-                loader={<h4 className='text-lg font-bold my-5 animate-pulse animate-infinite animate-duration-1000'>Cargando...</h4>}
-                endMessage={<p style={{ textAlign: "center" }}>
-                    <b>¡Hey! Ya lo has visto todo</b>
-                </p>}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} 
+                loader={
+                    <h4 className="animate-infinite animate-duration-1000 my-5 animate-pulse text-lg font-bold">
+                        Cargando...
+                    </h4>
+                }
+                endMessage={
+                    <p style={{ textAlign: 'center' }}>
+                        <b>¡Hey! Ya lo has visto todo</b>
+                    </p>
+                }
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
             >
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
-                    {items.map(item => (
+                <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+                    {items.map((item) => (
                         <CatalogItem key={item.id} item={item} />
                     ))}
                 </div>

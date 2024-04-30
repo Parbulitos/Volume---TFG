@@ -2,7 +2,7 @@ import React from 'react';
 
 const CatalogOrderSearch = () => {
     return (
-        <div className='flex items-center justify-center w-full'>
+        <div className="flex w-full items-center justify-center">
             <select className="select select-bordered w-full max-w-xs">
                 <option disabled selected>
                     Filtrar por...
