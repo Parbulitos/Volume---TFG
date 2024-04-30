@@ -46,6 +46,7 @@ model Models {
   collectionId String?
   comments     Comments[]
   printRequest PrintRequests[]
+  fileUrl      String
 }
 
 model ModelItems {
