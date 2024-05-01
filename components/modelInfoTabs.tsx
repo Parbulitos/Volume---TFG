@@ -5,26 +5,26 @@ const Tabs = () => {
     const [activeTab, setActiveTab] = useState(tabs[0]);
 
     return (
-        <div className='mt-[45px] w-[90%] md:w-auto'>
-            <div className='flex gap-4 overflow-x-auto py-2 sm:overflow-visible sm:flex-wrap'>
+        <div className="mt-[45px] w-[90%] md:w-auto">
+            <div className="flex gap-4 overflow-x-auto py-2 sm:flex-wrap sm:overflow-visible">
                 {tabs.map((tab, index) => (
                     <label
                         key={tab}
-                        className='btn btn-outline btn-primary min-w-max whitespace-nowrap w-28 lg:w-36'
+                        className="btn btn-outline btn-primary w-28 min-w-max whitespace-nowrap lg:w-36"
                     >
                         <input
-                            type='radio'
-                            name='tabs'
+                            type="radio"
+                            name="tabs"
                             value={tab}
                             defaultChecked={index === 0}
-                            className='hidden'
+                            className="hidden"
                             onChange={(e) => setActiveTab(e.target.value)}
                         />
                         {tab}
                     </label>
                 ))}
             </div>
-            <div className='mt-4'>
+            <div className="mt-4">
                 {/* //TODO: Crear la información de cada tab */}
                 {activeTab === 'Descripción' && <div>Contenido de Descripción</div>}
                 {activeTab === 'Archivos' && <div>Contenido de Archivos</div>}

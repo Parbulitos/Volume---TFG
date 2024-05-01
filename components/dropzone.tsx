@@ -1,22 +1,23 @@
 import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import Swal from 'sweetalert2'
+import { useDropzone, FileRejection } from 'react-dropzone';
+import Swal from 'sweetalert2';
 
 interface DropzoneProps {
     multipleFiles: boolean;
-    onModelsDrop: Function;
+    onModelsDrop: (files: File[]) => void; // eslint-disable-line no-unused-vars
 }
 
-const Dropzone = ({multipleFiles, onModelsDrop,}: DropzoneProps) => {
+const Dropzone = ({ multipleFiles, onModelsDrop }: DropzoneProps) => {
     const onDrop = useCallback(
-        (acceptedFiles: any, fileRejections: string | any[]) => {
+        (acceptedFiles: File[], fileRejections: FileRejection[]) => {
             onModelsDrop(acceptedFiles);
             if (fileRejections.length > 0) {
+                const rejectedFileNames = fileRejections.map(({ file }) => file.name).join('<br>');
                 Swal.fire({
-                    icon: "warning",
-                    title: "Ups...",
-                    text: "Solo puedes subir archivos en formato STL",
-                  });
+                    icon: 'warning',
+                    title: 'Ups...',
+                    html: `Algunos archivos no se pudieron subir:<br>${rejectedFileNames}`,
+                });
             }
         },
         [onModelsDrop]
@@ -28,12 +29,12 @@ const Dropzone = ({multipleFiles, onModelsDrop,}: DropzoneProps) => {
         multiple: multipleFiles,
     });
 
-    const dragActiveMessage = !multipleFiles
-        ? 'Suelta tu archivo aquí...'
-        : 'Suelta tus archivos aquí...';
-    const dragInactiveMessage = !multipleFiles
-        ? 'Arrastra y suelta tu archivo o haz click para importarlo...'
-        : 'Arrastra y suelta tus archivos o haz click para importarlos...';
+    const dragActiveMessage = multipleFiles
+        ? 'Suelta tus archivos aquí...'
+        : 'Suelta tu archivo aquí...';
+    const dragInactiveMessage = multipleFiles
+        ? 'Arrastra y suelta tus archivos o haz click para importarlos...'
+        : 'Arrastra y suelta tu archivo o haz click para importarlo...';
 
     return (
         <div
@@ -54,11 +55,11 @@ const Dropzone = ({multipleFiles, onModelsDrop,}: DropzoneProps) => {
         >
             <input {...getInputProps()} />
             {isDragActive ? (
-                <p className='text-xl font-bold text-white text-center'>{dragActiveMessage}</p>
+                <p className="text-center text-xl font-bold">{dragActiveMessage}</p>
             ) : (
-                <div className='flex flex-col items-center text-center'>
-                    <p className='text-xl font-bold'>{dragInactiveMessage}</p>
-                    <p className='text-lg'>Solo archivos en formato STL</p>
+                <div className="flex flex-col items-center text-center">
+                    <p className="text-xl font-bold">{dragInactiveMessage}</p>
+                    <p className="text-lg">Solo archivos en formato STL</p>
                 </div>
             )}
         </div>

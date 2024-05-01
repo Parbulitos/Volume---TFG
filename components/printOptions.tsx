@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface PrintOptionsProps {
     options: string[];
-    onChange: (value: string) => void;
+    onChange: (value: string) => void; //eslint-disable-line no-unused-vars
 }
 
 interface MaterialDetails {
@@ -44,8 +44,8 @@ const PrintOptions = ({ options, onChange }: PrintOptionsProps) => {
     return (
         <div>
             {/* Componente para pantallas pequeñas (visible solo en pantallas menores que sm) */}
-            <div className="sm:hidden mt-4">
-                <select className="select select-primary bg-primary font-bold text-xl w-full max-w-xs">
+            <div className="mt-4 sm:hidden">
+                <select className="select select-primary w-full max-w-xs bg-primary text-xl font-bold">
                     {options.map((option, index) => (
                         <option key={index} onClick={() => handleClick(option)}>
                             {option}
@@ -55,11 +55,15 @@ const PrintOptions = ({ options, onChange }: PrintOptionsProps) => {
             </div>
 
             {/* Componente para pantallas medianas y grandes (visible en sm y tamaños mayores) */}
-            <div className="hidden md:block flex-col sm:flex-row sm:space-y-0 sm:space-x-2 p-4">
+            <div className="hidden flex-col p-4 sm:flex-row sm:space-x-2 sm:space-y-0 md:block">
                 {options.map((option, index) => (
-                    <div className="tooltip tooltip-primary" data-tip={materialInfo[option]?.description} key={index}>
+                    <div
+                        className="tooltip tooltip-primary"
+                        data-tip={materialInfo[option]?.description}
+                        key={index}
+                    >
                         <button
-                            className={`btn w-32 h-16 p-4 text-white text-2xl font-bold ${
+                            className={`btn h-16 w-32 p-4 text-2xl font-bold text-white ${
                                 selectedOption === option ? 'btn-secondary' : 'btn-primary'
                             } transition-colors duration-300 hover:bg-violet-700`}
                             onClick={() => handleClick(option)}

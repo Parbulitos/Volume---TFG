@@ -12,7 +12,7 @@ const Navbar = () => {
     const username = 'testUser';
 
     return (
-        <header className="flex justify-between items-center py-4 px-10 bg-gray-900 text-white">
+        <header className="flex items-center justify-between bg-gray-900 px-10 py-4 text-white">
             <Link href="/">
                 <Image src={logo} alt="logo" width={40} height={40} />
             </Link>
@@ -54,7 +54,7 @@ const Navbar = () => {
             </nav>
             <div>
                 <Link href={'/sign'}>
-                    <button className="hidden md:block btn btn-primary text-white">
+                    <button className="btn btn-primary hidden text-white md:block">
                         Iniciar Sesión
                     </button>
                 </Link>
@@ -69,20 +69,20 @@ const Navbar = () => {
                     </div>
                 </Link>
             </div>
-            <p className="md:hidden cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <p className="cursor-pointer md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 Menu
             </p>
 
             {/* Overlay para móvil */}
             {isMenuOpen && (
-                <div className="fixed inset-0 bg-gray-900 z-10">
+                <div className="fixed inset-0 z-10 bg-gray-900">
                     <div
-                        className="absolute top-5 right-10 text-4xl"
+                        className="absolute right-10 top-5 text-4xl"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         &times;
                     </div>
-                    <div className="flex flex-col items-center justify-center h-full space-y-6">
+                    <div className="flex h-full flex-col items-center justify-center space-y-6">
                         <Link
                             href={`/user-profile/${encodeURIComponent(username)}`}
                             className="text-xl transition duration-300 ease-in-out hover:text-violet-400"

@@ -34,7 +34,6 @@ const Poster = ({ imageUrl, url }: PosterProps) => {
             if (now - lastInvocation.current < 100) return;
             lastInvocation.current = now;
 
-            const { clientWidth: width, clientHeight: height } = e.currentTarget;
             const layerX = e.nativeEvent.offsetX;
             const layerY = e.nativeEvent.offsetY;
 
@@ -60,7 +59,8 @@ const Poster = ({ imageUrl, url }: PosterProps) => {
         maxWidth: '100%',
         maxHeight: '100%',
         width: typeof dimensions.width === 'number' ? `${dimensions.width}px` : dimensions.width,
-        height: typeof dimensions.height === 'number' ? `${dimensions.height}px` : dimensions.height,
+        height:
+            typeof dimensions.height === 'number' ? `${dimensions.height}px` : dimensions.height,
         position: 'relative',
     };
 
@@ -70,13 +70,13 @@ const Poster = ({ imageUrl, url }: PosterProps) => {
                 onMouseMove={handleMouseMove}
                 onMouseOut={handleMouseOut}
                 style={containerStyle}
-                className='overflow-hidden bg-transparent'
+                className="overflow-hidden bg-transparent"
             >
                 <div
                     style={style}
-                    className='w-full h-full absolute top-0 left-0 transition-transform duration-700 ease-out'
+                    className="absolute left-0 top-0 h-full w-full transition-transform duration-700 ease-out"
                 >
-                    <Image src={imageUrl} alt='Poster' fill quality={100} />
+                    <Image src={imageUrl} alt="Poster" fill quality={100} />
                 </div>
             </div>
         </Link>

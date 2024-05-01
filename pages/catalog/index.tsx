@@ -7,7 +7,7 @@ export default function Page() {
     return (
         <div className=" flex flex-col items-center justify-center">
             <CatalogSearchBar />
-            <div className="flex items-center justify-center w-[50%] my-8">
+            <div className="my-8 flex w-[50%] items-center justify-center">
                 <CatalogCategories />
                 <CatalogOrderSearch />
             </div>

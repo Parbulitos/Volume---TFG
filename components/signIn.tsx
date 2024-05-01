@@ -1,14 +1,18 @@
 import React from 'react';
 
-import { FaGoogle } from 'react-icons/fa';
-import { FaGithub } from 'react-icons/fa';
-import { FaFacebook } from 'react-icons/fa';
-import { FaLinkedin } from 'react-icons/fa';
+// import { FaGoogle } from 'react-icons/fa';
+// import { FaGithub } from 'react-icons/fa';
+// import { FaFacebook } from 'react-icons/fa';
+// import { FaLinkedin } from 'react-icons/fa';
 
-const SignIn = ({ onFormChange }: { onFormChange?: Function }) => {
+interface SignInProps {
+    onFormChange?: (change: boolean) => void; // eslint-disable-line no-unused-vars
+}
+
+const SignIn = ({ onFormChange }: SignInProps) => {
     return (
-        <div className="top-0 left-0 w-1/2 h-full flex flex-col items-center justify-center p-10">
-            <h1 className="text-4xl font-bold text-black text-center">Iniciar sesión</h1>
+        <div className="left-0 top-0 flex h-full w-1/2 flex-col items-center justify-center p-10">
+            <h1 className="text-center text-4xl font-bold text-black">Iniciar sesión</h1>
             {/* Social Icons */}
             {/*}
             <div className='flex justify-center mt-4'>
@@ -42,25 +46,25 @@ const SignIn = ({ onFormChange }: { onFormChange?: Function }) => {
                 </a>
             </div>
     */}
-            <span className="w-[200px] md:w-[300px] text-center text-lg mt-4 text-black">
+            <span className="mt-4 w-[200px] text-center text-lg text-black md:w-[300px]">
                 o usa tu e-mail y contraseña para iniciar sesión
             </span>
-            <form className="flex flex-col items-center mt-4 min-w-80">
+            <form className="mt-4 flex min-w-80 flex-col items-center">
                 <input
                     type="email"
                     placeholder="tuemail@ext.com"
-                    className="input input-bordered w-full max-w-xs border-gray-400 bg-white text-black mt-4"
+                    className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
                 />
                 <input
                     type="password"
                     placeholder="Password"
-                    className="input input-bordered w-full max-w-xs border-gray-400 bg-white text-black mt-4"
+                    className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
                 />
-                <button className="btn btn-secondary btn-wide mt-4 text-white font-bold">
+                <button className="btn btn-secondary btn-wide mt-4 font-bold text-white">
                     Inicia sesión
                 </button>
             </form>
-            <span className="md:hidden text-center text-black mt-4">
+            <span className="mt-4 text-center text-black md:hidden">
                 ¿No tienes cuenta?{' '}
                 <a className="text-secondary" onClick={() => onFormChange && onFormChange(true)}>
                     Regístrate

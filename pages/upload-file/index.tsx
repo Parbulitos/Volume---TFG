@@ -1,6 +1,6 @@
 import Dropzone from '@/components/dropzone';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 
 const UploadFile = () => {
     const [droppedModels, setDroppedModels] = useState<File[]>([]);
@@ -22,11 +22,11 @@ const UploadFile = () => {
         });
     };
 
-    const getImages = (event: any) => {
+    const getImages = (event: ChangeEvent<HTMLInputElement>) => {
         const images = event.target.files;
-        if (images.length === 0) return;
-        setImages((prevImages) => [...prevImages, ...images]);
-        event.target.value = null;
+        if (!images || images.length === 0) return;
+        setImages((prevImages) => [...prevImages, ...Array.from(images)]);
+        event.target.value = '';
     };
 
     const handleRemoveImage = (index: number) => {
@@ -35,14 +35,14 @@ const UploadFile = () => {
             newImages.splice(index, 1);
             return newImages;
         });
-    }
+    };
 
     return (
-        <div className="flex flex-col justify-center items-center w-full lg:w-2/3 mx-auto mt-5 mb-10">
+        <div className="mx-auto mb-10 mt-5 flex w-full flex-col items-center justify-center lg:w-2/3">
             <Dropzone multipleFiles={true} onModelsDrop={onModelsDrop} />
 
             {droppedModels.length > 0 && (
-                <div className="collapse collapse-arrow bg-base-300 w-[90%] lg:w-[1000px] mt-6">
+                <div className="collapse collapse-arrow mt-6 w-[90%] bg-base-300 lg:w-[1000px]">
                     <input type="checkbox" checked={isOpen} onChange={() => setIsOpen(!isOpen)} />
                     <div className="collapse-title text-xl font-medium">
                         Archivos subidos ({droppedModels.length})
@@ -51,11 +51,11 @@ const UploadFile = () => {
                         {droppedModels.map((model, index) => (
                             <div
                                 key={index}
-                                className="flex items-center justify-between p-4 bg-base-200"
+                                className="flex items-center justify-between bg-base-200 p-4"
                             >
                                 <p>{model.name}</p>
                                 <button
-                                    className="btn btn-sm btn-error"
+                                    className="btn btn-error btn-sm"
                                     onClick={() => handleRemoveModel(index)}
                                 >
                                     Eliminar
@@ -66,14 +66,14 @@ const UploadFile = () => {
                 </div>
             )}
 
-            <h2 className="text-white text-3xl font-bold mt-6 font">Información Requerida</h2>
-            <div className="flex flex-col md:grid md:grid-cols-2 items-center md:w-[700px] lg:w-[1000px] mt-3 gap-x-4 lg:gap-x-16 gap-y-5">
+            <h2 className="font mt-6 text-3xl font-bold text-white">Información Requerida</h2>
+            <div className="mt-3 flex flex-col items-center gap-x-4 gap-y-5 md:grid md:w-[700px] md:grid-cols-2 lg:w-[1000px] lg:gap-x-16">
                 <input
                     type="text"
                     placeholder="Nombre del modelo"
-                    className="input input-bordered bg-white text-black w-full"
+                    className="input input-bordered w-full bg-white text-black"
                 />
-                <select className="select select-bordered bg-white text-gray-400 w-full">
+                <select className="select select-bordered w-full bg-white text-gray-400">
                     <option defaultValue={''}>Categoría</option>
                     <option>Cat 1</option>
                     <option>Cat 2</option>
@@ -84,7 +84,7 @@ const UploadFile = () => {
                 <input
                     type="text"
                     placeholder="Tags"
-                    className="input input-bordered bg-white text-black w-full"
+                    className="input input-bordered w-full bg-white text-black"
                 />
 
                 <input
@@ -98,25 +98,27 @@ const UploadFile = () => {
 
                 {images.length === 1 ? (
                     <p>{images.length} imágen seleccionada</p>
-                ) : (<p>{images.length} imágenes seleccionadas</p>)}
+                ) : (
+                    <p>{images.length} imágenes seleccionadas</p>
+                )}
                 {images.length > 0 && (
-                    <div className="flex flex-col w-full md:col-span-2 md:flex-row justify-between items-center py-2">
-                        <div className="flex gap-x-4 relative">
+                    <div className="flex w-full flex-col items-center justify-between py-2 md:col-span-2 md:flex-row">
+                        <div className="relative flex gap-x-4">
                             {images.map((image, index) => (
                                 <button
                                     key={index}
-                                    className="relative w-20 h-20 rounded-lg overflow-hidden"
+                                    className="relative h-20 w-20 overflow-hidden rounded-lg"
                                     onClick={() => handleRemoveImage(index)}
                                 >
                                     <Image
                                         src={URL.createObjectURL(image)}
                                         alt={image.name}
-                                        className="w-full h-full object-cover"
+                                        className="h-full w-full object-cover"
                                         width={80}
                                         height={80}
                                     />
-                                    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-400 bg-opacity-25 opacity-0 hover:opacity-100">
-                                        <span className="text-white font-bold text-xl">×</span>
+                                    <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-gray-400 bg-opacity-25 opacity-0 hover:opacity-100">
+                                        <span className="text-xl font-bold text-white">×</span>
                                     </div>
                                 </button>
                             ))}
@@ -124,23 +126,23 @@ const UploadFile = () => {
                     </div>
                 )}
 
-                <div className="flex flex-col w-full md:col-span-2 md:flex-row justify-between items-center py-2">
-                    <label className="flex lg:flex-row justify-between md:justify-center gap-x-4 items-center my-2 w-[90%] md:w-full">
+                <div className="flex w-full flex-col items-center justify-between py-2 md:col-span-2 md:flex-row">
+                    <label className="my-2 flex w-[90%] items-center justify-between gap-x-4 md:w-full md:justify-center lg:flex-row">
                         <span className="label-text">¿Es monetizable?</span>
-                        <input type="checkbox" className="checkbox checkbox-primary" />
+                        <input type="checkbox" className="checkbox-primary checkbox" />
                     </label>
-                    <label className="flex lg:flex-row justify-between md:justify-center gap-x-4 items-center my-2 w-[90%] md:w-full">
+                    <label className="my-2 flex w-[90%] items-center justify-between gap-x-4 md:w-full md:justify-center lg:flex-row">
                         <span className="label-text">¿Es un remix?</span>
-                        <input type="checkbox" className="checkbox checkbox-primary" />
+                        <input type="checkbox" className="checkbox-primary checkbox" />
                     </label>
-                    <label className="flex lg:flex-row justify-between md:justify-center gap-x-4 items-center my-2 w-[90%] md:w-full">
+                    <label className="my-2 flex w-[90%] items-center justify-between gap-x-4 md:w-full md:justify-center lg:flex-row">
                         <span className="label-text">Publicar como anónimo</span>
-                        <input type="checkbox" className="checkbox checkbox-primary" />
+                        <input type="checkbox" className="checkbox-primary checkbox" />
                     </label>
                 </div>
 
                 <textarea
-                    className="textarea bg-white w-full md:col-span-2 text-black"
+                    className="textarea w-full bg-white text-black md:col-span-2"
                     placeholder="Descripción del modelo..."
                 ></textarea>
             </div>

@@ -34,53 +34,56 @@ const ModelView = () => {
     const model = items.find((model) => model.id === Number(id));
 
     if (!model) {
-        return <p className='text-center mt-5'>Producto no encontrado</p>;
+        return <p className="mt-5 text-center">Producto no encontrado</p>;
     }
 
     return (
-        <div className='flex flex-col items-center justify-center my-5'>
-            <div className='flex md:flex-row w-full md:w-4/5 lg:w-3/5 items-end justify-between'>
-                <h1 className='text-4xl ml-5 md:text-5xl lg:text-6xl font-bold text-center md:text-left'>
+        <div className="my-5 flex flex-col items-center justify-center">
+            <div className="flex w-full items-end justify-between md:w-4/5 md:flex-row lg:w-3/5">
+                <h1 className="ml-5 text-center text-4xl font-bold md:text-left md:text-5xl lg:text-6xl">
                     {model.name}
                 </h1>
-                <div className='flex flex-row gap-3 md:justify-end mr-5'>
-                    <BsPrinter className='w-[40px] h-[40px]' />
-                    <AiOutlineDownload className='w-[40px] h-[40px]' />
+                <div className="mr-5 flex flex-row gap-3 md:justify-end">
+                    <BsPrinter className="h-[40px] w-[40px]" />
+                    <AiOutlineDownload className="h-[40px] w-[40px]" />
                 </div>
             </div>
-            <div className='md:w-4/5 lg:w-3/5 h-auto md:h-[500px] mx-auto mt-3 p-5 border rounded-lg shadow-lg'>
-                <div className='flex flex-row gap-3 items-center mb-4 md:mb-0'>
-                    <IoHeartOutline className='w-[20px] h-[20px] md:w-[40px] md:h-[40px]' />
+            <div className="mx-auto mt-3 h-auto rounded-lg border p-5 shadow-lg md:h-[500px] md:w-4/5 lg:w-3/5">
+                <div className="mb-4 flex flex-row items-center gap-3 md:mb-0">
+                    <IoHeartOutline className="h-[20px] w-[20px] md:h-[40px] md:w-[40px]" />
                     123
-                    <IoEyeOutline className='w-[20px] h-[20px] md:w-[40px] md:h-[40px]' />
+                    <IoEyeOutline className="h-[20px] w-[20px] md:h-[40px] md:w-[40px]" />
                     123
                 </div>
-                <StlView fileUrl='https://storage.googleapis.com/ucloud-v3/ccab50f18fb14c91ccca300a.stl' scale={1.5}/>
+                <StlView
+                    fileUrl="https://storage.googleapis.com/ucloud-v3/ccab50f18fb14c91ccca300a.stl"
+                    scale={1.5}
+                />
             </div>
 
-            <div className='flex flex-col lg:grid lg:grid-cols-4 items-center w-full md:w-4/5 lg:w-3/5 mt-4'>
-                <div className='flex items-center col-span-2 gap-4 mb-4 md:mb-0'>
+            <div className="mt-4 flex w-full flex-col items-center md:w-4/5 lg:grid lg:w-3/5 lg:grid-cols-4">
+                <div className="col-span-2 mb-4 flex items-center gap-4 md:mb-0">
                     <Image
                         src={patito}
-                        alt='User'
-                        className='w-[50px] h-[50px] rounded-full bg-slate-600'
+                        alt="User"
+                        className="h-[50px] w-[50px] rounded-full bg-slate-600"
                     ></Image>
                     <p>Nombre del creador</p>
                 </div>
-                <div className='flex items-center justify-center md:justify-end gap-2 my-4 lg:my-0'>
-                    <div className='badge badge-primary badge-outline badge-lg'>tag 1</div>
-                    <div className='badge badge-primary badge-outline badge-lg'>tag 2</div>
-                    <div className='badge badge-primary badge-outline badge-lg'>tag 3</div>
+                <div className="my-4 flex items-center justify-center gap-2 md:justify-end lg:my-0">
+                    <div className="badge badge-primary badge-outline badge-lg">tag 1</div>
+                    <div className="badge badge-primary badge-outline badge-lg">tag 2</div>
+                    <div className="badge badge-primary badge-outline badge-lg">tag 3</div>
                 </div>
-                <div className='flex items-center justify-center md:justify-end gap-4 my-4 lg:my-0'>
+                <div className="my-4 flex items-center justify-center gap-4 md:justify-end lg:my-0">
                     <button>
-                        <IoHeartOutline className='w-[30px] h-[30px]' />
+                        <IoHeartOutline className="h-[30px] w-[30px]" />
                     </button>
                     <button>
-                        <IoShareSocialOutline className='w-[30px] h-[30px]' />
+                        <IoShareSocialOutline className="h-[30px] w-[30px]" />
                     </button>
                     <button>
-                        <IoBookmarkOutline className='w-[30px] h-[30px]' />
+                        <IoBookmarkOutline className="h-[30px] w-[30px]" />
                     </button>
                 </div>
             </div>
