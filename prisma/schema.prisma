@@ -33,6 +33,8 @@ model Users {
 model Models {
   id           String          @id @default(uuid())
   name         String
+  fileUrl      String
+  imgFileUrl   String?
   description  String?
   grade        Float?
   likes        Int?
@@ -46,7 +48,6 @@ model Models {
   collectionId String?
   comments     Comments[]
   printRequest PrintRequests[]
-  fileUrl      String
 }
 
 model ModelItems {

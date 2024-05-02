@@ -1,15 +1,36 @@
 import Dropzone from '@/components/dropzone';
 import React, { useState } from 'react';
+import { useModels } from '@/hooks/useModels';
+import { Models } from '@prisma/client';
 
 const UploadFile = () => {
     const [droppedModels, setDroppedModels] = useState<any[]>([]);
     const [isOpen, setIsOpen] = useState<boolean>(true);
+    const {addModel, getModelFileById} = useModels()
 
     const onModelsDrop = (acceptedFiles: File[]) => {
         if (acceptedFiles.length === 0) return;
         setDroppedModels(prevFiles => [...prevFiles, ...acceptedFiles]);
         console.log('Archivos aceptados: ', acceptedFiles);
     };
+
+    const upload = ()=>{
+        // const file = droppedModels.pop()
+        // const model = {
+        //     collectionId: null,
+        //     description: null,
+        //     fileUrl: '',
+        //     grade: null,
+        //     likes: null,
+        //     name: file.name,
+        //     ownerId: null,
+        //     uploadTime: null,
+        //     views: null
+        // } as Omit<Models, "id">
+        //  addModel(model ,'123',file)
+        // Download file
+        // getModelFileById('123','testModel.stl')
+    }
 
     const handleRemoveModel = (index: number) => {
         setDroppedModels((prevModels) => {
@@ -22,7 +43,7 @@ const UploadFile = () => {
     return (
         <div className='flex flex-col justify-center items-center w-full lg:w-2/3 mx-auto mt-5 mb-10'>
             <Dropzone multipleFiles={true} onModelsDrop={onModelsDrop} />
-
+            <button onClick={()=>{upload()}}>Subir</button>
             {droppedModels.length > 0 && (
                 <div className='collapse collapse-arrow bg-base-300 w-[90%] lg:w-[1000px] mt-6'>
                     <input type='checkbox' checked={isOpen} onChange={() => setIsOpen(!isOpen)} />
