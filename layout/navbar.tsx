@@ -5,11 +5,14 @@ import Image from 'next/image';
 
 import logo from '../public/Logo.png';
 import avatar from '../public/avatar.svg';
+import { useAuth } from '@/hooks/authContext';
+import { supabaseClient } from '@/config/supabase-client';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const username = 'testUser';
+
 
     return (
         <header className="flex items-center justify-between bg-gray-900 px-10 py-4 text-white">
@@ -68,6 +71,7 @@ const Navbar = () => {
                         </div>
                     </div>
                 </Link>
+             <button onClick={() => supabaseClient.auth.signOut()}>Cerrar sesión</button>
             </div>
             <p className="cursor-pointer md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 Menu

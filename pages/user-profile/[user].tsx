@@ -8,13 +8,16 @@ import { FaRegEnvelope } from 'react-icons/fa';
 import { FaUserPlus } from 'react-icons/fa';
 import { FaCircleDollarToSlot } from 'react-icons/fa6';
 import Catalog from '@/components/catalog';
+import { useAuth } from '@/hooks/authContext';
 
 const UserProfile = () => {
     const [activeStat, setActiveStat] = useState('Diseños');
     const stats = ['Diseños', 'Likes', 'Impresiones', 'Seguidores', 'Seguidos'];
 
+    const { user } = useAuth()
+
     const router = useRouter();
-    const { user } = router.query;
+    // const { user } = router.query;
 
     const handleStatClick = (stat: string) => {
         setActiveStat(stat);
@@ -26,7 +29,7 @@ const UserProfile = () => {
 
     return (
         <div className="flex min-h-screen flex-col items-center p-4">
-            <h1 className="text-3xl font-bold text-white sm:text-2xl md:text-3xl">{user}</h1>
+            <h1 className="text-3xl font-bold text-white sm:text-2xl md:text-3xl">{user?.email}</h1>
             <div className="mx-auto mt-5 max-w-full overflow-hidden rounded-lg shadow-lg sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-[1250px]">
                 <div className="hidden h-60 rounded-t-lg lg:inline-block">
                     <Image src={banner} alt="banner" className="-translate-y-20"></Image>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { FaGoogle } from 'react-icons/fa';
 // import { FaGithub } from 'react-icons/fa';
@@ -10,6 +10,12 @@ interface SignUpProps {
 }
 
 const SignUp = ({ onFormChange }: SignUpProps) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+    });
+
     return (
         <div className="left-0 top-0 flex h-full w-1/2 flex-col items-center justify-center p-10">
             <h1 className="text-center text-4xl font-bold text-black">Crear Cuenta</h1>
@@ -48,16 +54,19 @@ const SignUp = ({ onFormChange }: SignUpProps) => {
             <form className="mt-4 flex min-w-80 flex-col items-center">
                 <input
                     type="text"
+                    name='name'
                     placeholder="Nombre"
                     className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
                 />
                 <input
                     type="email"
+                    name='email'
                     placeholder="tuemail@ext.com"
                     className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
                 />
                 <input
                     type="password"
+                    name='password'
                     placeholder="Password"
                     className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
                 />
