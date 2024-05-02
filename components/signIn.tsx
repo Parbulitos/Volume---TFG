@@ -1,7 +1,7 @@
-import { supabaseClient } from '@/config/supabase-client';
 import { Session } from '@supabase/supabase-js';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { supabaseClient } from '@/database/utils';
 
 // import { FaGoogle } from 'react-icons/fa';
 // import { FaGithub } from 'react-icons/fa';

@@ -1,4 +1,3 @@
-import { supabaseClient } from '@/config/supabase-client';
 import { useAuth } from '@/hooks/useAuth';
 import React, { useState } from 'react';
 

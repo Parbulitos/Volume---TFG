@@ -1,11 +1,10 @@
-import {createClient} from "@/database/utils"
+import {supabaseClient} from "@/database/utils"
 import {useUsers} from "@/hooks/useUsers";
 
 
 export const useAuth = () => {
     const signUpNewUser = async (email: string, password: string, name: string, username: string) => {
-        const supabase = createClient()
-        const { data, error } = await supabase.auth.signUp({
+        const { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
         })

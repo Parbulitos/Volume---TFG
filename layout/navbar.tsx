@@ -5,14 +5,29 @@ import Image from 'next/image';
 
 import logo from '../public/Logo.png';
 import avatar from '../public/avatar.svg';
-import { useAuth } from '@/hooks/useUserContext';
-import { supabaseClient } from '@/config/supabase-client';
+import { useUserContext } from '@/hooks/useUserContext';
+import { useFetchUserData } from '@/hooks/useFetchUserData';
+import { useRouter } from 'next/router';
+import { supabaseClient } from '@/database/utils';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { signOut } = useUserContext();
+    const router = useRouter();
 
-    const username = 'testUser';
+    const userData = useFetchUserData();
 
+    const handleSignOut = () => {
+        try {
+            // signOut();
+            supabaseClient.auth.signOut();
+            router.push('/');
+            window.location.reload(); // Refresca la página después de cerrar sesión
+
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+        }
+    };
 
     return (
         <header className="flex items-center justify-between bg-gray-900 px-10 py-4 text-white">
@@ -56,22 +71,29 @@ const Navbar = () => {
                 </ul>
             </nav>
             <div>
-                <Link href={'/sign'}>
-                    <button className="btn btn-primary hidden text-white md:block">
-                        Iniciar Sesión
-                    </button>
-                </Link>
-                <Link
-                    href={`/user-profile/${encodeURIComponent(username)}`}
-                    className="hidden md:block"
-                >
-                    <div className="avatar">
-                        <div className="w-12 rounded-full bg-white">
-                            <Image src={avatar} alt="Avatar" />
-                        </div>
+                {userData ? (
+                    <div className="flex gap-4">
+                        <Link
+                            href={`/user-profile/${encodeURIComponent(userData?.username || '')}`}
+                            className="hidden md:block"
+                        >
+                            <div className="avatar">
+                                <div className="w-12 rounded-full bg-white">
+                                    <Image src={avatar} alt="Avatar" />
+                                </div>
+                            </div>
+                        </Link>
+                        <button onClick={handleSignOut} className="btn btn-primary rounded-full">
+                            Cerrar sesión
+                        </button>
                     </div>
-                </Link>
-             <button onClick={() => supabaseClient.auth.signOut()}>Cerrar sesión</button>
+                ) : (
+                    <Link href={'/sign'}>
+                        <button className="btn btn-primary hidden text-white md:block">
+                            Iniciar Sesión
+                        </button>
+                    </Link>
+                )}
             </div>
             <p className="cursor-pointer md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 Menu
@@ -88,7 +110,7 @@ const Navbar = () => {
                     </div>
                     <div className="flex h-full flex-col items-center justify-center space-y-6">
                         <Link
-                            href={`/user-profile/${encodeURIComponent(username)}`}
+                            href={`/user-profile/${encodeURIComponent(userData?.username || '')}`}
                             className="text-xl transition duration-300 ease-in-out hover:text-violet-400"
                             onClick={() => setIsMenuOpen(false)}
                         >
