@@ -14,16 +14,19 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { signOut } = useUserContext();
     const router = useRouter();
+    const { user } = useUserContext();
 
     const userData = useFetchUserData();
 
-    const handleSignOut = () => {
+    const handleSignOut = async () => {
         try {
             // signOut();
-            supabaseClient.auth.signOut();
-            router.push('/');
-            window.location.reload(); // Refresca la página después de cerrar sesión
-
+            // console.log('presignout', userData);
+            // supabaseClient.auth.signOut().finally(async () => {
+            //     await router.push('/');
+            // });
+            // console.log('postsignout', userData);
+            // window.location.reload(); // Refresca la página después de cerrar sesión
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
         }
@@ -71,7 +74,7 @@ const Navbar = () => {
                 </ul>
             </nav>
             <div>
-                {userData ? (
+                {user ? (
                     <div className="flex gap-4">
                         <Link
                             href={`/user-profile/${encodeURIComponent(userData?.username || '')}`}
@@ -83,16 +86,25 @@ const Navbar = () => {
                                 </div>
                             </div>
                         </Link>
-                        <button onClick={handleSignOut} className="btn btn-primary rounded-full">
+                        <button
+                            onClick={() => {
+                                console.log(user);
+                                signOut();
+                            }}
+                            className="btn btn-primary rounded-full"
+                        >
                             Cerrar sesión
                         </button>
                     </div>
                 ) : (
-                    <Link href={'/sign'}>
-                        <button className="btn btn-primary hidden text-white md:block">
-                            Iniciar Sesión
-                        </button>
-                    </Link>
+                    <button
+                        className="btn btn-primary hidden text-white md:block"
+                        onClick={async () => {
+                            await router.push('/sign');
+                        }}
+                    >
+                        Iniciar Sesión
+                    </button>
                 )}
             </div>
             <p className="cursor-pointer md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>

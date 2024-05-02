@@ -8,11 +8,7 @@ import { supabaseClient } from '@/database/utils';
 // import { FaFacebook } from 'react-icons/fa';
 // import { FaLinkedin } from 'react-icons/fa';
 
-interface SignInProps {
-    onFormChange?: (change: boolean) => void;
-}
-
-const SignIn = ({ onFormChange }: SignInProps) => {
+const SignIn = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -111,10 +107,7 @@ const SignIn = ({ onFormChange }: SignInProps) => {
                 </button>
             </form>
             <span className="mt-4 text-center text-black md:hidden">
-                ¿No tienes cuenta?{' '}
-                <a className="text-secondary" onClick={() => onFormChange && onFormChange(true)}>
-                    Regístrate
-                </a>
+                ¿No tienes cuenta? <a className="text-secondary">Regístrate</a>
             </span>
         </div>
     );
