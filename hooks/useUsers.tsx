@@ -2,7 +2,7 @@ import {Users} from "@prisma/client";
 
 export const useUsers = () => {
 
-    const getUserById = async (uid: number): Promise<Users> => {
+    const getUserById = async (uid: string): Promise<Users> => {
         return (await fetch(`/api/users/getuserbyid?id=${uid}`)).json().then((res) => res.user)
     }
 

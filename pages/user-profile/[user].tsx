@@ -8,13 +8,17 @@ import { FaRegEnvelope } from 'react-icons/fa';
 import { FaUserPlus } from 'react-icons/fa';
 import { FaCircleDollarToSlot } from 'react-icons/fa6';
 import Catalog from '@/components/catalog';
-import { useAuth } from '@/hooks/authContext';
+import { useUserContext } from '@/hooks/useUserContext';
+import { useUsers } from '@/hooks/useUsers';
 
 const UserProfile = () => {
     const [activeStat, setActiveStat] = useState('Diseños');
     const stats = ['Diseños', 'Likes', 'Impresiones', 'Seguidores', 'Seguidos'];
 
-    const { user } = useAuth()
+    const {getUserById} = useUsers();
+    const { user, session, signOut } = useUserContext()
+
+    const userData = getUserById(user?.id || '')
 
     const router = useRouter();
     // const { user } = router.query;

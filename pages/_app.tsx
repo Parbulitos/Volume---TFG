@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import '../app/globals.css';
 import Navbar from '../layout/navbar';
 import Footer from '../layout/footer';
-import { AuthProvider } from '@/hooks/authContext';
+import { AuthProvider } from '@/hooks/useUserContext';
 
 export default function App({ Component, pageProps }: AppProps) {
     return (

@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import logo from '../public/Logo.png';
 import avatar from '../public/avatar.svg';
-import { useAuth } from '@/hooks/authContext';
+import { useAuth } from '@/hooks/useUserContext';
 import { supabaseClient } from '@/config/supabase-client';
 
 const Navbar = () => {
