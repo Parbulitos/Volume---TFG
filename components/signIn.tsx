@@ -13,31 +13,51 @@ const SignIn = () => {
         email: '',
         password: '',
     });
-    const [session, setSession] = useState<Session | null>();
-    const router = useRouter();
+    // const [session, setSession] = useState<Session | null>();
+    // const router = useRouter();
 
-    useEffect(() => {
-        supabaseClient.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-        });
+    // useEffect(() => {
+    //     supabaseClient.auth.getSession().then(({ data: { session } }) => {
+    //         setSession(session);
+    //     });
+    //
+    //     supabaseClient.auth.onAuthStateChange((_event, session) => {
+    //         setSession(session);
+    //     });
+    // }, []);
 
-        supabaseClient.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-        });
-    }, []);
+    const isEmailValid = (email: string) => {
+        const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return regexCorreo.test(email);
+    };
+
+    const isPasswordValid = (input: string) => {
+        const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]+$/;
+        return input.length >= 8 && regex.test(input);
+    };
+
+    const checkFields = () => {
+        const emailValid = isEmailValid(formData.email);
+        const passwordValid = isPasswordValid(formData.password);
+        return emailValid && passwordValid;
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email: formData.email,
-                password: formData.password,
-            });
-            if (error) throw error;
-            alert('Inicio de sesión exitoso');
-            router.push('/');
-        } catch (error) {
-            alert(error);
+        if (checkFields()) {
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: formData.email,
+                    password: formData.password,
+                });
+                if (error) throw error;
+                alert('Inicio de sesión exitoso');
+                //router.push('/');
+            } catch (error) {
+                alert(error);
+            }
+        } else {
+            alert('Debes rellenar los campos para iniciar sesión');
         }
     };
 

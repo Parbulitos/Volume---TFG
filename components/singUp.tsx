@@ -18,19 +18,47 @@ const SignUp = () => {
         username: '',
     });
 
+    const isEmailValid = (email: string) => {
+        const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return regexCorreo.test(email);
+    };
+
+    const isPasswordValid = (input: string) => {
+        const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]+$/;
+        return input.length >= 8 && regex.test(input);
+    };
+
+    const isUsernameValid = (username: string) => {
+        const regex = username.length;
+        //comprobar si ya existe en bd
+        return regex > 3;
+    };
+
+    const checkFields = () => {
+        const emailValid = isEmailValid(formData.email);
+        const passwordValid = isPasswordValid(formData.password);
+        const nameValid = formData.name.length > 3;
+        const usernameValid = isUsernameValid(formData.username);
+        return emailValid && passwordValid && nameValid && usernameValid;
+    };
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        // e.preventDefault();
+        e.preventDefault();
         // Check for fields filled befor even trying to signUp
-        setIsLoading(true);
-        const { data, error } = await signUpNewUser(
-            formData.email,
-            formData.password,
-            formData.name,
-            formData.username
-        );
-        setIsLoading(false);
-        if (!error) {
-            await router.push('/');
+        if (checkFields()) {
+            setIsLoading(true);
+            const { data, error } = await signUpNewUser(
+                formData.email,
+                formData.password,
+                formData.name,
+                formData.username
+            );
+            setIsLoading(false);
+            if (!error) {
+                await router.push('/');
+            }
+        } else {
+            alert('Campos no validos');
         }
     }
 

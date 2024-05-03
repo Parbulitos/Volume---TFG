@@ -15,7 +15,7 @@ const Forms = () => {
             <div className="hidden min-h-[700px] w-screen items-center justify-center md:flex">
                 <div className="relative">
                     <div
-                        className={`absolute z-[2] hidden h-[600px] flex-col items-center justify-center rounded-3xl bg-secondary bg-gradient-to-br from-violet-700 to-indigo-900 to-white transition-transform duration-500 md:flex md:w-[350px] lg:w-[450px] ${
+                        className={`absolute z-[2] hidden h-[600px] flex-col items-center justify-center rounded-3xl bg-secondary bg-gradient-to-br from-violet-700 to-violet-900 transition-transform duration-500 md:flex md:w-[350px] lg:w-[450px] ${
                             isPanelRight
                                 ? 'md:translate-x-[350px] lg:translate-x-[450px]'
                                 : 'translate-x-0'
