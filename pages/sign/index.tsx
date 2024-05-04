@@ -1,14 +1,22 @@
 import SignIn from '@/components/signIn';
 import SignUp from '@/components/singUp';
-import React, { useState } from 'react';
+import { useUserContext } from '@/hooks/useUserContext';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 
 const Forms = () => {
     // Estado para manejar si el panel está deslizado o no
     const [isPanelRight, setIsPanelRight] = useState(true);
+    const { user } = useUserContext();
+    const router = useRouter();
 
     const togglePanel = () => {
         setIsPanelRight(!isPanelRight); // Cambia el estado actual del panel
     };
+
+    useEffect(() => {
+        if(user) router.push('/'); // Redirigir al usuario si ya está logueado
+    }, [user, router]);
 
     return (
         <>

@@ -1,6 +1,6 @@
 import { Session } from '@supabase/supabase-js';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import { supabaseClient } from '@/database/utils';
 import Swal from 'sweetalert2';
 
@@ -14,18 +14,6 @@ const SignIn = () => {
         email: '',
         password: '',
     });
-    // const [session, setSession] = useState<Session | null>();
-    // const router = useRouter();
-
-    // useEffect(() => {
-    //     supabaseClient.auth.getSession().then(({ data: { session } }) => {
-    //         setSession(session);
-    //     });
-    //
-    //     supabaseClient.auth.onAuthStateChange((_event, session) => {
-    //         setSession(session);
-    //     });
-    // }, []);
 
     const isEmailValid = (email: string) => {
         const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -56,8 +44,9 @@ const SignIn = () => {
                     icon: 'success',
                     title: 'Bienvenido',
                     text: 'Inicio de sesión exitoso',
+                    timer: 2000,
                 });
-                //router.push('/');
+                router.push('/');
             } catch (error) {
                 Swal.fire({
                     icon: 'error',

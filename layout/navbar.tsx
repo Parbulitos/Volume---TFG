@@ -6,31 +6,12 @@ import Image from 'next/image';
 import logo from '../public/Logo.png';
 import avatar from '../public/avatar.svg';
 import { useUserContext } from '@/hooks/useUserContext';
-import { useFetchUserData } from '@/hooks/useFetchUserData';
 import { useRouter } from 'next/router';
-import { supabaseClient } from '@/database/utils';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { signOut } = useUserContext();
     const router = useRouter();
-    const { user } = useUserContext();
-
-    const userData = useFetchUserData();
-
-    const handleSignOut = async () => {
-        try {
-            // signOut();
-            // console.log('presignout', userData);
-            // supabaseClient.auth.signOut().finally(async () => {
-            //     await router.push('/');
-            // });
-            // console.log('postsignout', userData);
-            // window.location.reload(); // Refresca la página después de cerrar sesión
-        } catch (error) {
-            console.error('Error al cerrar sesión:', error);
-        }
-    };
+    const { userDetails, signOut } = useUserContext();
 
     return (
         <header className="flex items-center justify-between bg-gray-900 px-10 py-4 text-white">
@@ -74,10 +55,10 @@ const Navbar = () => {
                 </ul>
             </nav>
             <div>
-                {user ? (
+                {userDetails ? (
                     <div className="flex gap-4">
                         <Link
-                            href={`/user-profile/${encodeURIComponent(userData?.username || '')}`}
+                            href={`/user-profile/${encodeURIComponent(userDetails?.username || '')}`}
                             className="hidden md:block"
                         >
                             <div className="avatar">
@@ -88,7 +69,7 @@ const Navbar = () => {
                         </Link>
                         <button
                             onClick={() => {
-                                console.log(user);
+                                console.log(userDetails);
                                 signOut();
                             }}
                             className="btn btn-primary rounded-full"
@@ -122,7 +103,7 @@ const Navbar = () => {
                     </div>
                     <div className="flex h-full flex-col items-center justify-center space-y-6">
                         <Link
-                            href={`/user-profile/${encodeURIComponent(userData?.username || '')}`}
+                            href={`/user-profile/${encodeURIComponent(userDetails?.username || '')}`}
                             className="text-xl transition duration-300 ease-in-out hover:text-violet-400"
                             onClick={() => setIsMenuOpen(false)}
                         >

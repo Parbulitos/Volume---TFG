@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import patito from '../../public/patito.png';
 import banner from '../../public/banner.jpg';
@@ -9,28 +8,12 @@ import { FaUserPlus } from 'react-icons/fa';
 import { FaCircleDollarToSlot } from 'react-icons/fa6';
 import Catalog from '@/components/catalog';
 import { useUserContext } from '@/hooks/useUserContext';
-import { useUsers } from '@/hooks/useUsers';
-import { Users } from '@prisma/client';
-import { useFetchUserData } from '@/hooks/useFetchUserData';
 
 const UserProfile = () => {
     const [activeStat, setActiveStat] = useState('Diseños');
     const stats = ['Diseños', 'Likes', 'Impresiones', 'Seguidores', 'Seguidos'];
 
-    const userData = useFetchUserData();
-    // const [userData, setUserData] = useState<Users>()
-
-    // const {getUserById} = useUsers();
-    // const { user, session, signOut } = useUserContext()
-
-    // const handleUserData = async ()=>{
-    //     const userAux: Users = await getUserById(user?.id || '')
-    //     setUserData(userAux)
-    //     console.log(user)
-    // }
-
-    const router = useRouter();
-    // const { user } = router.query;
+    const { userDetails } = useUserContext();
 
     const handleStatClick = (stat: string) => {
         setActiveStat(stat);
@@ -41,14 +24,10 @@ const UserProfile = () => {
     const isActive = (stat: string) =>
         activeStat === stat ? 'bg-violet-800' : 'bg-primary hover:bg-secondary';
 
-    // useEffect(() => {
-    //     handleUserData()
-    // }, []);
-
     return (
         <div className="flex min-h-screen flex-col items-center p-4">
             <h1 className="text-3xl font-bold text-white sm:text-2xl md:text-3xl">
-                {userData?.name}
+                {userDetails?.username}
             </h1>
             <div className="mx-auto mt-5 max-w-full overflow-hidden rounded-lg shadow-lg sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-[1250px]">
                 <div className="hidden h-60 rounded-t-lg lg:inline-block">
