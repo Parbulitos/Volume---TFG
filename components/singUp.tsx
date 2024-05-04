@@ -1,6 +1,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Swal from 'sweetalert2';
 
 // import { FaGoogle } from 'react-icons/fa';
 // import { FaGithub } from 'react-icons/fa';
@@ -58,7 +59,11 @@ const SignUp = () => {
                 await router.push('/');
             }
         } else {
-            alert('Campos no validos');
+            Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Campos no válidos',
+            });
         }
     }
 

@@ -2,6 +2,7 @@ import { Session } from '@supabase/supabase-js';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { supabaseClient } from '@/database/utils';
+import Swal from 'sweetalert2';
 
 // import { FaGoogle } from 'react-icons/fa';
 // import { FaGithub } from 'react-icons/fa';
@@ -31,9 +32,9 @@ const SignIn = () => {
         return regexCorreo.test(email);
     };
 
-    const isPasswordValid = (input: string) => {
+    const isPasswordValid = (password: string) => {
         const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]+$/;
-        return input.length >= 8 && regex.test(input);
+        return password.length >= 8 && regex.test(password);
     };
 
     const checkFields = () => {
@@ -51,13 +52,25 @@ const SignIn = () => {
                     password: formData.password,
                 });
                 if (error) throw error;
-                alert('Inicio de sesión exitoso');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Bienvenido',
+                    text: 'Inicio de sesión exitoso',
+                });
                 //router.push('/');
             } catch (error) {
-                alert(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ups...',
+                    text: 'Algo ha salido mal',
+                });
             }
         } else {
-            alert('Debes rellenar los campos para iniciar sesión');
+            Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Campos no válidos',
+            });
         }
     };
 
@@ -121,6 +134,7 @@ const SignIn = () => {
                 />
                 <button
                     type="submit"
+                    onClick={() => handleSubmit}
                     className="btn btn-secondary btn-wide mt-4 font-bold text-white"
                 >
                     Inicia sesión
