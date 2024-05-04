@@ -54,6 +54,13 @@ const SignUp = () => {
                 formData.name,
                 formData.username
             );
+            Swal.fire({
+                icon: 'success',
+                title: 'Te has registrado correctamente',
+                text: 'Comprueba tu correo para activar tu cuenta',
+                timer: 2000,
+            });
+            router.push('/');
             setIsLoading(false);
             if (!error) {
                 await router.push('/');

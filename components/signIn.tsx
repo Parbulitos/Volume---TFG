@@ -1,6 +1,5 @@
-import { Session } from '@supabase/supabase-js';
-import React, { useEffect, useState } from 'react';
-import router, { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import router from 'next/router';
 import { supabaseClient } from '@/database/utils';
 import Swal from 'sweetalert2';
 
