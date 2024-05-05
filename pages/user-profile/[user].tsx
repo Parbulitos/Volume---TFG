@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import patito from '../../public/patito.png';
@@ -8,25 +7,27 @@ import { FaRegEnvelope } from 'react-icons/fa';
 import { FaUserPlus } from 'react-icons/fa';
 import { FaCircleDollarToSlot } from 'react-icons/fa6';
 import Catalog from '@/components/catalog';
+import { useUserContext } from '@/hooks/useUserContext';
 
 const UserProfile = () => {
     const [activeStat, setActiveStat] = useState('Diseños');
     const stats = ['Diseños', 'Likes', 'Impresiones', 'Seguidores', 'Seguidos'];
 
-    const router = useRouter();
-    const { user } = router.query;
+    const { userDetails } = useUserContext();
 
     const handleStatClick = (stat: string) => {
         setActiveStat(stat);
-        console.log(`${stat} pulsado`); // Acción para el stat pulsado
     };
 
     // Función para determinar si un stat está activo
-    const isActive = (stat: string) => (activeStat === stat ? 'bg-secondary' : 'bg-primary');
+    const isActive = (stat: string) =>
+        activeStat === stat ? 'bg-violet-800' : 'bg-primary hover:bg-secondary';
 
     return (
         <div className="flex min-h-screen flex-col items-center p-4">
-            <h1 className="text-3xl font-bold text-white sm:text-2xl md:text-3xl">{user}</h1>
+            <h1 className="text-3xl font-bold text-white sm:text-2xl md:text-3xl">
+                {userDetails?.username}
+            </h1>
             <div className="mx-auto mt-5 max-w-full overflow-hidden rounded-lg shadow-lg sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-[1250px]">
                 <div className="hidden h-60 rounded-t-lg lg:inline-block">
                     <Image src={banner} alt="banner" className="-translate-y-20"></Image>
@@ -76,7 +77,7 @@ const UserProfile = () => {
                     {stats.map((stat, index) => (
                         <button
                             key={index}
-                            className={`stat w-full place-items-center sm:w-[120px] md:w-[150px] ${isActive(
+                            className={`hover: stat w-full place-items-center transition duration-200  sm:w-[120px] md:w-[150px] ${isActive(
                                 stat
                             )}`}
                             onClick={() => handleStatClick(stat)}
