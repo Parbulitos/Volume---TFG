@@ -69,7 +69,6 @@ const Navbar = () => {
                         </Link>
                         <button
                             onClick={() => {
-                                console.log(userDetails);
                                 signOut();
                             }}
                             className="btn btn-primary rounded-full"

@@ -17,7 +17,6 @@ const UserProfile = () => {
 
     const handleStatClick = (stat: string) => {
         setActiveStat(stat);
-        console.log(`${stat} pulsado`); // Acción para el stat pulsado
     };
 
     // Función para determinar si un stat está activo
