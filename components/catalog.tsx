@@ -1,77 +1,64 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import CatalogItem from "./calogItem";
-import { SlArrowDown } from "react-icons/sl";
+import CatalogItem from './calogItem';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Catalog = () => {
-    const [itemsPerPage, setItemsPerPage] = useState(8);
-    const [currentPage, setCurrentPage] = useState(0); // Añadido para paginación
+    const [items, setItems] = useState([
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 2' },
+        { id: 3, name: 'Item 3' },
+        { id: 4, name: 'Item 4' },
+        { id: 5, name: 'Item 5' },
+        { id: 6, name: 'Item 6' },
+        { id: 7, name: 'Item 7' },
+        { id: 8, name: 'Item 8' },
+    ]);
 
-    const items = [
-        { id: 1, name: "Item 1" },
-        { id: 2, name: "Item 2" },
-        { id: 3, name: "Item 3" },
-        { id: 4, name: "Item 4" },
-        { id: 5, name: "Item 5" },
-        { id: 6, name: "Item 6" },
-        { id: 7, name: "Item 7" },
-        { id: 8, name: "Item 8" },
-        { id: 9, name: "Item 9" },
-        { id: 10, name: "Item 10" },
-        { id: 11, name: "Item 11" },
-        { id: 12, name: "Item 12" },
-        { id: 13, name: "Item 13" },
-        // Add more items as needed
-    ];
+    const [hasMoreItems, setHasMoreItems] = useState(true);
 
-    // Calcula el número total de páginas
-    const totalPages = Math.ceil(items.length / itemsPerPage);
+    const fetchMoreItems = () => {
+        if (items.length >= 19) {
+            // Asumiendo que 19 es el número total de ítems para este ejemplo
+            setHasMoreItems(false);
+            return;
+        }
 
-    // Calcula los índices de los items para la página actual
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const itemsToShow = items.slice(startIndex, endIndex);
-
-    // Funciones para cambiar de página
-    const goToNextPage = () => {
-        setCurrentPage((prevPage) => (prevPage + 1) % totalPages); // Avanza y vuelve al principio si es necesario
-    };
-
-    const goToPrevPage = () => {
-        setCurrentPage((prevPage) => (prevPage - 1 + totalPages) % totalPages); // Retrocede y va al final si es necesario
-    };
-
-    const updateItemsPerPage = (newSize: number) => {
-        setItemsPerPage(newSize);
-        setCurrentPage(0); // Restablece la página actual a la primera página
+        setTimeout(() => {
+            setItems((prevItems) => [
+                ...prevItems,
+                ...Array.from({ length: 4 }, (_, index) => ({
+                    id: prevItems.length + index + 1,
+                    name: `Item ${prevItems.length + index + 1}`,
+                })),
+            ]);
+        }, 2000);
     };
 
     return (
-        <div className='flex flex-col items-center justify-center'>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6'>
-                {itemsToShow.map((item) => (
-                    <CatalogItem key={item.id} item={item} />
-                ))}
-            </div>
-            <div className='join my-5'>
-                <button className='join-item btn btn-primary' onClick={goToPrevPage}>«</button>
-                <button className='join-item btn btn-primary'>{currentPage + 1}</button>
-                <button className='join-item btn btn-primary' onClick={goToNextPage}>»</button>
-            </div>
-            <div className='dropdown dropdown-right mb-2'>
-                <div tabIndex={0} role="button" className="btn m-1">{itemsPerPage} <SlArrowDown/></div>
-                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow rounded-box w-13">
-                    {[8, 12, 16, 64].map((size) => (
-                        <button
-                            className='btn btn-sm btn-primary my-1'
-                            key={size}
-                            onClick={() => updateItemsPerPage(size)}
-                        >
-                            {size}
-                        </button>
+        <div className="flex flex-col items-center justify-center">
+            <InfiniteScroll
+                dataLength={items.length}
+                next={fetchMoreItems}
+                hasMore={hasMoreItems}
+                loader={
+                    <h4 className="animate-infinite animate-duration-1000 my-5 animate-pulse text-lg font-bold">
+                        Cargando...
+                    </h4>
+                }
+                endMessage={
+                    <p style={{ textAlign: 'center' }}>
+                        <b>¡Hey! Ya lo has visto todo</b>
+                    </p>
+                }
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+            >
+                <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+                    {items.map((item) => (
+                        <CatalogItem key={item.id} item={item} />
                     ))}
-                </ul>
-            </div>
+                </div>
+            </InfiniteScroll>
         </div>
     );
 };

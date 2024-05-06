@@ -12,42 +12,46 @@ const Forms = () => {
 
     return (
         <>
-            <div className='hidden md:flex items-center justify-center w-screen min-h-[700px]'>
-                <div className='relative'>
+            <div className="hidden min-h-[700px] w-screen items-center justify-center md:flex">
+                <div className="relative">
                     <div
-                        className={`hidden md:flex absolute flex-col items-center justify-center bg-gradient-to-r bg-secondary to-white rounded-3xl md:w-[350px] lg:w-[450px] h-[600px] transition-transform duration-500 ${
+                        className={`absolute hidden h-[600px] flex-col items-center justify-center rounded-3xl bg-secondary bg-gradient-to-r to-white transition-transform duration-500 md:flex md:w-[350px] lg:w-[450px] ${
                             isPanelRight
                                 ? 'md:translate-x-[350px] lg:translate-x-[450px]'
                                 : 'translate-x-0'
                         }`}
                     >
-                        <p className='md:text-xl lg:text-2xl font-bold text-center'>
-                            {isPanelRight ? (
-                                <>
-                                    ¡Hey!
-                                    <br />
-                                    Registrate para acceder a todo el contenido
-                                </>
-                            ) : (
-                                '¿Ya tienes cuenta?'
-                            )}
-                        </p>
+                        {isPanelRight ? (
+                            <p className="mb-[200px] text-center font-bold md:text-xl lg:text-2xl">
+                                ¡Hey!
+                                <br />
+                                Registrate para acceder a todo el contenido
+                            </p>
+                        ) : (
+                            <p className="mb-[125px] text-center font-bold md:text-xl lg:text-2xl">
+                                ¿Ya tienes cuenta?
+                            </p>
+                        )}
+
                         <button
-                            className='btn btn-lg btn-secondary border-white shadow-2xl mt-8'
+                            className="btn btn-secondary btn-lg fixed border-white shadow-2xl"
                             onClick={togglePanel}
                         >
                             {isPanelRight ? 'Regístrate' : 'Inicia Sesión'}
                         </button>
                     </div>
-                    <div className='hidden md:flex justify-between bg-white rounded-3xl md:w-[700px] lg:w-[900px] h-[600px]'>
+                    <div className="hidden h-[600px] justify-between rounded-3xl bg-white md:flex md:w-[700px] lg:w-[900px]">
                         <SignIn />
                         <SignUp />
                     </div>
                 </div>
             </div>
-            <div className='md:hidden bg-white rounded-3xl flex mx-6 mb-6 justify-center cursor-pointer'>
-                {isPanelRight ? (<SignIn onFormChange={togglePanel}/>) : (<SignUp onFormChange={togglePanel}/>)}
-                
+            <div className="mx-6 mb-6 flex cursor-pointer justify-center rounded-3xl bg-white md:hidden">
+                {isPanelRight ? (
+                    <SignIn onFormChange={togglePanel} />
+                ) : (
+                    <SignUp onFormChange={togglePanel} />
+                )}
             </div>
         </>
     );

@@ -25,47 +25,45 @@ const UserProfile = () => {
     const isActive = (stat: string) => (activeStat === stat ? 'bg-secondary' : 'bg-primary');
 
     return (
-        <div className='flex flex-col items-center min-h-screen p-4'>
-            <h1 className='font-bold text-white text-3xl sm:text-2xl md:text-3xl'>{user}</h1>
-            <div className='mx-auto mt-5 max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-[1250px] shadow-lg rounded-lg overflow-hidden'>
-                <div className='rounded-t-lg h-60 hidden lg:inline-block'>
-                    <Image src={banner} alt='banner' className='-translate-y-20'></Image>
+        <div className="flex min-h-screen flex-col items-center p-4">
+            <h1 className="text-3xl font-bold text-white sm:text-2xl md:text-3xl">{user}</h1>
+            <div className="mx-auto mt-5 max-w-full overflow-hidden rounded-lg shadow-lg sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-[1250px]">
+                <div className="hidden h-60 rounded-t-lg lg:inline-block">
+                    <Image src={banner} alt="banner" className="-translate-y-20"></Image>
                 </div>
-                <div className='transform lg:absolute lg:-translate-y-24 lg:-translate-x-1/3'>
-                    <div className='w-44 h-w-44 bg-yellow-300 rounded-full flex items-center justify-center border-4 border-white shadow-lg'>
-                        <Image src={patito} alt='User Avatar'></Image>
+                <div className="transform lg:absolute lg:-translate-x-1/3 lg:-translate-y-24">
+                    <div className="h-w-44 flex w-44 items-center justify-center rounded-full border-4 border-white bg-yellow-300 shadow-lg">
+                        <Image src={patito} alt="User Avatar"></Image>
                     </div>
                 </div>
-                <div className='join flex flex-row justify-center absolute mt-11 w-full left-0 right-0 sm:justify-center xl:absolute xl:left-1/2 xl:-translate-x-1/2 xl:mt-11'>
-                    <button className='join-item btn btn-primary text-white w-24 md:w-[120px]'>
-                        <span className='hidden md:block'>Seguir</span>
-                        <FaUserPlus className='w-6 h-6' />
+                <div className="join absolute left-0 right-0 mt-11 flex w-full flex-row justify-center sm:justify-center xl:absolute xl:left-1/2 xl:mt-11 xl:-translate-x-1/2">
+                    <button className="btn btn-primary join-item w-24 text-white md:w-[120px]">
+                        <span className="hidden md:block">Seguir</span>
+                        <FaUserPlus className="h-6 w-6" />
                     </button>
-                    <button className='join-item btn btn-primary text-white w-24 md:w-[120px]'>
-                        <span className='hidden md:block'>Mensaje</span>
-                        <FaRegEnvelope className='w-6 h-6' />
+                    <button className="btn btn-primary join-item w-24 text-white md:w-[120px]">
+                        <span className="hidden md:block">Mensaje</span>
+                        <FaRegEnvelope className="h-6 w-6" />
                     </button>
-                    <button className='join-item btn btn-primary text-white w-24 md:w-[120px]'>
-                        <span className='hidden md:block'>Propina</span>
-                        <FaCircleDollarToSlot className='w-6 h-6' />
+                    <button className="btn btn-primary join-item w-24 text-white md:w-[120px]">
+                        <span className="hidden md:block">Propina</span>
+                        <FaCircleDollarToSlot className="h-6 w-6" />
                     </button>
                 </div>
             </div>
 
-            <div className='flex flex-col items-center justify-center mt-32'>
+            <div className="mt-32 flex flex-col items-center justify-center">
                 {/* Dropdown solo visible en pantallas pequeñas */}
-                <div className='flex flex-col items-center dropdown dropdown-bottom sm:block md:hidden'>
-                    <div tabIndex={0} role='button' className='btn m-1'>
+                <div className="dropdown dropdown-bottom flex flex-col items-center sm:block md:hidden">
+                    <div tabIndex={0} role="button" className="btn m-1">
                         {activeStat}
                     </div>
                     <ul
                         tabIndex={0}
-                        className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'
+                        className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
                     >
                         {stats.map((stat, index) => (
-                            <li
-                                key={index}
-                                onClick={() => handleStatClick(stat)}>
+                            <li key={index} onClick={() => handleStatClick(stat)}>
                                 <a>{stat}</a>
                             </li>
                         ))}
@@ -73,24 +71,24 @@ const UserProfile = () => {
                     {/* //TODO: Poner aquí el número de cosas que toque según qué se pulse */}
                     <h2>Poner datos</h2>
                 </div>
-                
-                <div className='stats shadow hidden md:block'>
+
+                <div className="stats hidden shadow md:block">
                     {stats.map((stat, index) => (
                         <button
                             key={index}
-                            className={`stat place-items-center w-full sm:w-[120px] md:w-[150px] ${isActive(
+                            className={`stat w-full place-items-center sm:w-[120px] md:w-[150px] ${isActive(
                                 stat
                             )}`}
                             onClick={() => handleStatClick(stat)}
                         >
-                            <div className='stat-title font-bold text-white'>{stat}</div>
-                            <div className='stat-value text-white'>100</div>
+                            <div className="stat-title font-bold text-white">{stat}</div>
+                            <div className="stat-value text-white">100</div>
                         </button>
                     ))}
                 </div>
-                <div className='divider divider-primary w-full md:w-[1250px]'></div>
+                <div className="divider divider-primary w-full md:w-[1250px]"></div>
             </div>
-            <div className='w-full'>
+            <div className="w-full">
                 <Catalog />
             </div>
         </div>
