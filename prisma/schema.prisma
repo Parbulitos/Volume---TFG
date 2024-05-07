@@ -31,23 +31,26 @@ model Users {
 }
 
 model Models {
-  id           String          @id @default(uuid())
-  name         String
-  fileUrl      String
-  imgFileUrl   String?
-  description  String?
-  grade        Float?
-  likes        Int?
-  views        Int?
-  uploadTime   DateTime?
-  owner        Users?          @relation(fields: [ownerId], references: [id])
-  ownerId      String?         @db.Uuid
-  modelItems   ModelItems[]
-  favoritedBy  Users[]         @relation("FavoriteModels")
-  collection   Collections?    @relation(fields: [collectionId], references: [id])
-  collectionId String?
-  comments     Comments[]
-  printRequest PrintRequests[]
+  id            String          @id @default(uuid())
+  name          String
+  fileUrl       String
+  imgFileUrl    String?
+  description   String?
+  grade         Float?
+  isMonetizable Boolean?
+  anonymous     Boolean?
+  isRemix       Boolean?
+  likes         Int?
+  views         Int?
+  uploadTime    DateTime?
+  owner         Users?          @relation(fields: [ownerId], references: [id])
+  ownerId       String?         @db.Uuid
+  modelItems    ModelItems[]
+  favoritedBy   Users[]         @relation("FavoriteModels")
+  collection    Collections?    @relation(fields: [collectionId], references: [id])
+  collectionId  String?
+  comments      Comments[]
+  printRequest  PrintRequests[]
 }
 
 model ModelItems {

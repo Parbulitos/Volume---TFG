@@ -44,13 +44,15 @@ const UploadFile = () => {
         console.log('Archivos aceptados: ', acceptedFiles);
     };
 
-    const upload = () => {
+    const upload = async () => {
         const uploadTime = new Date();
         const file = droppedModels.pop();
+        //Check for validity fields
         const model = {
             collectionId: null,
             description: formState.description,
             fileUrl: '',
+            imgFileUrl: '',
             grade: 0,
             likes: 0,
             name: formState.modelName,
@@ -60,10 +62,10 @@ const UploadFile = () => {
             category: formState.category,
             isMonetizable: formState.isMonetizable,
             isRemix: formState.isRemix,
-            publishAnonymously: formState.publishAnonymously
+            publishAnonymously: formState.publishAnonymously,
         } as Omit<Models, 'id'>;
         if (!file || !userDetails) return;
-        // addModel(model, userDetails.id, file);
+        await addModel(model, userDetails.id, file);
         // Download file
         // getModelFileById('123','testModel.stl')
     };
@@ -101,10 +103,10 @@ const UploadFile = () => {
         });
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         // Process your form data here
-        upload();
+        await upload();
     };
 
     useEffect(() => {
@@ -137,7 +139,9 @@ const UploadFile = () => {
                 });
         }
         const { modelName, category, description } = formState;
-        setIsFormValid(modelName !== '' && category !== '' && description !== '' && droppedModels.length > 0);
+        setIsFormValid(
+            modelName !== '' && category !== '' && description !== '' && droppedModels.length > 0
+        );
     }, [formState, userDetails]);
 
     return (
