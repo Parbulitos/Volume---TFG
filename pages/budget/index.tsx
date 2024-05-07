@@ -43,13 +43,13 @@ const Budget = () => {
     };
 
     return (
-        <div className="mt-[-50px] flex flex-col items-center justify-center lg:flex-row">
+        <div className="flex flex-col items-center mt-[20px] justify-center lg:flex-row lg:items-stretch">
             {' '}
             {/*Contenedor de principal*/}
             <div
                 className={`transition-all duration-500 ${
                     models.length ? 'lg:w-1/2' : 'lg:w-2/3'
-                } mt-[90px] flex flex-col items-center`}
+                } flex flex-col items-center`}
             >
                 {' '}
                 {/*Contenedor de opciones*/}
@@ -72,41 +72,40 @@ const Budget = () => {
                     </button>
                 </form>
             </div>
+            {/* Contenedor de modelo */}
             {models.length !== 0 && (
-                <div className="flex basis-1/3 flex-col items-center">
+                <div className="flex basis-1/3 flex-col items-center bg-red-500 h-full">
                     {' '}
                     {/*Contenedor de presupuesto y ajustes*/}
-                    <div className="">
-                        <div className="w-full border md:w-[600px]">
-                            <StlView
-                                fileUrl={modelUrl}
-                                rotationX={rotation[0]}
-                                rotationY={rotation[1]}
-                                rotationZ={rotation[2]}
-                                scale={scale}
-                            />
-                        </div>
+                    <div className="h-[300px] w-full border md:h-[500px] md:w-[600px]">
+                        <StlView
+                            fileUrl={modelUrl}
+                            rotationX={rotation[0]}
+                            rotationY={rotation[1]}
+                            rotationZ={rotation[2]}
+                            scale={scale}
+                        />
                     </div>
                     {/* Contenedor de Rotación */}
-                    <div className="mx-auto my-auto max-w-md rounded-lg bg-gray-100 p-4 shadow-md">
-                        <p className="mb-4 text-lg font-semibold text-gray-700">Rotar modelo</p>
+                    <div className="mx-auto mt-8 max-w-md rounded-lg bg-gray-100 p-4 shadow-md">
+                        <p className="text-lg font-semibold text-gray-700">Rotar modelo</p>
                         <div className="flex space-x-2">
                             <button
-                                className="btn btn-primary px-4 py-2 font-bold text-white"
+                                className="btn btn-primary px-4 font-bold text-white"
                                 onClick={() => handleRotation(0)}
                             >
                                 Eje X
                                 <Image src={ejeX} alt="ejeX" width={25} height={25} />
                             </button>
                             <button
-                                className="btn btn-primary px-4 py-2 font-bold text-white"
+                                className="btn btn-primary px-4 font-bold text-white"
                                 onClick={() => handleRotation(1)}
                             >
                                 Eje Y
                                 <Image src={ejeY} alt="ejeX" width={25} height={25} />
                             </button>
                             <button
-                                className="btn btn-primary px-4 py-2 font-bold text-white"
+                                className="btn btn-primary px-4 font-bold text-white"
                                 onClick={() => handleRotation(2)}
                             >
                                 Eje Z
@@ -115,7 +114,7 @@ const Budget = () => {
                         </div>
                     </div>
                     {/* Contenedor de Escala */}
-                    <div className="m-auto flex flex-col items-center">
+                    <div className="m-auto flex flex-col items-center mt-8">
                         <input
                             type="range"
                             min={0.1}
@@ -127,7 +126,7 @@ const Budget = () => {
                         />
                         <p>Escala {scale}</p>
                     </div>
-                    <div className="mx-auto my-auto">Información</div>
+                    <div className="mx-auto mt-8">Información</div>
                 </div>
             )}
         </div>
