@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
+import { IoInformationCircleOutline } from 'react-icons/io5';
 import Dropzone from '../../components/dropzone';
 import StlView from '../../components/stlView';
 import ejeX from '../../public/ejeX.png';
 import ejeY from '../../public/ejeY.png';
 import ejeZ from '../../public/ejeZ.png';
 import PrintOptions from '@/components/printOptions';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 const Budget = () => {
+    const router = useRouter();
     const MATERIALES = ['PLA', 'ABS', 'PETG', 'TPU'];
     const CALIDAD = ['0.4', '0.6', '0.8', '1.0'];
     const POSTPROCESADO = ['Sin', 'Bajo', 'Medio', 'Alto'];
@@ -21,6 +25,7 @@ const Budget = () => {
     const [modelUrl, setModelUrl] = useState<string>('');
     const [rotation, setRotation] = useState<number[]>([0, 0, 0]);
     const [scale, setScale] = useState<number>(1);
+    const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
     const handleModels = (droppedModels: File[]) => {
         if (droppedModels.length === 0) return;
@@ -31,19 +36,28 @@ const Budget = () => {
     const handleRotation = (index: number) => {
         const newRotation = [...rotation];
         newRotation[index] += 0.1;
-        console.log(newRotation);
         setRotation(newRotation);
     };
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
+        Swal.fire({
+            title: '¡Presupuesto enviado!',
+            text: 'En breve nos pondremos en contacto contigo',
+            icon: 'success',
+        });
+        router.push('/');
         console.log(`Material seleccionado: ${material}`);
         console.log(`Detalle seleccionado: ${calidad}`);
         console.log(`Postprocesado seleccionado: ${postprocesado}`);
     };
 
+    useEffect(() => {
+        setIsFormValid(material !== '' && calidad !== '' && postprocesado !== '');
+    });
+
     return (
-        <div className="flex flex-col items-center mt-[20px] justify-center lg:flex-row lg:items-stretch">
+        <div className="mt-[20px] flex flex-col items-center justify-center lg:flex-row lg:items-stretch">
             {' '}
             {/*Contenedor de principal*/}
             <div
@@ -59,14 +73,31 @@ const Budget = () => {
                     <h1 className="mt-5 text-center text-3xl font-bold">Material</h1>
                     <PrintOptions options={MATERIALES} onChange={setMaterial} />
                     {/* Contenedor de Calidad */}
-                    <h1 className="mt-5 text-center text-3xl font-bold">Calidad</h1>
+                    <h1 className="relative mt-5 text-center text-3xl font-bold">
+                        Calidad
+                        <span
+                            className="tooltip tooltip-right tooltip-secondary absolute right-0 top-0 translate-x-[15px] transform cursor-pointer text-sm text-white"
+                            data-tip="Cuanto menor es el número, mayor es la calidad del acabado."
+                        >
+                            <IoInformationCircleOutline />
+                        </span>
+                    </h1>
                     <PrintOptions options={CALIDAD} onChange={setCalidad} />
                     {/* Contenedor de postprocesado */}
-                    <h1 className="mt-5 text-center text-3xl font-bold">Postprocesado</h1>
+                    <h1 className="relative mt-5 text-center text-3xl font-bold">
+                        Postprocesado{' '}
+                        <span
+                            className="tooltip tooltip-right tooltip-secondary absolute right-0 top-0 translate-x-[15px] transform cursor-pointer text-sm text-white"
+                            data-tip="El postprocesado son aquellas operaciones que se realizan sobre la pieza impresa para mejorar su acabado"
+                        >
+                            <IoInformationCircleOutline />
+                        </span>
+                    </h1>
                     <PrintOptions options={POSTPROCESADO} onChange={setPostprocesado} />
                     <button
                         type="submit"
                         className="btn btn-primary btn-wide my-8 h-14 text-2xl font-bold text-white"
+                        disabled={!isFormValid}
                     >
                         Enviar
                     </button>
@@ -74,7 +105,7 @@ const Budget = () => {
             </div>
             {/* Contenedor de modelo */}
             {models.length !== 0 && (
-                <div className="flex basis-1/3 flex-col items-center bg-red-500 h-full">
+                <div className="flex h-full basis-1/3 flex-col items-center">
                     {' '}
                     {/*Contenedor de presupuesto y ajustes*/}
                     <div className="h-[300px] w-full border md:h-[500px] md:w-[600px]">
@@ -114,7 +145,7 @@ const Budget = () => {
                         </div>
                     </div>
                     {/* Contenedor de Escala */}
-                    <div className="m-auto flex flex-col items-center mt-8">
+                    <div className="m-auto mt-8 flex flex-col items-center">
                         <input
                             type="range"
                             min={0.1}
