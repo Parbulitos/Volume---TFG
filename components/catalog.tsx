@@ -42,12 +42,10 @@ const Catalog = () => {
                 next={fetchMoreItems}
                 hasMore={hasMoreItems}
                 loader={
-                    <h4 className="animate-infinite animate-duration-1000 my-5 animate-pulse text-lg font-bold">
-                        Cargando...
-                    </h4>
+                    <span className="w- z- loading loading-ring z-[1] my-8 w-20 text-primary"></span>
                 }
                 endMessage={
-                    <p style={{ textAlign: 'center' }}>
+                    <p style={{ textAlign: 'center' }} className="my-10">
                         <b>¡Hey! Ya lo has visto todo</b>
                     </p>
                 }
