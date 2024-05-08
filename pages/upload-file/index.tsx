@@ -141,7 +141,7 @@ const UploadFile = () => {
         setIsFormValid(
             modelName !== '' && category !== '' && description !== '' && droppedModels.length > 0
         );
-    }, [formState, userDetails]);
+    }, [formState, userDetails, droppedModels]);
 
     return (
         <div>
