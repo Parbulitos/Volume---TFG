@@ -30,13 +30,13 @@ const Forms = () => {
                         }`}
                     >
                         {isPanelRight ? (
-                            <p className="mb-[200px] text-center font-bold md:text-xl lg:text-2xl">
+                            <p className="mb-[200px] min-h-[100px] text-center font-bold md:text-xl lg:text-2xl">
                                 ¡Hey!
                                 <br />
                                 Registrate para acceder a todo el contenido
                             </p>
                         ) : (
-                            <p className="mb-[125px] text-center font-bold md:text-xl lg:text-2xl">
+                            <p className="mb-[125px] min-h-[100px] text-center font-bold md:text-xl lg:text-2xl">
                                 ¿Ya tienes cuenta?
                             </p>
                         )}
