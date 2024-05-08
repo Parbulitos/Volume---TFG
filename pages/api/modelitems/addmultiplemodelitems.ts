@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Models } from '@prisma/client';
-import { addModel } from '@/database/models';
+import { ModelItems } from '@prisma/client';
+import { addModelItem, addMultipleModelItems } from '@/database/modelItems';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         if (req.method === 'POST') {
-            const model = req.body as Models;
-            const modelAdded = await addModel(model);
+            const modelItems = req.body as ModelItems[];
+            const modelItemsUploaded = await addMultipleModelItems(modelItems);
             res.status(200).json({
-                model: modelAdded,
+                success: true,
             });
         }
     } catch (e: any) {

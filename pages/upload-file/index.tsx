@@ -6,6 +6,8 @@ import Image from 'next/image';
 import router from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
+import { Simulate } from 'react-dom/test-utils';
+import drop = Simulate.drop;
 
 interface FormState {
     modelName: string;
@@ -46,29 +48,25 @@ const UploadFile = () => {
 
     const upload = async () => {
         const uploadTime = new Date();
-        const file = droppedModels.pop();
         //Check for validity fields
         const model = {
-            collectionId: null,
+            name: formState.modelName,
             description: formState.description,
-            fileUrl: '',
-            imgFileUrl: null,
-            anonymous: null,
             grade: 0,
             likes: 0,
-            name: formState.modelName,
-            ownerId: userDetails?.id,
-            uploadTime: uploadTime,
             views: 0,
+            uploadTime: uploadTime,
+            ownerId: userDetails?.id,
+            fileUrl: '',
+            imgFileUrl: null,
+            anonymous: formState.publishAnonymously,
             category: formState.category,
             isMonetizable: formState.isMonetizable,
             isRemix: formState.isRemix,
-            publishAnonymously: formState.publishAnonymously,
+            collectionId: null,
         } as Omit<Models, 'id'>;
-        if (!file || !userDetails) return;
-        await addModel(model, userDetails.id, file);
-        // Download file
-        // getModelFileById('123','testModel.stl')
+        if (droppedModels.length == 0 || !userDetails) return;
+        await addModel(model, userDetails.id, droppedModels);
     };
 
     const handleRemoveModel = (index: number) => {
@@ -300,9 +298,6 @@ const UploadFile = () => {
                             <button
                                 className="btn btn-primary h-8 w-full md:col-span-2"
                                 type="submit"
-                                onClick={() => {
-                                    upload();
-                                }}
                                 disabled={!isFormValid}
                             >
                                 Subir
