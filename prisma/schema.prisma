@@ -33,13 +33,14 @@ model Users {
 model Models {
   id            String          @id @default(uuid())
   name          String
-  fileUrl       String
+  fileUrl       String?
   imgFileUrl    String?
   description   String?
   grade         Float?
   isMonetizable Boolean?
   anonymous     Boolean?
   isRemix       Boolean?
+  category      String?
   likes         Int?
   views         Int?
   uploadTime    DateTime?
@@ -54,11 +55,13 @@ model Models {
 }
 
 model ModelItems {
-  id            String @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String
-  modelUrl      String @unique
-  modelParent   Models @relation(fields: [modelParentId], references: [id])
+  modelUrl      String    @unique
+  modelParent   Models?   @relation(fields: [modelParentId], references: [id])
   modelParentId String
+  imgFileUrl    String?
+  uploadTime    DateTime?
 }
 
 model Collections {
@@ -94,11 +97,12 @@ enum PrintRequestStatus {
 }
 
 model PrintRequests {
-  id        String             @id @default(uuid())
-  printDate DateTime
-  status    PrintRequestStatus
-  user      Users              @relation(fields: [userId], references: [id])
-  userId    String             @db.Uuid
-  model     Models             @relation(fields: [modelId], references: [id])
-  modelId   String
+  id                        String             @id @default(uuid())
+  printDate                 DateTime
+  status                    PrintRequestStatus
+  user                      Users              @relation(fields: [userId], references: [id])
+  userId                    String             @db.Uuid
+  model                     Models             @relation(fields: [modelId], references: [id])
+  modelId                   String
+  hugoAyudaEstoySecuestrado Boolean?
 }

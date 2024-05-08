@@ -1,5 +1,5 @@
 import { supabaseClient } from '@/database/utils';
-import { Models } from '@prisma/client';
+import { ModelItems, Models } from '@prisma/client';
 
 export const useModels = () => {
     const getModelById = async (id: string): Promise<Models> => {
@@ -29,24 +29,46 @@ export const useModels = () => {
         return (await fetch(`/api/models/getallmodels`)).json();
     };
 
-    const addModel = async (model: Omit<Models, 'id'>, userId: string, file: File) => {
-        const dirName = file.name.split('.').reverse().pop();
-        const { data, error } = await supabaseClient.storage
-            .from('ModelsBucket')
-            .upload(`${userId}/${dirName}/${file.name}`, file);
-        if (error) {
-            console.error('An error has occured no model was uploaded: ', error);
-            throw error;
-        }
-        const newModel = { ...model, fileUrl: data?.path };
-        console.log(data?.path);
-        return await fetch(`/api/models/addmodel`, {
+    const addModel = async (model: Omit<Models, 'id'>, userId: string, file: File[]) => {
+        const modelItemsToUpload = [];
+        const newModel = await fetch(`/api/models/addmodel`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(newModel),
+            body: JSON.stringify(model),
         });
+        const responseModel = await newModel.json();
+        for (const eachFile of file) {
+            const { data, error } = await supabaseClient.storage
+                .from('ModelsBucket')
+                .upload(`${userId}/${model.name}/${eachFile.name}`, eachFile);
+            if (error) {
+                console.error(
+                    `An error has occured. File: ${eachFile.name} could not be uploaded`,
+                    error
+                );
+                throw error;
+            }
+            const uploadTime = new Date();
+            const currentModelItem = {
+                imgFileUrl: null,
+                modelParentId: responseModel.model.id,
+                modelUrl: data?.path,
+                name: eachFile.name.split('.').reverse().pop(),
+                uploadTime: uploadTime,
+            };
+            modelItemsToUpload.push(currentModelItem);
+        }
+        const uploadModelItemsRequest = await fetch(`/api/modelitems/addmultiplemodelitems`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(modelItemsToUpload),
+        });
+        const responseModelItems = await uploadModelItemsRequest.json();
+        console.log(responseModelItems);
     };
 
     const deleteModelById = async (id: string) => {
