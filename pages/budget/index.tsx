@@ -12,6 +12,16 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import { useBudget } from '@/hooks/useBudget';
 
+interface ModelInfo {
+    volume: number;
+    weight: number;
+    boundingBox: {
+        x: number;
+        y: number;
+        z: number;
+    };
+}
+
 const Budget = () => {
     const router = useRouter();
     const MATERIALES = ['PLA', 'ABS', 'PETG', 'TPU'];
@@ -21,6 +31,7 @@ const Budget = () => {
     const [material, setMaterial] = useState<string>('');
     const [calidad, setCalidad] = useState<string>('');
     const [postprocesado, setPostprocesado] = useState<string>('');
+    const [stlData, setStlData] = useState<ModelInfo>();
 
     const [models, setModels] = useState<File[]>([]);
     const [modelUrl, setModelUrl] = useState<string>('');
@@ -30,10 +41,21 @@ const Budget = () => {
 
     const { getBudgetInfo } = useBudget();
 
-    const handleModels = (droppedModels: File[]) => {
+    const handleModels = async (droppedModels: File[]) => {
         if (droppedModels.length === 0) return;
         setModelUrl(URL.createObjectURL(droppedModels[0]));
         setModels(droppedModels);
+        const response = await getBudgetInfo(droppedModels[0] as File);
+        const { volume, weight, boundingBox } = response.stl;
+        const boundingBoxObj = {
+            x: boundingBox[0],
+            y: boundingBox[1],
+            z: boundingBox[2],
+        };
+
+        setStlData({ volume, weight, boundingBox: boundingBoxObj });
+        console.log(volume, weight, boundingBox);
+        console.log(response);
     };
 
     const handleRotation = (index: number) => {
@@ -42,7 +64,7 @@ const Budget = () => {
         setRotation(newRotation);
     };
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         Swal.fire({
             title: '¡Presupuesto enviado!',
@@ -53,10 +75,6 @@ const Budget = () => {
         console.log(`Material seleccionado: ${material}`);
         console.log(`Detalle seleccionado: ${calidad}`);
         console.log(`Postprocesado seleccionado: ${postprocesado}`);
-        if (models.length > 0) {
-            const response = await getBudgetInfo(models[0] as File);
-            console.log(response);
-        }
     };
 
     useEffect(() => {
@@ -115,7 +133,7 @@ const Budget = () => {
                 <div className="flex h-full basis-1/3 flex-col items-center">
                     {' '}
                     {/*Contenedor de presupuesto y ajustes*/}
-                    <div className="h-[300px] w-full border md:h-[500px] md:w-[600px]">
+                    <div className="h-[300px] w-full border md:h-[400px] md:w-[600px]">
                         <StlView
                             fileUrl={modelUrl}
                             rotationX={rotation[0]}
@@ -164,7 +182,18 @@ const Budget = () => {
                         />
                         <p>Escala {scale}</p>
                     </div>
-                    <div className="mx-auto mt-8">Información</div>
+                    {stlData && (
+                        <div className="mt-4 flex flex-col items-center justify-center gap-y-1">
+                            <p>Información</p>
+                            <br />
+                            <p>Volumen: {stlData?.volume.toFixed(2)} cm3</p>
+                            <br />
+                            <p>Peso: {stlData?.weight.toFixed(2)} g</p>
+                            <p>X: {stlData?.boundingBox.x.toFixed(2)} mm</p>
+                            <p>Y: {stlData?.boundingBox.y.toFixed(2)} mm</p>
+                            <p>Z: {stlData?.boundingBox.z.toFixed(2)} mm</p>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
