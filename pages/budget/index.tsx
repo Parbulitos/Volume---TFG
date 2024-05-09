@@ -7,6 +7,7 @@ import ejeX from '../../public/ejeX.png';
 import ejeY from '../../public/ejeY.png';
 import ejeZ from '../../public/ejeZ.png';
 import PrintOptions from '@/components/printOptions';
+import { useBudget } from '@/hooks/useBudget';
 
 const Budget = () => {
     const MATERIALES = ['PLA', 'ABS', 'PETG', 'TPU'];
@@ -22,6 +23,8 @@ const Budget = () => {
     const [rotation, setRotation] = useState<number[]>([0, 0, 0]);
     const [scale, setScale] = useState<number>(1);
 
+    const { getBudgetInfo } = useBudget();
+
     const handleModels = (droppedModels: File[]) => {
         if (droppedModels.length === 0) return;
         setModelUrl(URL.createObjectURL(droppedModels[0]));
@@ -35,15 +38,19 @@ const Budget = () => {
         setRotation(newRotation);
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         console.log(`Material seleccionado: ${material}`);
         console.log(`Detalle seleccionado: ${calidad}`);
         console.log(`Postprocesado seleccionado: ${postprocesado}`);
+        if (models.length > 0) {
+            const response = await getBudgetInfo(models[0] as File);
+            console.log(response);
+        }
     };
 
     return (
-        <div className="flex flex-col items-center mt-[20px] justify-center lg:flex-row lg:items-stretch">
+        <div className="mt-[20px] flex flex-col items-center justify-center lg:flex-row lg:items-stretch">
             {' '}
             {/*Contenedor de principal*/}
             <div
@@ -74,7 +81,7 @@ const Budget = () => {
             </div>
             {/* Contenedor de modelo */}
             {models.length !== 0 && (
-                <div className="flex basis-1/3 flex-col items-center bg-red-500 h-full">
+                <div className="flex h-full basis-1/3 flex-col items-center bg-red-500">
                     {' '}
                     {/*Contenedor de presupuesto y ajustes*/}
                     <div className="h-[300px] w-full border md:h-[500px] md:w-[600px]">
@@ -114,7 +121,7 @@ const Budget = () => {
                         </div>
                     </div>
                     {/* Contenedor de Escala */}
-                    <div className="m-auto flex flex-col items-center mt-8">
+                    <div className="m-auto mt-8 flex flex-col items-center">
                         <input
                             type="range"
                             min={0.1}
