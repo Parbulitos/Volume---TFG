@@ -10,6 +10,7 @@ import ejeZ from '../../public/ejeZ.png';
 import PrintOptions from '@/components/printOptions';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
+import { useBudget } from '@/hooks/useBudget';
 
 const Budget = () => {
     const router = useRouter();
@@ -27,6 +28,8 @@ const Budget = () => {
     const [scale, setScale] = useState<number>(1);
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
+    const { getBudgetInfo } = useBudget();
+
     const handleModels = (droppedModels: File[]) => {
         if (droppedModels.length === 0) return;
         setModelUrl(URL.createObjectURL(droppedModels[0]));
@@ -39,7 +42,7 @@ const Budget = () => {
         setRotation(newRotation);
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         Swal.fire({
             title: '¡Presupuesto enviado!',
@@ -50,6 +53,10 @@ const Budget = () => {
         console.log(`Material seleccionado: ${material}`);
         console.log(`Detalle seleccionado: ${calidad}`);
         console.log(`Postprocesado seleccionado: ${postprocesado}`);
+        if (models.length > 0) {
+            const response = await getBudgetInfo(models[0] as File);
+            console.log(response);
+        }
     };
 
     useEffect(() => {
