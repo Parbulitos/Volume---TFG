@@ -129,60 +129,62 @@ const Budget = () => {
                 </form>
             </div>
             {/* Contenedor de modelo */}
-            {models.length !== 0 && (
-                <div className="flex h-full basis-1/3 flex-col items-center">
-                    {' '}
-                    {/*Contenedor de presupuesto y ajustes*/}
-                    <div className="h-[300px] w-full border md:h-[400px] md:w-[600px]">
-                        <StlView
-                            fileUrl={modelUrl}
-                            rotationX={rotation[0]}
-                            rotationY={rotation[1]}
-                            rotationZ={rotation[2]}
-                            scale={scale}
-                        />
-                    </div>
-                    {/* Contenedor de Rotación */}
-                    <div className="mx-auto mt-8 max-w-md rounded-lg bg-gray-100 p-4 shadow-md">
-                        <p className="text-lg font-semibold text-gray-700">Rotar modelo</p>
-                        <div className="flex space-x-2">
-                            <button
-                                className="btn btn-primary px-4 font-bold text-white"
-                                onClick={() => handleRotation(0)}
-                            >
-                                Eje X
-                                <Image src={ejeX} alt="ejeX" width={25} height={25} />
-                            </button>
-                            <button
-                                className="btn btn-primary px-4 font-bold text-white"
-                                onClick={() => handleRotation(1)}
-                            >
-                                Eje Y
-                                <Image src={ejeY} alt="ejeX" width={25} height={25} />
-                            </button>
-                            <button
-                                className="btn btn-primary px-4 font-bold text-white"
-                                onClick={() => handleRotation(2)}
-                            >
-                                Eje Z
-                                <Image src={ejeZ} alt="ejeX" width={25} height={25} />
-                            </button>
+            {models.length !== 0 ? (
+                !stlData ? (
+                    <span className="w- z- loading loading-ring z-[1] my-8 w-20 text-primary"></span>
+                ) : (
+                    <div className="flex h-full basis-1/3 flex-col items-center">
+                        {' '}
+                        {/*Contenedor de presupuesto y ajustes*/}
+                        <div className="h-[300px] w-full border md:h-[400px] md:w-[600px]">
+                            <StlView
+                                fileUrl={modelUrl}
+                                rotationX={rotation[0]}
+                                rotationY={rotation[1]}
+                                rotationZ={rotation[2]}
+                                scale={scale}
+                            />
                         </div>
-                    </div>
-                    {/* Contenedor de Escala */}
-                    <div className="m-auto mt-8 flex flex-col items-center">
-                        <input
-                            type="range"
-                            min={0.1}
-                            max={10.0}
-                            value={scale}
-                            step={0.1}
-                            className="range range-primary range-xs w-[350px] md:w-[450px]"
-                            onChange={(e) => setScale(Number(e.target.value))}
-                        />
-                        <p>Escala {scale}</p>
-                    </div>
-                    {stlData && (
+                        {/* Contenedor de Rotación */}
+                        <div className="mx-auto mt-8 max-w-md rounded-lg bg-gray-100 p-4 shadow-md">
+                            <p className="text-lg font-semibold text-gray-700">Rotar modelo</p>
+                            <div className="flex space-x-2">
+                                <button
+                                    className="btn btn-primary px-4 font-bold text-white"
+                                    onClick={() => handleRotation(0)}
+                                >
+                                    Eje X
+                                    <Image src={ejeX} alt="ejeX" width={25} height={25} />
+                                </button>
+                                <button
+                                    className="btn btn-primary px-4 font-bold text-white"
+                                    onClick={() => handleRotation(1)}
+                                >
+                                    Eje Y
+                                    <Image src={ejeY} alt="ejeX" width={25} height={25} />
+                                </button>
+                                <button
+                                    className="btn btn-primary px-4 font-bold text-white"
+                                    onClick={() => handleRotation(2)}
+                                >
+                                    Eje Z
+                                    <Image src={ejeZ} alt="ejeX" width={25} height={25} />
+                                </button>
+                            </div>
+                        </div>
+                        {/* Contenedor de Escala */}
+                        <div className="m-auto mt-8 flex flex-col items-center">
+                            <input
+                                type="range"
+                                min={0.1}
+                                max={10.0}
+                                value={scale}
+                                step={0.1}
+                                className="range range-primary range-xs w-[350px] md:w-[450px]"
+                                onChange={(e) => setScale(Number(e.target.value))}
+                            />
+                            <p>Escala {scale}</p>
+                        </div>
                         <div className="mt-4 flex flex-col items-center justify-center gap-y-1">
                             <p>Información</p>
                             <br />
@@ -193,9 +195,9 @@ const Budget = () => {
                             <p>Y: {stlData?.boundingBox.y.toFixed(2)} mm</p>
                             <p>Z: {stlData?.boundingBox.z.toFixed(2)} mm</p>
                         </div>
-                    )}
-                </div>
-            )}
+                    </div>
+                )
+            ) : null}
         </div>
     );
 };
