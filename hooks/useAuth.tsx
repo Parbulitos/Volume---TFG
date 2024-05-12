@@ -8,13 +8,19 @@ export const useAuth = () => {
         password: string,
         name: string,
         username: string,
-        avatarImage: File
+        avatarImage?: File
     ) => {
         const { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
         });
-        const avatarUrl = await useImageKit().uploadAvatar(avatarImage);
+        let avatarUrl: string | null = '';
+        if (avatarImage) {
+            avatarUrl = await useImageKit().uploadAvatar(avatarImage);
+        } else {
+            avatarUrl = null;
+        }
+
         if (!error && data.user != null && data.user.email != null) {
             await useUsers().addUser({
                 avatarUrl: avatarUrl,
