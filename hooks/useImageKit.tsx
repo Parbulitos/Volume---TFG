@@ -25,7 +25,7 @@ export const useImageKit = () => {
         });
     }
     const uploadAvatar = async (file: File) => {
-        const auth = await fetch(`/api/imagekit/getauthparameters`).then((res) => res.json());
+        //const auth = await fetch(/api/imagekit/getauthparameters).then((res) => res.json());
         let avatarUrl = '';
         const imagekit = new ImageKit({
             publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY || '',
@@ -33,19 +33,12 @@ export const useImageKit = () => {
             urlEndpoint: process.env.NEXT_PUBLIC_IMAGEKIT_URL || '',
         });
         const file64 = await fileToBase64(file);
-        imagekit.upload(
-            {
+        const result = await imagekit.upload({
                 file: file64, //required
                 fileName: file.name, //required
-            },
-            function (error, result) {
-                if (error) console.log(error);
-                else {
-                    avatarUrl = result?.url || '';
-                }
             }
         );
-        return avatarUrl;
+        return result.url;
     };
     return {
         uploadAvatar,

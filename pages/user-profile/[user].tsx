@@ -33,8 +33,8 @@ const UserProfile = () => {
                     <Image src={banner} alt="banner" className="-translate-y-20"></Image>
                 </div>
                 <div className="transform lg:absolute lg:-translate-x-1/3 lg:-translate-y-24">
-                    <div className="h-w-44 flex w-44 items-center justify-center rounded-full border-4 border-white bg-yellow-300 shadow-lg">
-                        <Image src={patito} alt="User Avatar"></Image>
+                    <div className="h-w-44 flex w-44 items-center justify-center rounded-full border-4 border-white bg-yellow-300 shadow-lg overflow-hidden">
+                        <Image src={userDetails?.avatarUrl || ''} width={176} height={176} alt="User Avatar"></Image>
                     </div>
                 </div>
                 <div className="join absolute left-0 right-0 mt-11 flex w-full flex-row justify-center sm:justify-center xl:absolute xl:left-1/2 xl:mt-11 xl:-translate-x-1/2">

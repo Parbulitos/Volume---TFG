@@ -2,6 +2,7 @@ import { useAuth } from '@/hooks/useAuth';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
+import { profile } from 'console';
 
 // import { FaGoogle } from 'react-icons/fa';
 // import { FaGithub } from 'react-icons/fa';
@@ -12,6 +13,7 @@ const SignUp = () => {
     const { signUpNewUser } = useAuth();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [profilePic, setProfilePic] = useState<File | undefined>(undefined);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -52,7 +54,8 @@ const SignUp = () => {
                 formData.email,
                 formData.password,
                 formData.name,
-                formData.username
+                formData.username,
+                profilePic
             );
             Swal.fire({
                 icon: 'success',
@@ -77,6 +80,13 @@ const SignUp = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
+    const handleProfilePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setProfilePic(file);
+        }
+    }
 
     return (
         <div className="left-0 top-0 flex h-full w-1/2 flex-col items-center justify-center p-10">
@@ -147,8 +157,16 @@ const SignUp = () => {
                             type="password"
                             name="password"
                             placeholder="Password"
-                            className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
+                            className="input input-bordered my-4 w-full max-w-xs border-gray-400 bg-white text-black"
                             onChange={handleChange}
+                        />
+                        <p className='text-gray-500'>Foto de perfil</p>
+                        <input
+                            type="file"
+                            name='profilePic'
+                            accept="image/png, image/jpeg, image/gif"
+                            className="file-input file-input-bordered file-input-sm w-[85%] bg-white text-black"
+                            onChange={handleProfilePicture}
                         />
                         <button
                             type="submit"
