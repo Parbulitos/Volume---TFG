@@ -39,7 +39,7 @@ export const useModels = () => {
             const zip = new JSZip();
             modelItemsFiles.forEach((each, index) => {
                 // @ts-ignore
-                zip.file(modelItems[index].name, each, { binary: true });
+                zip.file(`${modelItems[index].name}.stl`, each, { binary: true });
             });
             zip.generateAsync({ type: 'blob' }).then(function (content) {
                 // Usa FileSaver.js u otra técnica para guardar el archivo ZIP
