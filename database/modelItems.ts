@@ -13,3 +13,11 @@ export const addMultipleModelItems = async (models: ModelItems[]) => {
         data: models,
     });
 };
+
+export const getModelItemsByParentId = async (modelParentId: string): Promise<ModelItems[]> => {
+    return prisma.modelItems.findMany({
+        where: {
+            modelParentId: modelParentId,
+        },
+    });
+};
