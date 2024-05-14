@@ -1,6 +1,5 @@
 import { supabaseClient } from '@/database/utils';
 import { ModelItems, Models } from '@prisma/client';
-import { number } from 'prop-types';
 import JSZip from 'jszip';
 
 export const useModels = () => {
