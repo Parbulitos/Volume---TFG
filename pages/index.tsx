@@ -1,7 +1,6 @@
 import 'animate.css';
 
 import Poster from '@/components/poster';
-import { useModels } from '@/hooks/useModels';
 
 export default function Page() {
     return (
