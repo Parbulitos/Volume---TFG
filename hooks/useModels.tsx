@@ -37,7 +37,6 @@ export const useModels = () => {
                     .then((res) => res);
                 return promise.data;
             });
-            console.log(modelItemsFiles);
             const zip = new JSZip();
             modelItemsFiles.forEach((each, index) => {
                 // @ts-ignore
@@ -90,15 +89,13 @@ export const useModels = () => {
             };
             modelItemsToUpload.push(currentModelItem);
         }
-        const uploadModelItemsRequest = await fetch(`/api/modelitems/addmultiplemodelitems`, {
+        await fetch(`/api/modelitems/addmultiplemodelitems`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(modelItemsToUpload),
         });
-        const responseModelItems = await uploadModelItemsRequest.json();
-        console.log(responseModelItems);
     };
 
     const deleteModelById = async (id: string) => {
