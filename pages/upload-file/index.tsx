@@ -199,11 +199,13 @@ const UploadFile = () => {
                                 onChange={handleInputChange}
                             >
                                 <option defaultValue={''}>Categoría</option>
-                                <option>Cat 1</option>
-                                <option>Cat 2</option>
-                                <option>Cat 3</option>
-                                <option>Cat 4</option>
-                                <option>Cat 5</option>
+                                <option>Arte</option>
+                                <option>Moda</option>
+                                <option>Gadgets</option>
+                                <option>Juguetes</option>
+                                <option>Friki</option>
+                                <option>Herramientas</option>
+                                <option>Hogar</option>
                             </select>
                             <input
                                 type="text"

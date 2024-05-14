@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 // import { FaLinkedin } from 'react-icons/fa';
 
 const SignIn = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -43,7 +44,7 @@ const SignIn = () => {
                     icon: 'success',
                     title: 'Bienvenido',
                     text: 'Inicio de sesión exitoso',
-                    timer: 2000,
+                    timer: 1500,
                 });
                 router.push('/');
             } catch (error) {
@@ -68,7 +69,6 @@ const SignIn = () => {
 
     return (
         <div className="left-0 top-0 flex h-full w-1/2 flex-col items-center justify-center p-10">
-            <h1 className="text-center text-4xl font-bold text-black">Iniciar sesión</h1>
             {/* Social Icons */}
             {/*}
             <div className='flex justify-center mt-4'>
@@ -102,35 +102,42 @@ const SignIn = () => {
                 </a>
             </div>
     */}
-            <span className="mt-4 w-[200px] text-center text-lg text-black md:w-[300px]">
-                o usa tu e-mail y contraseña para iniciar sesión
-            </span>
-            <form className="mt-4 flex min-w-80 flex-col items-center" onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="tuemail@ext.com"
-                    className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
-                    onChange={handleChange}
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
-                    onChange={handleChange}
-                />
-                <button
-                    type="submit"
-                    onClick={() => handleSubmit}
-                    className="btn btn-secondary btn-wide mt-4 font-bold text-white"
-                >
-                    Inicia sesión
-                </button>
-            </form>
-            <span className="mt-4 text-center text-black md:hidden">
-                ¿No tienes cuenta? <a className="text-secondary">Regístrate</a>
-            </span>
+            {isLoading ? (
+                <span className="w- z- loading loading-ring z-[1] w-20 text-primary"></span>
+            ) : (
+                <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-center text-4xl font-bold text-black">Iniciar sesión</h1>
+                    <span className="mt-4 w-[200px] text-center text-lg text-black md:w-[300px]">
+                        o usa tu e-mail y contraseña para iniciar sesión
+                    </span>
+                    <form className="flex min-w-80 flex-col items-center" onSubmit={handleSubmit}>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="tuemail@ext.com"
+                            className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
+                            onChange={handleChange}
+                        />
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            className="input input-bordered mt-4 w-full max-w-xs border-gray-400 bg-white text-black"
+                            onChange={handleChange}
+                        />
+                        <button
+                            type="submit"
+                            onClick={() => handleSubmit}
+                            className="btn btn-secondary btn-wide mt-4 font-bold text-white"
+                        >
+                            Inicia sesión
+                        </button>
+                    </form>
+                    <span className="mt-4 text-center text-black md:hidden">
+                        ¿No tienes cuenta? <a className="text-secondary">Regístrate</a>
+                    </span>
+                </div>
+            )}
         </div>
     );
 };

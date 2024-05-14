@@ -15,7 +15,7 @@ const Forms = () => {
     };
 
     useEffect(() => {
-        if(user) router.push('/'); // Redirigir al usuario si ya está logueado
+        if (user) router.push('/'); // Redirigir al usuario si ya está logueado
     }, [user, router]);
 
     return (
@@ -30,19 +30,19 @@ const Forms = () => {
                         }`}
                     >
                         {isPanelRight ? (
-                            <p className="mb-[200px] text-center font-bold md:text-xl lg:text-2xl">
+                            <p className="mb-[200px] min-h-[100px] text-center font-bold md:text-xl lg:text-2xl">
                                 ¡Hey!
                                 <br />
                                 Registrate para acceder a todo el contenido
                             </p>
                         ) : (
-                            <p className="mb-[125px] text-center font-bold md:text-xl lg:text-2xl">
+                            <p className="mb-[125px] min-h-[100px] text-center font-bold md:text-xl lg:text-2xl">
                                 ¿Ya tienes cuenta?
                             </p>
                         )}
 
                         <button
-                            className="btn btn-secondary btn-lg fixed min-w-48 border-white shadow-2xl"
+                            className="btn btn-secondary btn-lg fixed min-w-48 shadow-2xl"
                             onClick={togglePanel}
                         >
                             {isPanelRight ? 'Regístrate' : 'Inicia Sesión'}
