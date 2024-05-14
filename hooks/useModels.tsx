@@ -1,27 +1,57 @@
 import { supabaseClient } from '@/database/utils';
 import { ModelItems, Models } from '@prisma/client';
+import { number } from 'prop-types';
+import JSZip from 'jszip';
 
 export const useModels = () => {
     const getModelById = async (id: string): Promise<Models> => {
         return (await fetch(`/api/models/getmodelbyid?id=${id}`)).json().then((res) => res.model);
     };
 
-    const getModelFileById = (userId: string, fileName: string) => {
-        const dirName = fileName.split('.').reverse().pop();
-        const { data } = supabaseClient.storage
-            .from('ModelsBucket')
-            .getPublicUrl(`${userId}/${dirName}/${fileName}`);
-        // Verifica si se obtuvo la URL correctamente
-        if (data && data.publicUrl) {
-            // Crea un enlace temporal en el DOM
+    const getModelFileById = async (modelId: string) => {
+        //const dirName = fileName.split('.').reverse().pop();
+        const model: Models = await getModelById(modelId);
+        const modelItemsResponse = await fetch(
+            `/api/modelitems/getmodelitemsbyparentid?modelparentid=${model.id}`
+        );
+        const response = await modelItemsResponse.json();
+        const modelItems = response.modelItems as ModelItems[];
+        if (modelItems.length === 1) {
+            const modelRetrieved = await supabaseClient.storage
+                .from('ModelsBucket')
+                .download(`${modelItems[0].modelUrl}?download`)
+                .then((res) => res);
             const link = document.createElement('a');
-            link.href = data.publicUrl;
-
-            // Establece el atributo 'download' para indicar al navegador que descargue el archivo
-            link.download = 'download'; // Puedes establecer el nombre de archivo deseado aquí
-
-            // Haz clic en el enlace para iniciar la descarga
-            link.click();
+            if (modelRetrieved.data) {
+                link.href = URL.createObjectURL(modelRetrieved.data);
+                link.download = `${model.name}.stl`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        } else if (modelItems.length > 1) {
+            const modelItemsFiles = modelItems.map(async (modelItem) => {
+                const promise = await supabaseClient.storage
+                    .from('ModelsBucket')
+                    .download(`${modelItem.modelUrl}?download`)
+                    .then((res) => res);
+                return promise.data;
+            });
+            console.log(modelItemsFiles);
+            const zip = new JSZip();
+            modelItemsFiles.forEach((each, index) => {
+                // @ts-ignore
+                zip.file(modelItems[index].name, each, { binary: true });
+            });
+            zip.generateAsync({ type: 'blob' }).then(function (content) {
+                // Usa FileSaver.js u otra técnica para guardar el archivo ZIP
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = `${model.name}.zip`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
         }
     };
 
