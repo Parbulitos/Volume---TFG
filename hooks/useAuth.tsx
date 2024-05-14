@@ -20,7 +20,6 @@ export const useAuth = () => {
         } else {
             avatarUrl = null;
         }
-
         if (!error && data.user != null && data.user.email != null) {
             await useUsers().addUser({
                 avatarUrl: avatarUrl,

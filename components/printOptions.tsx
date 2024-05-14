@@ -63,6 +63,7 @@ const PrintOptions = ({ options, onChange }: PrintOptionsProps) => {
                         key={index}
                     >
                         <button
+                            type="button"
                             className={`btn h-16 w-32 p-4 text-2xl font-bold text-white ${
                                 selectedOption === option ? 'btn-secondary' : 'btn-primary'
                             } transition-colors duration-300 hover:bg-violet-700`}
