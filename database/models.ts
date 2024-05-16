@@ -164,3 +164,11 @@ export const getCatalogModels = async (amount: number, category?: string, filter
         },
     });
 };
+
+export const getModelsByUserId = async (userId: string) => {
+    return prisma.models.findMany({
+        where: {
+            ownerId: userId,
+        },
+    });
+};

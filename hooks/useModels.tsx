@@ -133,6 +133,12 @@ export const useModels = () => {
             .then((res) => res.models);
     };
 
+    const getModelsByUserId = async (userId: string) => {
+        return await fetch(`/api/models/getmodelsbyuserid?userid=${userId}`)
+            .then((res) => res.json())
+            .then((res) => res.models);
+    };
+
     return {
         getModelById,
         getAllModels,
@@ -140,5 +146,6 @@ export const useModels = () => {
         getModelFileById,
         getModelItemFileById,
         getCatalogModels,
+        getModelsByUserId,
     };
 };
