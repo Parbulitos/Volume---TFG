@@ -1,15 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { ModelItems } from '@prisma/client';
-import { addModelItem, getModelItemById, getModelItemsByParentId } from '@/database/modelItems';
+import { getModelItemById } from '@/database/modelItems';
+import { supabaseClient } from '@/database/utils';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         if (req.method === 'GET') {
             const modelItemId = req.query.modelitemid as string;
             const modelItem = await getModelItemById(modelItemId);
-            //console.log(modelItems);
+
+            const modelItemUrl = supabaseClient.storage
+                .from('ModelsBucket')
+                .getPublicUrl(modelItem?.modelUrl || '');
+
             res.status(200).json({
-                modelItem: modelItem,
+                url: modelItemUrl.data.publicUrl,
             });
         }
     } catch (e: any) {

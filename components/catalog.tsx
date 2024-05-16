@@ -1,44 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import CatalogItem from './calogItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useModels } from '@/hooks/useModels';
+import { Models } from '@prisma/client';
+import CatalogItem from './catalogItem';
 
 const Catalog = () => {
-    const [items, setItems] = useState([
-        { id: 1, name: 'Item 1' },
-        { id: 2, name: 'Item 2' },
-        { id: 3, name: 'Item 3' },
-        { id: 4, name: 'Item 4' },
-        { id: 5, name: 'Item 5' },
-        { id: 6, name: 'Item 6' },
-        { id: 7, name: 'Item 7' },
-        { id: 8, name: 'Item 8' },
-    ]);
-
+    const [items, setItems] = useState<Models[]>([]);
     const [hasMoreItems, setHasMoreItems] = useState(true);
+    const { getCatalogModels } = useModels();
+    const ITEMS_PER_PAGE = 100;
 
-    const fetchMoreItems = () => {
-        if (items.length >= 19) {
-            // Asumiendo que 19 es el número total de ítems para este ejemplo
+    const fetchMoreItems = async () => {
+        try {
+            const newItems = await getCatalogModels(ITEMS_PER_PAGE);
+            if (newItems.length < ITEMS_PER_PAGE) {
+                setHasMoreItems(false);
+            }
+            setItems((prevItems) => [...prevItems, ...newItems]);
+        } catch (error) {
+            console.error('Error fetching more items:', error);
             setHasMoreItems(false);
-            return;
         }
-
-        setTimeout(() => {
-            setItems((prevItems) => [
-                ...prevItems,
-                ...Array.from({ length: 4 }, (_, index) => ({
-                    id: prevItems.length + index + 1,
-                    name: `Item ${prevItems.length + index + 1}`,
-                })),
-            ]);
-        }, 2000);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const initialItems = await getCatalogModels(ITEMS_PER_PAGE);
+                setItems(initialItems);
+                if (initialItems.length < ITEMS_PER_PAGE) {
+                    setHasMoreItems(false);
+                }
+            } catch (error) {
+                console.error('Error fetching initial items:', error);
+                setItems([]); // Asegúrate de que items no sea undefined incluso si hay un error
+            }
+        };
+        fetchData();
+    }, [getCatalogModels]);
 
     return (
         <div className="flex flex-col items-center justify-center">
             <InfiniteScroll
-                dataLength={items.length}
+                dataLength={items.length} // Aquí no debería haber problema porque items se inicializa como un array vacío
                 next={fetchMoreItems}
                 hasMore={hasMoreItems}
                 loader={
