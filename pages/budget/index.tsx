@@ -185,15 +185,23 @@ const Budget = () => {
                             />
                             <p>Escala {scale}</p>
                         </div>
-                        <div className="mt-4 flex flex-col items-center justify-center gap-y-1">
-                            <p>Información</p>
+                        <div className="mb-6 mt-8 flex max-w-md flex-col items-center justify-center rounded-lg bg-gray-100 p-4 text-black shadow-md">
+                            <p className="bottom text-lg font-bold text-gray-700 underline">
+                                Información
+                            </p>
                             <br />
-                            <p>Volumen: {stlData?.volume.toFixed(2)} cm3</p>
-                            <br />
-                            <p>Peso: {stlData?.weight.toFixed(2)} g</p>
-                            <p>X: {stlData?.boundingBox.x.toFixed(2)} mm</p>
-                            <p>Y: {stlData?.boundingBox.y.toFixed(2)} mm</p>
-                            <p>Z: {stlData?.boundingBox.z.toFixed(2)} mm</p>
+                            <div className="grid grid-cols-2 gap-x-4">
+                                <p className="font-extrabold text-gray-700">Volumen: </p>
+                                <p>{stlData?.volume.toFixed(2)} cm3</p>
+                                <p className="font-extrabold text-gray-700">Peso: </p>
+                                <p>{stlData?.weight.toFixed(2)} g</p>
+                                <p className="font-extrabold text-gray-700">X: </p>
+                                <p>{stlData?.boundingBox.x.toFixed(2)} mm</p>
+                                <p className="font-extrabold text-gray-700">Y: </p>
+                                <p>{stlData?.boundingBox.y.toFixed(2)} mm</p>
+                                <p className="font-extrabold text-gray-700">Z: </p>
+                                <p>{stlData?.boundingBox.z.toFixed(2)} mm</p>
+                            </div>
                         </div>
                     </div>
                 )
