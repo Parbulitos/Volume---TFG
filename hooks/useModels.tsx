@@ -53,6 +53,23 @@ export const useModels = () => {
         }
     };
 
+    const getModelItemFileById = async (modelItemId: string) => {
+        const modelItem = await fetch(`/api/modelitems/getmodelitem?modelitemid=${modelItemId}`);
+        const response = await modelItem.json();
+        const modelItemRetrieved = await supabaseClient.storage
+            .from('ModelsBucket')
+            .download(`${response.modelItem.path}?download`)
+            .then((res) => res);
+        const link = document.createElement('a');
+        if (modelItemRetrieved.data) {
+            link.href = URL.createObjectURL(modelItemRetrieved.data);
+            link.download = `${response.modelItem.name}.stl`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    };
+
     const getAllModels = async (): Promise<Models[]> => {
         return (await fetch(`/api/models/getallmodels`)).json();
     };
@@ -110,10 +127,18 @@ export const useModels = () => {
             .then();
     };
 
+    const getCatalogModels = async (amount: number, category?: string, filter?: string) => {
+        return await fetch(`/api/catalog/getcatalogmodels?amount=${amount}`)
+            .then((res) => res.json())
+            .then((res) => res.models);
+    };
+
     return {
         getModelById,
         getAllModels,
         addModel,
         getModelFileById,
+        getModelItemFileById,
+        getCatalogModels,
     };
 };
