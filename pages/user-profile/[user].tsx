@@ -11,7 +11,7 @@ import { useUserContext } from '@/hooks/useUserContext';
 
 const UserProfile = () => {
     const [activeStat, setActiveStat] = useState('Diseños');
-    const stats = ['Diseños', 'Likes', 'Impresiones', 'Seguidores', 'Seguidos'];
+    const stats = ['Diseños', 'Likes', 'Guardados', 'Seguidores', 'Seguidos'];
 
     const { userDetails } = useUserContext();
 
