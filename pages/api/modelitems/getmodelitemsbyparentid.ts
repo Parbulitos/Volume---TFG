@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
         }
     } catch (e: any) {
-        console.error('An error has occurred. No model was added ', e);
+        console.error('An error has occurred. No models were found ', e);
         //Eliminar archivo del bucket para integridad de datos
         res.status(500).json({
             message: 'Error: ' + e.message,

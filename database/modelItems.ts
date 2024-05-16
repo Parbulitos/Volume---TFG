@@ -21,3 +21,11 @@ export const getModelItemsByParentId = async (modelParentId: string): Promise<Mo
         },
     });
 };
+
+export const getModelItemById = (id: string) => {
+    return prisma.modelItems.findUnique({
+        where: {
+            id: id,
+        },
+    });
+};
