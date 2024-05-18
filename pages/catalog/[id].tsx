@@ -134,7 +134,7 @@ const ModelView = () => {
                     />
                     <Link href={`/user-profile/${modelOwner?.id}`}>{modelOwner?.username || 'Nombre del creador'}</Link>
                 </div>
-                <div className="my-4 flex items-center justify-center gap-4 md:justify-end lg:my-0">
+                <div className="my-4 flex gap-4 md:justify-end lg:my-0 lg:col-span-2">
                     <button>
                         <IoHeartOutline className="h-[30px] w-[30px]" />
                     </button>
@@ -146,7 +146,7 @@ const ModelView = () => {
                     </button>
                 </div>
             </div>
-            <Tabs />
+            <Tabs {...model} />
         </div>
     );
 };

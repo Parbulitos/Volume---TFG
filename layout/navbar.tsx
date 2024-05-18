@@ -58,7 +58,7 @@ const Navbar = () => {
                 {userDetails ? (
                     <div className="flex gap-4">
                         <Link
-                            href={`/user-profile/${encodeURIComponent(userDetails?.username || '')}`}
+                            href={`/user-profile/${encodeURIComponent(userDetails?.id || '')}`}
                             className="hidden md:block"
                         >
                             <div className="avatar">
