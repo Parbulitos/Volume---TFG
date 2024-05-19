@@ -11,6 +11,7 @@ import { IoBookmarkOutline } from 'react-icons/io5';
 
 import patito from '../../public/patito.png';
 import Tabs from '@/components/modelInfoTabs';
+import { useModels } from '@/hooks/useModels';
 
 const ModelView = () => {
     const items = [
@@ -45,7 +46,13 @@ const ModelView = () => {
                 </h1>
                 <div className="mr-5 flex flex-row gap-3 md:justify-end">
                     <BsPrinter className="h-[40px] w-[40px]" />
-                    <AiOutlineDownload className="h-[40px] w-[40px]" />
+                    <button
+                        onClick={() => {
+                            useModels().getModelFileById('94831aea-019b-47ab-8a29-01bcd78f0ea0');
+                        }}
+                    >
+                        <AiOutlineDownload className="h-[40px] w-[40px]" />
+                    </button>
                 </div>
             </div>
             <div className="mx-auto mt-3 h-auto rounded-lg border p-5 shadow-lg md:h-[500px] md:w-4/5 lg:w-3/5">

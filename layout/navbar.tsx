@@ -63,7 +63,7 @@ const Navbar = () => {
                         >
                             <div className="avatar">
                                 <div className="w-12 rounded-full bg-white">
-                                    <Image src={avatar} alt="Avatar" />
+                                    <Image src={userDetails.avatarUrl || ''} width={48} height={48} alt="Avatar" />
                                 </div>
                             </div>
                         </Link>
