@@ -165,6 +165,27 @@ export const getCatalogModels = async (amount: number, category?: string, filter
     });
 };
 
+export const getModelsByWord = async (word: string) => {
+    return prisma.models.findMany({
+        where: {
+            OR: [
+                {
+                    name: {
+                        contains: word,
+                        mode: 'insensitive',
+                    },
+                },
+                {
+                    description: {
+                        contains: word,
+                        mode: 'insensitive',
+                    },
+                },
+            ],
+        },
+    });
+};
+
 export const getModelsByUserId = async (userId: string) => {
     return prisma.models.findMany({
         where: {
