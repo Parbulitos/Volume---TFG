@@ -1,38 +1,83 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import StlView from '@/components/stlView';
-import { IoHeartOutline } from 'react-icons/io5';
-import { IoEyeOutline } from 'react-icons/io5';
+import {
+    IoHeartOutline,
+    IoEyeOutline,
+    IoShareSocialOutline,
+    IoBookmarkOutline,
+} from 'react-icons/io5';
 import { BsPrinter } from 'react-icons/bs';
-import { AiOutlineDownload } from 'react-icons/ai';
-import { IoShareSocialOutline } from 'react-icons/io5';
-import { IoBookmarkOutline } from 'react-icons/io5';
+import { AiOutlineDownload, AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 import patito from '../../public/patito.png';
 import Tabs from '@/components/modelInfoTabs';
 import { useModels } from '@/hooks/useModels';
+import { ModelItems, Models, Users } from '@prisma/client';
+import { useUsers } from '@/hooks/useUsers';
+import Link from 'next/link';
 
 const ModelView = () => {
-    const items = [
-        { id: 1, name: 'Item 1', description: 'algo para probar' },
-        { id: 2, name: 'Item 2', description: 'algo para probar' },
-        { id: 3, name: 'Item 3', description: 'algo para probar' },
-        { id: 4, name: 'Item 4', description: 'algo para probar' },
-        { id: 5, name: 'Item 5', description: 'algo para probar' },
-        { id: 6, name: 'Item 6', description: 'algo para probar' },
-        { id: 7, name: 'Item 7', description: 'algo para probar' },
-        { id: 8, name: 'Item 8', description: 'algo para probar' },
-        { id: 9, name: 'Item 9', description: 'algo para probar' },
-        { id: 10, name: 'Item 10', description: 'algo para probar' },
-        { id: 11, name: 'Item 11', description: 'algo para probar' },
-        { id: 12, name: 'Item 12', description: 'algo para probar' },
-        { id: 13, name: 'Item 13', description: 'algo para probar' },
-    ];
-
+    const { getModelById, getModelItemFileUrlById, getModelItemsByParentId } = useModels();
+    const {getUserById} = useUsers();
     const router = useRouter();
     const { id } = router.query;
-    const model = items.find((model) => model.id === Number(id));
+    const [model, setModel] = useState<Models | null>(null);
+    const [modelItems, setModelItems] = useState<ModelItems[]>([]);
+    const [modelItemUrls, setModelItemUrls] = useState<string[]>([]);
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [modelOwner, setModelOwner] = useState<Users>();
+
+    useEffect(() => {
+        if (!id) return;
+
+        const fetchData = async () => {
+            try {
+                // Fetch model data
+                const fetchedModel = await getModelById(id as string);
+                setModel(fetchedModel);
+
+                console.log(fetchedModel?.ownerId);
+                const owner = await getUserById(fetchedModel?.ownerId as string);
+                setModelOwner(owner);
+                
+                // Fetch model items
+                const fetchedModelItems = await getModelItemsByParentId(id as string);
+                setModelItems(fetchedModelItems);
+
+                // Fetch URLs of all model items
+                const fetchedModelItemUrls = await Promise.all(
+                    fetchedModelItems.map(async (item) => {
+                        const url = await getModelItemFileUrlById(item.id);
+                        return url.url;
+                    })
+                );
+                setModelItemUrls(fetchedModelItemUrls);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [id]);
+
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % modelItemUrls.length);
+    };
+
+    const handlePrevious = () => {
+        setCurrentIndex(
+            (prevIndex) => (prevIndex - 1 + modelItemUrls.length) % modelItemUrls.length
+        );
+    };
+
+    if (loading) {
+        return <p className="mt-5 text-center">Cargando...</p>;
+    }
 
     if (!model) {
         return <p className="mt-5 text-center">Producto no encontrado</p>;
@@ -48,41 +93,48 @@ const ModelView = () => {
                     <BsPrinter className="h-[40px] w-[40px]" />
                     <button
                         onClick={() => {
-                            useModels().getModelFileById('94831aea-019b-47ab-8a29-01bcd78f0ea0');
+                            useModels().getModelFileById(model.id);
                         }}
                     >
                         <AiOutlineDownload className="h-[40px] w-[40px]" />
                     </button>
                 </div>
             </div>
-            <div className="mx-auto mt-3 h-auto rounded-lg border p-5 shadow-lg md:h-[500px] md:w-4/5 lg:w-3/5">
-                <div className="mb-4 flex flex-row items-center gap-3 md:mb-0">
-                    <IoHeartOutline className="h-[20px] w-[20px] md:h-[40px] md:w-[40px]" />
-                    123
-                    <IoEyeOutline className="h-[20px] w-[20px] md:h-[40px] md:w-[40px]" />
-                    123
+            <div className="mt-3 flex w-full items-center justify-center md:pl-10 md:pr-10 lg:pl-0 lg:pr-0">
+                <button onClick={handlePrevious} className="hidden md:flex rounded-full bg-primary p-2">
+                    <AiOutlineLeft className="h-10 w-10" />
+                </button>
+                <div className="mx-4 h-auto rounded-lg border p-5 shadow-lg md:h-[500px] md:w-4/5 lg:w-3/5">
+                    <div className="mb-4 flex flex-row items-center gap-3 md:mb-0">
+                        <IoHeartOutline className="h-[20px] w-[20px] md:h-[40px] md:w-[40px]" />
+                        123
+                        <IoEyeOutline className="h-[20px] w-[20px] md:h-[40px] md:w-[40px]" />
+                        123
+                    </div>
+                    <StlView fileUrl={modelItemUrls[currentIndex] || ''} scale={1.5} />
                 </div>
-                <StlView
-                    fileUrl="https://storage.googleapis.com/ucloud-v3/ccab50f18fb14c91ccca300a.stl"
-                    scale={1.5}
-                />
+                <button onClick={handleNext} className="hidden md:flex rounded-full bg-primary p-2">
+                    <AiOutlineRight className="h-10 w-10" />
+                </button>
             </div>
-
+            <div className="flex md:hidden mt-5 gap-x-4">
+                <button onClick={handlePrevious} className="rounded-full bg-primary p-2">
+                    <AiOutlineLeft className="h-5 w-5" />
+                </button>
+                <button onClick={handleNext} className="rounded-full bg-primary p-2">
+                    <AiOutlineRight className="h-5 w-5" />
+                </button>
+            </div>
             <div className="mt-4 flex w-full flex-col items-center md:w-4/5 lg:grid lg:w-3/5 lg:grid-cols-4">
                 <div className="col-span-2 mb-4 flex items-center gap-4 md:mb-0">
                     <Image
                         src={patito}
                         alt="User"
                         className="h-[50px] w-[50px] rounded-full bg-slate-600"
-                    ></Image>
-                    <p>Nombre del creador</p>
+                    />
+                    <Link href={`/user-profile/${modelOwner?.id}`}>{modelOwner?.username || 'Nombre del creador'}</Link>
                 </div>
-                <div className="my-4 flex items-center justify-center gap-2 md:justify-end lg:my-0">
-                    <div className="badge badge-primary badge-outline badge-lg">tag 1</div>
-                    <div className="badge badge-primary badge-outline badge-lg">tag 2</div>
-                    <div className="badge badge-primary badge-outline badge-lg">tag 3</div>
-                </div>
-                <div className="my-4 flex items-center justify-center gap-4 md:justify-end lg:my-0">
+                <div className="my-4 flex gap-4 md:justify-end lg:my-0 lg:col-span-2">
                     <button>
                         <IoHeartOutline className="h-[30px] w-[30px]" />
                     </button>
@@ -94,7 +146,7 @@ const ModelView = () => {
                     </button>
                 </div>
             </div>
-            <Tabs />
+            <Tabs {...model} />
         </div>
     );
 };

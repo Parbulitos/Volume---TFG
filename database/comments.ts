@@ -1,6 +1,7 @@
-import {Comments, PrismaClient} from ".prisma/client";
+import {Comments} from ".prisma/client";
+import { getPrismaInstance } from "./prismaClient";
 
-const prisma = new PrismaClient()
+const prisma = getPrismaInstance();
 export const getCommentById = async (id: string)=>{
     return prisma.comments.findUnique({
         where:{

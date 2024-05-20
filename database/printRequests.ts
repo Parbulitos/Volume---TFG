@@ -1,6 +1,7 @@
 import {Models, PrintRequests, PrismaClient, Users} from "@prisma/client";
+import { getPrismaInstance } from "./prismaClient";
 
-const prisma = new PrismaClient()
+const prisma = getPrismaInstance();
 export const getPrintRequestById = async (id: string)=>{
     return prisma.printRequests.findUnique({
         where:{

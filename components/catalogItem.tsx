@@ -4,12 +4,10 @@ import Image from 'next/image';
 import React from 'react';
 
 import patito from '../public/patito.png';
+import { Models } from '@prisma/client';
 
 interface CatalogItemProps {
-    item: {
-        id: number;
-        name: string;
-    };
+    item: Models
 }
 
 const CatalogItem = ({ item }: CatalogItemProps) => {
