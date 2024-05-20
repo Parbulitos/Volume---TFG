@@ -1,6 +1,7 @@
-import { Courses, PrismaClient} from "@prisma/client";
+import { Courses } from "@prisma/client";
+import { getPrismaInstance } from "./prismaClient";
 
-const prisma = new PrismaClient()
+const prisma = getPrismaInstance();
 export const getCourseById = async (id: string)=>{
     return prisma.courses.findUnique({
         where:{

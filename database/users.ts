@@ -2,7 +2,7 @@ import {PrismaClient, Users} from '@prisma/client'
 import {getPrismaInstance} from "@/database/prismaClient";
 import { createClient } from '@supabase/supabase-js'
 
-const prisma = new PrismaClient()
+const prisma = getPrismaInstance();
 export const getUserById = async (uid: string)=>{
     return prisma.users.findUnique({
         where:{

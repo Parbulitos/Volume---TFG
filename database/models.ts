@@ -1,6 +1,7 @@
-import { Models, PrismaClient, Users } from '@prisma/client';
+import { Models } from '@prisma/client';
+import { getPrismaInstance } from './prismaClient';
 
-const prisma = new PrismaClient();
+const prisma = getPrismaInstance();
 export const getModelById = async (id: string) => {
     return prisma.models.findUnique({
         where: {
