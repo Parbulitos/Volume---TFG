@@ -1,4 +1,4 @@
-import { ModelItems, Models, PrismaClient } from '@prisma/client';
+import { ModelItems } from '@prisma/client';
 import { getPrismaInstance } from '@/database/prismaClient';
 
 const prisma = getPrismaInstance();

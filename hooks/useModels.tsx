@@ -53,6 +53,22 @@ export const useModels = () => {
         }
     };
 
+    const getModelItemFileUrlById = async (modelItemId: string) => {
+        const modelItem = await fetch(
+            `/api/modelitems/getmodelitembyid?modelitemid=${modelItemId}`
+        );
+        return await modelItem.json();
+    };
+
+    const getModelItemsByParentId = async (modelParentId: string) => {
+        const model: Models = await getModelById(modelParentId);
+        const modelItemsResponse = await fetch(
+            `/api/modelitems/getmodelitemsbyparentid?modelparentid=${model.id}`
+        );
+        const response = await modelItemsResponse.json();
+        return response.modelItems as ModelItems[];
+    }
+
     const getModelItemFileById = async (modelItemId: string) => {
         const modelItem = await fetch(`/api/modelitems/getmodelitem?modelitemid=${modelItemId}`);
         const response = await modelItem.json();
@@ -147,5 +163,7 @@ export const useModels = () => {
         getModelItemFileById,
         getCatalogModels,
         getModelsByUserId,
+        getModelItemFileUrlById,
+        getModelItemsByParentId
     };
 };
