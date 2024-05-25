@@ -176,6 +176,6 @@ export const useModels = () => {
         getCatalogModels,
         getModelsByUserId,
         getModelItemFileUrlById,
-        getModelItemsByParentId,
+        getModelItemsByParentId
     };
 };
