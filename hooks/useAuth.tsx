@@ -16,7 +16,7 @@ export const useAuth = () => {
         });
         let avatarUrl: string | null = '';
         if (avatarImage) {
-            avatarUrl = await useImageKit().uploadAvatar(avatarImage);
+            avatarUrl = await useImageKit().uploadImage(avatarImage);
         } else {
             avatarUrl = null;
         }

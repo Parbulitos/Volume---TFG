@@ -24,7 +24,7 @@ export const useImageKit = () => {
             reader.readAsDataURL(file);
         });
     }
-    const uploadAvatar = async (file: File) => {
+    const uploadImage = async (file: File) => {
         //const auth = await fetch(/api/imagekit/getauthparameters).then((res) => res.json());
         let avatarUrl = '';
         const imagekit = new ImageKit({
@@ -34,13 +34,12 @@ export const useImageKit = () => {
         });
         const file64 = await fileToBase64(file);
         const result = await imagekit.upload({
-                file: file64, //required
-                fileName: file.name, //required
-            }
-        );
+            file: file64, //required
+            fileName: file.name, //required
+        });
         return result.url;
     };
     return {
-        uploadAvatar,
+        uploadImage,
     };
 };

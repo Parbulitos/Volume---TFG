@@ -1,6 +1,7 @@
 import { supabaseClient } from '@/database/utils';
 import { ModelItems, Models } from '@prisma/client';
 import JSZip from 'jszip';
+import { useImageKit } from '@/hooks/useImageKit';
 
 export const useModels = () => {
     const getModelById = async (id: string): Promise<Models> => {
@@ -67,7 +68,7 @@ export const useModels = () => {
         );
         const response = await modelItemsResponse.json();
         return response.modelItems as ModelItems[];
-    }
+    };
 
     const getModelItemFileById = async (modelItemId: string) => {
         const modelItem = await fetch(`/api/modelitems/getmodelitem?modelitemid=${modelItemId}`);
@@ -90,14 +91,24 @@ export const useModels = () => {
         return (await fetch(`/api/models/getallmodels`)).json();
     };
 
-    const addModel = async (model: Omit<Models, 'id'>, userId: string, file: File[]) => {
+    const addModel = async (
+        model: Omit<Models, 'id'>,
+        userId: string,
+        file: File[],
+        image: File
+    ) => {
         const modelItemsToUpload = [];
+        const imageUrl = await useImageKit().uploadImage(image);
+        const modelToUpload = {
+            ...model,
+            imgFileUrl: imageUrl,
+        };
         const newModel = await fetch(`/api/models/addmodel`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(model),
+            body: JSON.stringify(modelToUpload),
         });
         const responseModel = await newModel.json();
         for (const eachFile of file) {
@@ -121,6 +132,7 @@ export const useModels = () => {
             };
             modelItemsToUpload.push(currentModelItem);
         }
+
         await fetch(`/api/modelitems/addmultiplemodelitems`, {
             method: 'POST',
             headers: {

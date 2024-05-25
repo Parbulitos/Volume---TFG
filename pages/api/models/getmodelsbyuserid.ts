@@ -7,7 +7,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         if (req.method === 'GET') {
             const userId = req.query.userid as string;
+            if (!userId) {
+                throw new Error('User id is required');
+            }
             const models = await getModelsByUserId(userId);
+            if (models.length <= 0) {
+                res.status(200).json({
+                    models: [],
+                });
+            }
             res.status(200).json({
                 models: models,
             });

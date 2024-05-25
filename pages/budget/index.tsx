@@ -25,13 +25,34 @@ interface ModelInfo {
 const Budget = () => {
     const router = useRouter();
     const MATERIALES = ['PLA', 'ABS', 'PETG', 'TPU'];
-    const CALIDAD = ['0.4', '0.6', '0.8', '1.0'];
+    const PRECIOS_POR_GRAMO: Record<string, number> = {
+        PLA: 0.02,
+        ABS: 0.03,
+        PETG: 0.02,
+        TPU: 0.05,
+    };
+    const PRECIOS_CALIDAD: Record<string, number> = {
+        '0.2': 2,
+        '0.4': 1.5,
+        '0.6': 1,
+        '0.8': 0.5,
+    };
+    const PRECIOS_POSTPROCESADO: Record<string, number> = {
+        Sin: 0,
+        Bajo: 1,
+        Medio: 2,
+        Alto: 3,
+    };
+    const CALIDAD = ['0.2', '0.4', '0.6', '0.8'];
     const POSTPROCESADO = ['Sin', 'Bajo', 'Medio', 'Alto'];
 
     const [material, setMaterial] = useState<string>('');
     const [calidad, setCalidad] = useState<string>('');
     const [postprocesado, setPostprocesado] = useState<string>('');
     const [stlData, setStlData] = useState<ModelInfo>();
+    const [initialStlData, setInitialStlData] = useState<ModelInfo>();
+    const [price, setPrice] = useState<number>(0);
+    const [formInactive, setFormInactive] = useState<boolean>(true);
 
     const [models, setModels] = useState<File[]>([]);
     const [modelUrl, setModelUrl] = useState<string>('');
@@ -45,6 +66,7 @@ const Budget = () => {
         if (droppedModels.length === 0) return;
         setModelUrl(URL.createObjectURL(droppedModels[0]));
         setModels(droppedModels);
+        setFormInactive(false);
         const response = await getBudgetInfo(droppedModels[0] as File);
         const { volume, weight, boundingBox } = response.stl;
         const boundingBoxObj = {
@@ -54,14 +76,44 @@ const Budget = () => {
         };
 
         setStlData({ volume, weight, boundingBox: boundingBoxObj });
+        setInitialStlData({ volume, weight, boundingBox: boundingBoxObj });
         console.log(volume, weight, boundingBox);
         console.log(response);
+        calculatePrice({ volume, weight, boundingBox: boundingBoxObj }); // Calcular el precio al soltar un nuevo modelo
     };
 
     const handleRotation = (index: number) => {
         const newRotation = [...rotation];
         newRotation[index] += 0.1;
         setRotation(newRotation);
+    };
+
+    const updateValues = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        setScale(value);
+        if (initialStlData) {
+            const factor = value / 1;
+            const newStlData: ModelInfo = {
+                volume: initialStlData.volume * factor,
+                weight: initialStlData.weight * factor,
+                boundingBox: {
+                    x: initialStlData.boundingBox.x * factor,
+                    y: initialStlData.boundingBox.y * factor,
+                    z: initialStlData.boundingBox.z * factor,
+                },
+            };
+            setStlData(newStlData);
+            calculatePrice(newStlData); // Calcular el precio al cambiar la escala
+        }
+    };
+
+    const calculatePrice = (modelData?: ModelInfo) => {
+        const calidadPrice = PRECIOS_CALIDAD[calidad];
+        const postprocesadoPrice = PRECIOS_POSTPROCESADO[postprocesado];
+        const materialPrice = PRECIOS_POR_GRAMO[material];
+        const weight = modelData?.weight || stlData?.weight || 0;
+        const totalPrice = materialPrice * weight + calidadPrice + postprocesadoPrice;
+        setPrice(Number(totalPrice.toFixed(2)));
     };
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -78,8 +130,12 @@ const Budget = () => {
     };
 
     useEffect(() => {
-        setIsFormValid(material !== '' && calidad !== '' && postprocesado !== '');
-    });
+        calculatePrice(); // Calcular el precio cada vez que cambian material, calidad o postprocesado
+    }, [material, calidad, postprocesado]);
+
+    useEffect(() => {
+        setIsFormValid(material !== '' && calidad !== '' && postprocesado !== '' && price > 0);
+    }, [material, calidad, postprocesado, price]);
 
     return (
         <div className="mt-[20px] flex flex-col items-center justify-center lg:flex-row lg:items-stretch">
@@ -94,39 +150,43 @@ const Budget = () => {
                 {/*Contenedor de opciones*/}
                 <Dropzone multipleFiles={false} onModelsDrop={handleModels} />
                 <form onSubmit={handleSubmit} className="flex flex-col items-center">
-                    {/* Contenedor de materiales */}
-                    <h1 className="mt-5 text-center text-3xl font-bold">Material</h1>
-                    <PrintOptions options={MATERIALES} onChange={setMaterial} />
-                    {/* Contenedor de Calidad */}
-                    <h1 className="relative mt-5 text-center text-3xl font-bold">
-                        Calidad
-                        <span
-                            className="tooltip tooltip-right tooltip-secondary absolute right-0 top-0 translate-x-[15px] transform cursor-pointer text-sm text-white"
-                            data-tip="Cuanto menor es el número, mayor es la calidad del acabado."
-                        >
-                            <IoInformationCircleOutline />
-                        </span>
-                    </h1>
-                    <PrintOptions options={CALIDAD} onChange={setCalidad} />
-                    {/* Contenedor de postprocesado */}
-                    <h1 className="relative mt-5 text-center text-3xl font-bold">
-                        Postprocesado{' '}
-                        <span
-                            className="tooltip tooltip-right tooltip-secondary absolute right-0 top-0 translate-x-[15px] transform cursor-pointer text-sm text-white"
-                            data-tip="El postprocesado son aquellas operaciones que se realizan sobre la pieza impresa para mejorar su acabado"
-                        >
-                            <IoInformationCircleOutline />
-                        </span>
-                    </h1>
-                    <PrintOptions options={POSTPROCESADO} onChange={setPostprocesado} />
+                    <fieldset className='relative' disabled={formInactive}>
+                        {/* Contenedor de materiales */}
+                        <h1 className="mt-5 text-center text-3xl font-bold">Material</h1>
+                        <PrintOptions options={MATERIALES} onChange={setMaterial} />
+                        {/* Contenedor de Calidad */}
+                        <h1 className="relative mt-5 text-center text-3xl font-bold">
+                            Calidad
+                            <span
+                                className="tooltip tooltip-right tooltip-secondary absolute translate-x-[15px] transform cursor-pointer text-sm text-white"
+                                data-tip="Cuanto menor es el número, mayor es la calidad del acabado."
+                            >
+                                <IoInformationCircleOutline />
+                            </span>
+                        </h1>
+                        <PrintOptions options={CALIDAD} onChange={setCalidad} />
+                        {/* Contenedor de postprocesado */}
+                        <h1 className="relative mt-5 text-center text-3xl font-bold">
+                            Postprocesado{' '}
+                            <span
+                                className="tooltip tooltip-right tooltip-secondary absolute translate-x-[15px] transform cursor-pointer text-sm text-white"
+                                data-tip="El postprocesado son aquellas operaciones que se realizan sobre la pieza impresa para mejorar su acabado"
+                            >
+                                <IoInformationCircleOutline />
+                            </span>
+                        </h1>
+                        <PrintOptions options={POSTPROCESADO} onChange={setPostprocesado} />
+                    </fieldset>
+                </form>
+                <div className="mb-12 mt-4 flex gap-x-8">
                     <button
-                        type="submit"
-                        className="btn btn-primary btn-wide my-8 h-14 text-2xl font-bold text-white"
+                        onClick={handleSubmit}
+                        className="btn btn-primary btn-wide h-14 text-2xl font-bold text-white"
                         disabled={!isFormValid}
                     >
                         Enviar
                     </button>
-                </form>
+                </div>
             </div>
             {/* Contenedor de modelo */}
             {models.length !== 0 ? (
@@ -181,20 +241,22 @@ const Budget = () => {
                                 value={scale}
                                 step={0.1}
                                 className="range range-primary range-xs w-[350px] md:w-[450px]"
-                                onChange={(e) => setScale(Number(e.target.value))}
+                                onChange={(e) => updateValues(e)}
                             />
                             <p>Escala {scale}</p>
                         </div>
                         <div className="mt-4 flex flex-col items-center justify-center gap-y-1">
                             <p>Información</p>
                             <br />
-                            <p>Volumen: {stlData?.volume.toFixed(2)} cm3</p>
-                            <br />
-                            <p>Peso: {stlData?.weight.toFixed(2)} g</p>
+                            <div className="flex gap-x-8">
+                                <p>Volumen: {stlData?.volume.toFixed(2)} cm3</p>
+                                <p>Peso: {stlData?.weight.toFixed(2)} g</p>
+                            </div>
                             <p>X: {stlData?.boundingBox.x.toFixed(2)} mm</p>
                             <p>Y: {stlData?.boundingBox.y.toFixed(2)} mm</p>
                             <p>Z: {stlData?.boundingBox.z.toFixed(2)} mm</p>
                         </div>
+                        <h2 className="text-3xl">{price} €</h2>
                     </div>
                 )
             ) : null}

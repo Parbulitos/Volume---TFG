@@ -6,8 +6,6 @@ import Image from 'next/image';
 import router from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
-import { Simulate } from 'react-dom/test-utils';
-import drop = Simulate.drop;
 
 interface FormState {
     modelName: string;
@@ -66,7 +64,7 @@ const UploadFile = () => {
             collectionId: null,
         } as Omit<Models, 'id'>;
         if (droppedModels.length == 0 || !userDetails) return;
-        await addModel(model, userDetails.id, droppedModels);
+        await addModel(model, userDetails.id, droppedModels, formState.images[0] );
     };
 
     const handleRemoveModel = (index: number) => {
@@ -104,7 +102,12 @@ const UploadFile = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        // Process your form data here
+        Swal.fire({
+            title: '¡Modelo subido!',
+            text: 'Gracias por usar Volume',
+            icon: 'success',
+        });
+        router.push('/');
         await upload();
     };
 
@@ -139,7 +142,7 @@ const UploadFile = () => {
         }
         const { modelName, category, description } = formState;
         setIsFormValid(
-            modelName !== '' && category !== '' && description !== '' && droppedModels.length > 0
+            modelName !== '' && category !== '' && description !== '' && droppedModels.length > 0 && formState.images.length > 0
         );
     }, [formState, userDetails, droppedModels]);
 
