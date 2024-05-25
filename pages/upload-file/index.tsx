@@ -66,7 +66,7 @@ const UploadFile = () => {
             collectionId: null,
         } as Omit<Models, 'id'>;
         if (droppedModels.length == 0 || !userDetails) return;
-        await addModel(model, userDetails.id, droppedModels);
+        await addModel(model, userDetails.id, droppedModels, formState.images[0] );
     };
 
     const handleRemoveModel = (index: number) => {
