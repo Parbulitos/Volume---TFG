@@ -11,11 +11,11 @@ type StlViewProps = {
 };
 
 const StlView = ({
-    fileUrl,
-    rotationX = 0,
-    rotationY = 0,
-    rotationZ = 0,
-    scale = 1,
+fileUrl,
+rotationX = 0,
+rotationY = 0,
+rotationZ = 0,
+scale = 1,
 }: StlViewProps) => {
     return (
         <StlViewer

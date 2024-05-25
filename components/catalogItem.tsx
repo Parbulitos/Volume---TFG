@@ -15,7 +15,7 @@ const CatalogItem = ({ item }: CatalogItemProps) => {
         <Link href={`/catalog/${item.id}`}>
             <div className="card card-compact h-80 w-80 bg-base-100 shadow-xl">
                 <figure>
-                    <Image src={patito} alt="Shoes" />
+                    <Image src={item.imgFileUrl || patito} alt="Shoes" width={320} height={320}/>
                 </figure>
                 <div className="card-body">
                     <h2 className="card-title">{item.name}</h2>

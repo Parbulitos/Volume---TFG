@@ -9,11 +9,11 @@ import router from 'next/router';
 const AuthContext = createContext<{
     session: Session | null | undefined,
     user: User | null | undefined,
-    userDetails: Users | null, // Ajusta este tipo según los datos que devuelve tu getUserByID
+    userDetails: Users | null,
     signOut: () => void
 }>({ session: null, user: null, userDetails: null, signOut: () => {} });
 
-export const AuthProvider = ({ children }: any) => {
+export const UserContext = ({ children }: any) => {
     const [user, setUser] = useState<User | null>();
     const [userDetails, setUserDetails] = useState<Users | null>(null); // Estado para los detalles del usuario
     const [session, setSession] = useState<Session | null>();
