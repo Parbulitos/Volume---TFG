@@ -42,12 +42,49 @@ const PrintOptions = ({ options, onChange }: PrintOptionsProps) => {
     };
 
     return (
+        // <div>
+        //     {/* Componente para pantallas pequeñas (visible solo en pantallas menores que sm) */}
+        //     <div className="mt-4 sm:hidden">
+        //         <select className="select select-primary w-full max-w-xs bg-primary text-xl font-bold">
+        //             {options.map((option, index) => (
+        //                 <option key={index} onClick={() => handleClick(option)}>
+        //                     {option}
+        //                 </option>
+        //             ))}
+        //         </select>
+        //     </div>
+
+        //     {/* Componente para pantallas medianas y grandes (visible en sm y tamaños mayores) */}
+        //     <div className="hidden flex-col p-4 sm:flex-row sm:space-x-2 sm:space-y-0 md:block">
+        //         {options.map((option, index) => (
+        //             <div
+        //                 className="tooltip tooltip-primary"
+        //                 data-tip={materialInfo[option]?.description}
+        //                 key={index}
+        //             >
+        //                 <button
+        //                     type="button"
+        //                     className={`btn h-16 w-32 p-4 text-2xl font-bold text-white ${
+        //                         selectedOption === option ? 'btn-secondary' : 'btn-primary'
+        //                     } transition-colors duration-300 hover:bg-violet-700`}
+        //                     onClick={() => handleClick(option)}
+        //                 >
+        //                     {option}
+        //                 </button>
+        //             </div>
+        //         ))}
+        //     </div>
+        // </div>
         <div>
             {/* Componente para pantallas pequeñas (visible solo en pantallas menores que sm) */}
             <div className="mt-4 sm:hidden">
-                <select className="select select-primary w-full max-w-xs bg-primary text-xl font-bold">
+                <select
+                    className="select select-primary w-full max-w-xs bg-primary text-xl font-bold"
+                    value={selectedOption}
+                    onChange={(e) => handleClick(e.target.value)}
+                >
                     {options.map((option, index) => (
-                        <option key={index} onClick={() => handleClick(option)}>
+                        <option key={index} value={option}>
                             {option}
                         </option>
                     ))}
@@ -59,8 +96,8 @@ const PrintOptions = ({ options, onChange }: PrintOptionsProps) => {
                 {options.map((option, index) => (
                     <div
                         className="tooltip tooltip-primary"
-                        data-tip={materialInfo[option]?.description}
                         key={index}
+                        data-tip={materialInfo[option]?.description}
                     >
                         <button
                             type="button"

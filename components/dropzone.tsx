@@ -5,9 +5,10 @@ import Swal from 'sweetalert2';
 interface DropzoneProps {
     multipleFiles: boolean;
     onModelsDrop: (files: File[]) => void; // eslint-disable-line no-unused-vars
+    'data-testid'?: string; // Añade esta línea
 }
 
-const Dropzone = ({ multipleFiles, onModelsDrop }: DropzoneProps) => {
+const Dropzone = ({ multipleFiles, onModelsDrop, 'data-testid': testId }: DropzoneProps) => {
     const onDrop = useCallback(
         (acceptedFiles: File[], fileRejections: FileRejection[]) => {
             onModelsDrop(acceptedFiles);
@@ -38,6 +39,7 @@ const Dropzone = ({ multipleFiles, onModelsDrop }: DropzoneProps) => {
 
     return (
         <div
+            data-testid={testId}
             {...getRootProps({
                 style: {
                     display: 'flex',

@@ -66,7 +66,6 @@ const Budget = () => {
         if (droppedModels.length === 0) return;
         setModelUrl(URL.createObjectURL(droppedModels[0]));
         setModels(droppedModels);
-        setFormInactive(false);
         const response = await getBudgetInfo(droppedModels[0] as File);
         const { volume, weight, boundingBox } = response.stl;
         const boundingBoxObj = {
@@ -74,12 +73,12 @@ const Budget = () => {
             y: boundingBox[1],
             z: boundingBox[2],
         };
-
+        
         setStlData({ volume, weight, boundingBox: boundingBoxObj });
+        // setStlData({ volume: 100, weight: 220, boundingBox: boundingBoxObj });
         setInitialStlData({ volume, weight, boundingBox: boundingBoxObj });
-        console.log(volume, weight, boundingBox);
-        console.log(response);
         calculatePrice({ volume, weight, boundingBox: boundingBoxObj }); // Calcular el precio al soltar un nuevo modelo
+        setFormInactive(false);
     };
 
     const handleRotation = (index: number) => {
@@ -112,6 +111,7 @@ const Budget = () => {
         const postprocesadoPrice = PRECIOS_POSTPROCESADO[postprocesado];
         const materialPrice = PRECIOS_POR_GRAMO[material];
         const weight = modelData?.weight || stlData?.weight || 0;
+        console.log(calidadPrice, postprocesadoPrice, materialPrice, weight)
         const totalPrice = materialPrice * weight + calidadPrice + postprocesadoPrice;
         setPrice(Number(totalPrice.toFixed(2)));
     };
@@ -148,7 +148,7 @@ const Budget = () => {
             >
                 {' '}
                 {/*Contenedor de opciones*/}
-                <Dropzone multipleFiles={false} onModelsDrop={handleModels} />
+                <Dropzone multipleFiles={false} onModelsDrop={handleModels} data-testid="dropzone"/>
                 <form onSubmit={handleSubmit} className="flex flex-col items-center">
                     <fieldset className='relative' disabled={formInactive}>
                         {/* Contenedor de materiales */}
@@ -256,7 +256,7 @@ const Budget = () => {
                             <p>Y: {stlData?.boundingBox.y.toFixed(2)} mm</p>
                             <p>Z: {stlData?.boundingBox.z.toFixed(2)} mm</p>
                         </div>
-                        <h2 className="text-3xl">{price} €</h2>
+                        <h2 className="text-3xl" data-testid="price">Precio: {price} €</h2>
                     </div>
                 )
             ) : null}
