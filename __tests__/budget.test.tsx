@@ -20,7 +20,7 @@ jest.mock('sweetalert2', () => ({
 }));
 
 describe('Budget Component', () => {
-    const mockPush = jest.fn();
+        const mockPush = jest.fn();
     const mockGetBudgetInfo = jest.fn();
 
     beforeEach(() => {
@@ -43,7 +43,6 @@ describe('Budget Component', () => {
 
     it('handles material selection on large screens', async () => {
         render(<Budget />);
-        // Seleccionamos el botón "PLA" específicamente
         const button = screen.getByRole('button', { name: /PLA/i });
         fireEvent.click(button);
         await waitFor(() => {
@@ -53,7 +52,6 @@ describe('Budget Component', () => {
 
     it('handles material selection on small screens', async () => {
         render(<Budget />);
-        // Seleccionamos el select y la opción "PLA"
         const selects = screen.getAllByRole('combobox');
         const materialSelect = selects[0];
         fireEvent.change(materialSelect, { target: { value: 'PLA' } });
@@ -85,11 +83,6 @@ describe('Budget Component', () => {
         expect(screen.getByText('Enviar')).toBeDisabled();
     });
 
-    beforeEach(() => {
-        // Mock URL.createObjectURL
-        global.URL.createObjectURL = jest.fn(() => 'mocked-url');
-    });
-    
     it('enables the form when a model is uploaded and all selections are made', async () => {
         mockGetBudgetInfo.mockResolvedValue({
             stl: {
@@ -98,41 +91,26 @@ describe('Budget Component', () => {
                 boundingBox: [10, 20, 30],
             },
         });
-    
+
         render(<Budget />);
-        const file = new File(['(⌐□_□)'], 'test.stl', { type: 'model/stl' });
-    
-        // Crear una simulación de DataTransfer
-        const dataTransfer = {
-            files: [file],
-            items: [{
-                kind: 'file',
-                type: file.type,
-                getAsFile: () => file,
-            }],
-            types: ['Files'],
-        };
-    
+        expect(screen.getByText('Enviar')).toBeDisabled();
+        const file = new File(['file'], 'test.stl', { type: 'model/stl' });
+
         const dropzone = screen.getByTestId('dropzone');
         fireEvent.drop(dropzone, {
-            dataTransfer,
+            file,
         });
-    
+
         await waitFor(() => {
             fireEvent.click(screen.getByRole('button', { name: /PLA/i }));
             fireEvent.click(screen.getByRole('button', { name: /0.2/i }));
             fireEvent.click(screen.getByRole('button', { name: /Bajo/i }));
         });
-    
+
         expect(screen.getByText('Enviar')).not.toBeDisabled();
     });
-    
-    afterEach(() => {
-        // Clean up mocks
-        jest.restoreAllMocks();
-    });
 
-    it('calculates the price correctly', async () => {
+    it('calculates the price correctly and enables form correctly', async () => {
         mockGetBudgetInfo.mockResolvedValue({
             stl: {
                 volume: 100,
@@ -140,40 +118,53 @@ describe('Budget Component', () => {
                 boundingBox: [10, 20, 30],
             },
         });
-    
+
         render(<Budget />);
-        const file = new File(['(⌐□_□)'], 'test.stl', { type: 'model/stl' });
-    
-        // Crear una simulación de DataTransfer
+        expect(screen.getByText('Enviar')).toBeDisabled();
+        const file = new File(['file'], 'test.stl', { type: 'model/stl' });
+
         const dataTransfer = {
             files: [file],
-            items: [{
-                kind: 'file',
-                type: file.type,
-                getAsFile: () => file,
-            }],
+            items: [
+                {
+                    kind: 'file',
+                    type: file.type,
+                    getAsFile: () => file,
+                },
+            ],
             types: ['Files'],
         };
-    
+
         const dropzone = screen.getByTestId('dropzone');
         fireEvent.drop(dropzone, {
             dataTransfer,
         });
-    
+
         await waitFor(() => {
             fireEvent.click(screen.getByRole('button', { name: /PLA/i }));
         });
-    
+
         await waitFor(() => {
             fireEvent.click(screen.getByRole('button', { name: /0.2/i }));
         });
-    
+
         await waitFor(() => {
             fireEvent.click(screen.getByRole('button', { name: /Bajo/i }));
         });
-    
+
         await waitFor(() => {
             expect(screen.getByTestId('price')).toHaveTextContent('Precio: 7.4 €');
+        });
+        expect(screen.getByText('Enviar')).not.toBeDisabled();
+        fireEvent.click(screen.getByText('Enviar'));
+
+        await waitFor(() => {
+            expect(Swal.fire).toHaveBeenCalledWith({
+                title: '¡Presupuesto enviado!',
+                text: 'En breve nos pondremos en contacto contigo',
+                icon: 'success',
+            });
+            expect(mockPush).toHaveBeenCalledWith('/');
         });
     });
 
@@ -185,34 +176,35 @@ describe('Budget Component', () => {
                 boundingBox: [10, 20, 30],
             },
         });
-    
+
         render(<Budget />);
         const file = new File(['(⌐□_□)'], 'test.stl', { type: 'model/stl' });
-    
-        // Crear una simulación de DataTransfer
+
         const dataTransfer = {
             files: [file],
-            items: [{
-                kind: 'file',
-                type: file.type,
-                getAsFile: () => file,
-            }],
+            items: [
+                {
+                    kind: 'file',
+                    type: file.type,
+                    getAsFile: () => file,
+                },
+            ],
             types: ['Files'],
         };
-    
+
         const dropzone = screen.getByTestId('dropzone');
         fireEvent.drop(dropzone, {
             dataTransfer,
         });
-    
+
         await waitFor(() => {
             fireEvent.click(screen.getByRole('button', { name: /PLA/i }));
             fireEvent.click(screen.getByRole('button', { name: /0.2/i }));
             fireEvent.click(screen.getByRole('button', { name: /Bajo/i }));
         });
-    
+
         fireEvent.click(screen.getByText('Enviar'));
-    
+
         await waitFor(() => {
             expect(Swal.fire).toHaveBeenCalledWith({
                 title: '¡Presupuesto enviado!',
@@ -222,5 +214,8 @@ describe('Budget Component', () => {
             expect(mockPush).toHaveBeenCalledWith('/');
         });
     });
-    
+
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
 });
