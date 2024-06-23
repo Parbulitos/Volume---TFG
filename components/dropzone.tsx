@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 interface DropzoneProps {
     multipleFiles: boolean;
-    onModelsDrop: (files: File[]) => void; // eslint-disable-line no-unused-vars
+    onModelsDrop: (files: File[]) => void; 
 }
 
 const Dropzone = ({ multipleFiles, onModelsDrop }: DropzoneProps) => {

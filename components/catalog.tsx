@@ -5,19 +5,35 @@ import { useModels } from '@/hooks/useModels';
 import { Models } from '@prisma/client';
 import CatalogItem from './catalogItem';
 
-const Catalog = () => {
+const Catalog = ({
+    category,
+    filter,
+    user,
+}: {
+    category?: any;
+    filter?: any;
+    user?: string | null;
+}) => {
     const [items, setItems] = useState<Models[]>([]);
     const [hasMoreItems, setHasMoreItems] = useState(true);
-    const { getCatalogModels } = useModels();
+    const { getCatalogModels, getModelsByUserId } = useModels();
     const ITEMS_PER_PAGE = 100;
 
     const fetchMoreItems = async () => {
         try {
-            const newItems = await getCatalogModels(ITEMS_PER_PAGE);
-            if (newItems.length < ITEMS_PER_PAGE) {
-                setHasMoreItems(false);
+            if (user) {
+                const newItems = await getModelsByUserId(user);
+                if (newItems.length < ITEMS_PER_PAGE) {
+                    setHasMoreItems(false);
+                }
+                setItems((prevItems) => [...prevItems, ...newItems]);
+            } else {
+                const newItems = await getCatalogModels(ITEMS_PER_PAGE, category, filter);
+                if (newItems.length < ITEMS_PER_PAGE) {
+                    setHasMoreItems(false);
+                }
+                setItems((prevItems) => [...prevItems, ...newItems]);
             }
-            setItems((prevItems) => [...prevItems, ...newItems]);
         } catch (error) {
             console.error('Error fetching more items:', error);
             setHasMoreItems(false);
@@ -27,28 +43,34 @@ const Catalog = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const initialItems = await getCatalogModels(ITEMS_PER_PAGE);
-                setItems(initialItems);
-                if (initialItems.length < ITEMS_PER_PAGE) {
-                    setHasMoreItems(false);
+                if (user) {
+                    const initialItems = await getModelsByUserId(user);
+                    setItems(initialItems);
+                    if (initialItems.length < ITEMS_PER_PAGE) {
+                        setHasMoreItems(false);
+                    }
+                } else {
+                    const initialItems = await getCatalogModels(ITEMS_PER_PAGE, category, filter);
+                    setItems(initialItems);
+                    if (initialItems.length < ITEMS_PER_PAGE) {
+                        setHasMoreItems(false);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching initial items:', error);
-                setItems([]); // Asegúrate de que items no sea undefined incluso si hay un error
+                setItems([]);
             }
         };
         fetchData();
-    }, [getCatalogModels]);
+    }, [getCatalogModels, category, filter]);
 
     return (
         <div className="flex flex-col items-center justify-center">
             <InfiniteScroll
-                dataLength={items.length} // Aquí no debería haber problema porque items se inicializa como un array vacío
+                dataLength={items.length}
                 next={fetchMoreItems}
                 hasMore={hasMoreItems}
-                loader={
-                    <span className="w- z- loading loading-ring z-[1] my-8 w-20 text-primary"></span>
-                }
+                loader={<span className="loading loading-ring my-8 w-20 text-primary"></span>}
                 endMessage={
                     <p style={{ textAlign: 'center' }} className="my-10">
                         <b>¡Hey! Ya lo has visto todo</b>

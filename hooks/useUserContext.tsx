@@ -1,11 +1,13 @@
+
+
 import { supabaseClient } from '@/database/utils';
 import { Session, User } from '@supabase/supabase-js';
 import { useContext, useState, useEffect, createContext } from 'react';
-import { useUsers } from './useUsers';  // Asegúrate de que este hook devuelve un método para obtener detalles del usuario por ID
+import { useUsers } from './useUsers';
 import { Users } from '@prisma/client';
 import router from 'next/router';
 
-// Contexto para la autenticación
+
 const AuthContext = createContext<{
     session: Session | null | undefined,
     user: User | null | undefined,
@@ -59,7 +61,7 @@ export const UserContext = ({ children }: any) => {
         signOut: () => {
             router.push('/');
             supabaseClient.auth.signOut();
-            setUserDetails(null); // Limpiar detalles al cerrar sesión
+            setUserDetails(null);
         },
     };
 

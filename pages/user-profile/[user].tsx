@@ -119,7 +119,7 @@ const UserProfile = () => {
                 <div className="divider divider-primary w-full md:w-[1250px]"></div>
             </div>
             <div className="w-full">
-                <Catalog />
+                <Catalog user={fetchedUser?.id}/>
             </div>
         </div>
     );

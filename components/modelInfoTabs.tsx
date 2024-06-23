@@ -2,7 +2,7 @@ import { Models } from '@prisma/client';
 import React, { useState } from 'react';
 
 const Tabs = (model: Models) => {
-    const tabs = ['Descripción', 'Archivos', 'Comentarios', 'Makes', 'Remixes'];
+    const tabs = ['Descripción', 'Comentarios', 'Makes', 'Remixes'];
     const [activeTab, setActiveTab] = useState(tabs[0]);
 
     return (
@@ -28,7 +28,6 @@ const Tabs = (model: Models) => {
             <div className="mt-4">
                 {/* //TODO: Crear la información de cada tab */}
                 {activeTab === 'Descripción' && <div>{model.description}</div>}
-                {activeTab === 'Archivos' && <div>Contenido de Archivos</div>}
                 {activeTab === 'Comentarios' && <div>Contenido de Comentarios</div>}
                 {activeTab === 'Makes' && <div>Contenido de Makes</div>}
                 {activeTab === 'Remixes' && <div>Contenido de Remixes</div>}

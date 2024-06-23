@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 
-const CatalogOrderSearch = () => {
-    const [selected, setSelected] = useState('Filtrar por...');
+const CatalogOrderSearch = ({ selected, setSelected }: {selected: any, setSelected: any}) => {
     return (
         <div className="flex w-full items-center justify-center">
-            <select className="select select-bordered w-full max-w-xs" defaultValue={selected}>
-                <option disabled>
+            <select
+                className="select select-bordered w-full max-w-xs"
+                value={selected}
+                onChange={(e) => setSelected(e.target.value)}
+            >
+                <option disabled value="Filtrar por...">
                     Filtrar por...
                 </option>
-                <option onClick={() => {setSelected('Recientes')}}>Recientes</option>
-                <option onClick={() => {setSelected('Popular última semana')}}>Popular última semana</option>
-                <option onClick={() => {setSelected('Popula popu laresr último mes')}}>Popular último mes</option>
-                <option onClick={() => {setSelected('Pop popu laresular último año')}}>Popular último año</option>
-                <option onClick={() => {setSelected('Más popu lares')}}>Más populares</option>
+                <option value="Recientes">Recientes</option>
+                <option value="semana">Popular última semana</option>
+                <option value="mes">Popular último mes</option>
+                <option value="año">Popular último año</option>
+                <option value="populares">Más populares</option>
             </select>
         </div>
     );

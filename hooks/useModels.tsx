@@ -156,9 +156,16 @@ export const useModels = () => {
     };
 
     const getCatalogModels = async (amount: number, category?: string, filter?: string) => {
-        return await fetch(`/api/catalog/getcatalogmodels?amount=${amount}`)
-            .then((res) => res.json())
-            .then((res) => res.models);
+        let url = `/api/catalog/getcatalogmodels?amount=${amount}`;
+        if (category && category !== 'Categorías' && category !== 'Todos') {
+            url += `&category=${category}`;
+        }
+        if (filter && filter !== 'Filtrar por...') {
+            url += `&filter=${filter}`;
+        }
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.models;
     };
 
     const getModelsByUserId = async (userId: string) => {
@@ -176,6 +183,6 @@ export const useModels = () => {
         getCatalogModels,
         getModelsByUserId,
         getModelItemFileUrlById,
-        getModelItemsByParentId
+        getModelItemsByParentId,
     };
 };
