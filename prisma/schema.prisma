@@ -3,39 +3,107 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Users {
+  id            String          @id @default(uuid()) @db.Uuid
+  name          String?
+  username      String          @unique
+  email         String          @unique
+  avatarUrl     String?
+  role          String?
+  models        Models[]
+  favorites     Models[]        @relation("FavoriteModels")
+  followers     Users[]         @relation("UserFollows")
+  following     Users[]         @relation("UserFollows")
+  collections   Collections[]
+  courses       Courses[]
+  comments      Comments[]
+  printRequests PrintRequests[]
 }
 
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
+model Models {
+  id            String          @id @default(uuid())
+  name          String
+  fileUrl       String?
+  imgFileUrl    String?
+  description   String?
+  grade         Float?
+  isMonetizable Boolean?
+  anonymous     Boolean?
+  isRemix       Boolean?
+  category      String?
+  likes         Int?
+  views         Int?
+  uploadTime    DateTime?
+  owner         Users?          @relation(fields: [ownerId], references: [id])
+  ownerId       String?         @db.Uuid
+  modelItems    ModelItems[]
+  favoritedBy   Users[]         @relation("FavoriteModels")
+  collection    Collections?    @relation(fields: [collectionId], references: [id])
+  collectionId  String?
+  comments      Comments[]
+  printRequest  PrintRequests[]
 }
 
-model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  phone   Int
-  posts   Post[]
-  profile Profile?
+model ModelItems {
+  id            String    @id @default(uuid())
+  name          String
+  modelUrl      String    @unique
+  modelParent   Models?   @relation(fields: [modelParentId], references: [id])
+  modelParentId String
+  imgFileUrl    String?
+  uploadTime    DateTime?
+}
+
+model Collections {
+  id      String   @id @default(uuid())
+  owner   Users    @relation(fields: [ownerId], references: [id])
+  ownerId String   @db.Uuid
+  models  Models[]
+}
+
+model Courses {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  purchases   Int
+  description String
+  users       Users?  @relation(fields: [usersId], references: [id])
+  usersId     String? @db.Uuid
+}
+
+model Comments {
+  id      String  @id @default(uuid())
+  text    String?
+  likes   Int?
+  owner   Users?  @relation(fields: [ownerId], references: [id])
+  ownerId String? @db.Uuid
+  model   Models? @relation(fields: [modelId], references: [id])
+  modelId String?
+}
+
+enum PrintRequestStatus {
+  WAITING
+  PROCESSING
+  DONE
+}
+
+model PrintRequests {
+  id                        String             @id @default(uuid())
+  printDate                 DateTime
+  status                    PrintRequestStatus
+  user                      Users              @relation(fields: [userId], references: [id])
+  userId                    String             @db.Uuid
+  model                     Models             @relation(fields: [modelId], references: [id])
+  modelId                   String
+  hugoAyudaEstoySecuestrado Boolean?
 }
